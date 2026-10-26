@@ -1,4 +1,3 @@
 User-agent: *
-Allow: /
-
+Disallow: /WGP/panel/
 Sitemap: https://dzabrys.github.io/WGP/sitemap.xml
