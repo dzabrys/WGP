@@ -61,6 +61,11 @@ body.design-refined.page-home .hero-product-photo {
   display: block;
 }
 
+/* Keep the artwork's dashed route out of the carousel's right border. */
+body.design-refined.page-home .hero-product-slide[data-product-slide="1"] .hero-product-photo {
+  transform: scale(1.12);
+}
+
 body.design-refined.page-home .hero-product-slide figcaption {
   z-index: 1;
   color: #fff;
