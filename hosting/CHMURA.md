@@ -11,6 +11,8 @@ GitHub Pages nie wykonuje PHP. Panel uruchamiamy tymczasowo w Codespaces, a jego
 
 ## Zarządzanie katalogiem
 
+W „Produkty” oferta jest rozdzielona na dwa osobne widoki: **Wielkie gry planszowe** i **Inne gry**. Po wyborze katalogu wybieramy kategorię; tabela pokazuje wyłącznie jej produkty. Wyszukiwanie działa w tej kategorii. Przełączanie widoków nie zmienia treści ani szkicu. Nowy produkt i nowa kategoria dziedziczą aktualnie wybrany katalog; powrót z edytora prowadzi do kategorii edytowanego produktu. Strzałki i numer pozycji ustawiają kolejność w obrębie kategorii.
+
 - **Wygląd → Dodaj grę do karuzeli:** od 0 do 20 różnych produktów, kolejność strzałkami, usuwanie z karuzeli przyciskiem ×. Ukryte produkty nie pojawiają się na publicznych slajdach. Automatyczna zmiana nadal co 5 sekund.
 - **Produkty → Dodaj kategorię:** nazwa, opcjonalny opis i wybór strony katalogu. Kategoria pojawia się po przypisaniu do niej widocznego produktu i publikacji.
 - **Kolejność:** strzałki na liście lub numer pozycji w edytorze produktu. Układ na stronach katalogu zachowuje grupowanie według kategorii; listy szkół i firm stosują tę samą kolejność produktów.
