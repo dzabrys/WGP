@@ -4,6 +4,12 @@ Publiczna strona: https://dzabrys.github.io/WGP/
 
 Repozytorium: https://github.com/dzabrys/WGP
 
+## Panel zarządzania na nazwa.pl
+
+W `hosting/` znajduje się rozszerzenie PHP z bazą MariaDB: katalog produktów, edycja treści i zdjęć, ustawienia wyglądu, statystyki wyświetleń, konta pracowników, szkice, publikacje i historia. Osobny lokalny podgląd działa na `http://127.0.0.1:4180/panel/`. Pełna instrukcja przygotowania konta i migracji: [hosting/WDROZENIE.md](hosting/WDROZENIE.md).
+
+Paczka wdrożeniowa: `node tools/build-nazwa-package.cjs`. Wersja GitHub Pages z `docs` pozostaje statyczna; panel wymaga PHP i bazy. Konfiguracja z hasłami, sesje i przesłane obrazy mają pozostać w prywatnym katalogu poza publicznym katalogiem domeny. Instalator: `php hosting/bin/console.php init` z danymi konta przez stdin i konfiguracją wskazaną przez `WGP_CONFIG`; produkcyjna paczka używa `private/config.php`.
+
 GitHub Pages publikuje cały katalog `docs` z gałęzi `main`, zgodnie z wersją lokalną na porcie 4176.
 
 ## Skalowanie dużych ekranów

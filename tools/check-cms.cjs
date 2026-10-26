@@ -1,0 +1,64 @@
+/* Integration checks against an ISOLATED CMS database, never a live website. */
+const fs=require('node:fs'),assert=require('node:assert/strict'),crypto=require('node:crypto'),vm=require('node:vm');
+const {JSDOM}=require(process.env.JSDOM_PATH||'jsdom');
+const visibleText=html=>new JSDOM(html).window.document.body.textContent;
+const base=process.env.CMS_TEST_URL||'http://127.0.0.1:4182';
+if(!/^http:\/\/127\.0\.0\.1:\d+$/.test(base))throw Error('Only an isolated local test server is allowed.');
+const account=JSON.parse(fs.readFileSync(process.env.CMS_TEST_ACCOUNT||'work/cms-mariadb/account.json','utf8'));
+let cookies='',csrf='';const headers={Origin:base};let checks=0;
+async function request(route,data,{anonymous=false,badOrigin=false,badToken=false}={}){const h={...headers};if(!anonymous&&cookies)h.Cookie=cookies;if(data!==undefined){h['Content-Type']='application/json';h['X-CSRF-Token']=badToken?'bad-token':csrf;}if(badOrigin)h.Origin='https://example.invalid';const r=await fetch(base+route,{method:data===undefined?'GET':'POST',headers:h,body:data===undefined?undefined:JSON.stringify(data),signal:AbortSignal.timeout(20000)});if(!anonymous){const set=r.headers.getSetCookie();if(set.length)cookies=set.map(x=>x.split(';')[0]).join('; ');}const raw=await r.text();let value;try{value=JSON.parse(raw);}catch{}return {status:r.status,text:raw,data:value,headers:r.headers};}
+const api=(name,data,opts)=>request('/panel/api/'+name,data,opts);
+function check(condition,message){assert(condition,message);checks++;console.log('PASS '+message);}
+(async()=>{
+ check((await api('state',undefined,{anonymous:true})).status===401,'private content requires login');
+ const boot=await api('boot');csrf=boot.data.csrf;
+ check((await api('login',account,{badToken:true})).status===403,'login rejects invalid CSRF');
+ let r=await api('login',account);check(r.status===200,'real password login');csrf=r.data.csrf;
+ check((await api('local-login',{})).status===404,'local shortcut is disabled on the isolated installation');
+ const initial=(await api('state')).data;let revision=initial.revision;const original=structuredClone(initial.state);let state=structuredClone(original);
+ check(state.products.length>=17&&state.pages.length===13,'existing website imported');
+ check((await api('save',{state,revision},{badOrigin:true})).status===403,'writes reject foreign origins');
+ check((await api('save',{state,revision},{badToken:true})).status===403,'writes reject invalid CSRF');
+ const invalid=structuredClone(state);invalid.products[0].variants[0].gross=-1;
+ check((await api('save',{state:invalid,revision})).status===400,'negative prices rejected');
+ const hostile=structuredClone(state);hostile.products[0].image='../../config.php';
+ check((await api('save',{state:hostile,revision})).status===400,'path traversal rejected');
+ const duplicate=structuredClone(state);duplicate.products[1].id=duplicate.products[0].id;
+ check((await api('save',{state:duplicate,revision})).status===400,'duplicate product addresses rejected');
+ const p=structuredClone(state.products[0]);p.id='gra-cms-check-'+crypto.randomBytes(4).toString('hex');p.url=p.id+'.html';p.name='Kontrola CMS <script>alert(1)</script>';p.description='Nowa gra z bazy danych.';p.visible=true;p.category='przygodowe';p.audiences=['school','company'];p.variants=[{id:'w1',label:'Testowy rozmiar',net:100,gross:123}];state.products.push(p);
+ state.pages[0].fields.find(f=>f.type==='text').value='Nagłówek po zmianie <script>alert(2)</script>';
+ state.appearance.accent='#127755';
+ r=await api('save',{state,revision});check(r.status===200,'draft saved to database');revision=r.data.revision;
+ check((await api('save',{state,revision:revision-1})).status===409,'stale editor cannot overwrite newer changes');
+ check((await request('/'+p.url,undefined,{anonymous:true})).status===404,'new draft product remains private');
+ const preview=await request('/'+p.url+'?preview=1');check(preview.status===200&&preview.text.includes('Nowa gra z bazy danych.'),'draft has a real product preview');
+ check(!preview.text.includes('<script>alert(1)</script>')&&preview.text.includes('&lt;script&gt;'),'product text cannot inject HTML or scripts');
+ check((await request('/'+p.url+'?preview=1',undefined,{anonymous:true})).status===401,'draft previews require authenticated editor');
+ r=await api('publish',{revision});check(r.status===200,'draft publication succeeds');revision=r.data.revision;
+ const pub=await request('/'+p.url,undefined,{anonymous:true});check(pub.status===200&&pub.text.includes('Testowy rozmiar')&&visibleText(pub.text).includes('123 zł'),'published product and variants render from database');
+ const catalog=await request('/wielkie-gry-planszowe.html',undefined,{anonymous:true});check(catalog.text.includes(p.url),'new product appears in public catalog');
+ for(const file of ['szkoly.html','firmy.html'])check((await request('/'+file,undefined,{anonymous:true})).text.includes(p.url),'new product appears on '+file);
+ const page=await request('/index.html',undefined,{anonymous:true});check(visibleText(page.text).includes('Nagłówek po zmianie')&&!page.text.includes('<script>alert(2)</script>'),'page text edits render safely');check(page.text.includes('#127755'),'appearance settings reach public site');
+ const source=await request('/cms-catalog.js',undefined,{anonymous:true}),sandbox={window:{},Intl,URLSearchParams,location:{search:''}};vm.runInNewContext(source.text,sandbox);const live=sandbox.window.WGPCatalog.get(p.id);check(live&&sandbox.window.WGPCatalog.options(live)[0].gross===123&&sandbox.window.WGPCatalog.contactURL(live,live.variants[0]).includes(p.id),'contact form receives new products and prices');
+ state.products.find(x=>x.id===p.id).visible=false;r=await api('save',{state,revision});revision=r.data.revision;r=await api('publish',{revision});revision=r.data.revision;
+ check((await request('/'+p.url,undefined,{anonymous:true})).status===404&&!(await request('/wielkie-gry-planszowe.html',undefined,{anonymous:true})).text.includes(p.url),'hiding removes product and its public detail page');
+ const h=await api('history');check(h.data.items.length>=2,'publication keeps rollback snapshots');
+ const b=await api('export');check(b.data.format==='wgp-content-backup'&&!b.text.includes('password_hash')&&!b.text.includes(account.password),'content backup excludes account credentials');
+ const stats=(await api('stats?days=7')).data;check(stats.daily.reduce((n,x)=>n+Number(x.total),0)>0,'statistics use actual public page requests');
+ const imageForm=new FormData();imageForm.append('image',new Blob([fs.readFileSync('docs/assets/oferta-skarb-piratow.webp')],{type:'image/webp'}),'board.webp');
+ const uploaded=await fetch(base+'/panel/api/upload',{method:'POST',headers:{Origin:base,Cookie:cookies,'X-CSRF-Token':csrf},body:imageForm});
+ const uploadData=await uploaded.json();check(uploaded.status===200&&/^media\/[a-f0-9]{32}\.webp$/.test(uploadData.url),'uploaded image is validated and re-encoded as WebP');
+ const image=await request('/'+uploadData.url);check(image.status===200&&image.headers.get('content-type')==='image/webp','uploaded image is served as an image');
+ const invalidForm=new FormData();invalidForm.append('image',new Blob(['<svg onload="alert(1)"></svg>'],{type:'image/svg+xml'}),'script.svg');
+ check((await fetch(base+'/panel/api/upload',{method:'POST',headers:{Origin:base,Cookie:cookies,'X-CSRF-Token':csrf},body:invalidForm})).status===400,'active SVG uploads rejected');
+ const member={email:'viewer-'+crypto.randomBytes(4).toString('hex')+'@wgp.local',name:'Test podglądu',role:'viewer',password:crypto.randomBytes(20).toString('hex')};check((await api('user-save',member)).status===200,'administrator can create scoped employee account');
+ await api('logout',{});let bb=await api('boot');csrf=bb.data.csrf;r=await api('login',member);csrf=r.data.csrf;
+ check((await api('stats')).status===200&&(await api('save',{state,revision})).status===403&&(await api('publish',{revision})).status===403&&(await api('users')).status===403,'viewer can read statistics but cannot edit, publish or manage accounts');
+ await api('logout',{});bb=await api('boot');csrf=bb.data.csrf;r=await api('login',account);csrf=r.data.csrf;
+ const d=(await api('state')).data;r=await api('save',{state:original,revision:d.revision});r=await api('publish',{revision:r.data.revision});
+ check(r.status===200,'test content restored');
+ for(const product of original.products){const page=await request('/'+product.url,undefined,{anonymous:true});check(page.status===200&&page.text.includes('product-title'),'existing product still renders: '+product.id);}
+ check((await request('/api/captcha/config')).data.testMode===true,'local CAPTCHA configuration remains explicitly local');
+ check((await request('/api/captcha/verify',{token:''})).status===400,'empty CAPTCHA tokens rejected');
+ console.log(`${checks} CMS checks passed.`);
+})().catch(e=>{console.error(e.message);process.exitCode=1;});
