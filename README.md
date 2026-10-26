@@ -4,6 +4,12 @@ Publiczna strona: https://dzabrys.github.io/WGP/
 
 Repozytorium: https://github.com/dzabrys/WGP
 
+## Panel w chmurze i publikowanie
+
+Instrukcja: [hosting/CHMURA.md](hosting/CHMURA.md). Panel PHP można uruchomić w prywatnym GitHub Codespaces; „Opublikuj” aktualizuje publiczną wersję z `docs`. Oryginalne szablony edytora znajdują się w `hosting/templates`, a aktualną ofertę i katalog `cms-catalog.js` generuje baza CMS. Starszy `style-a1/product-catalog.js` jest zachowany dla zgodności; nie jest źródłem późniejszych zmian z panelu.
+
+Migracja na nazwa.pl korzysta z paczki kodu i prywatnej paczki danych pobranej z panelu. Zachowuje produkty, zdjęcia, konta, historię i statystyki. Hasła, ich skróty, tokeny oraz prywatne paczki danych nigdy nie są dodawane do repozytorium.
+
 ## Panel zarządzania na nazwa.pl
 
 W `hosting/` znajduje się rozszerzenie PHP z bazą MariaDB: katalog produktów, edycja treści i zdjęć, ustawienia wyglądu, statystyki wyświetleń, konta pracowników, szkice, publikacje i historia. Osobny lokalny podgląd działa na `http://127.0.0.1:4180/panel/`. Pełna instrukcja przygotowania konta i migracji: [hosting/WDROZENIE.md](hosting/WDROZENIE.md).

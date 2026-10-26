@@ -41,7 +41,7 @@ Serwer aplikacyjny Node.js nie jest potrzebny do tej implementacji. Node służy
 
 ## Wymagania PHP
 
-PHP 8.3+, PDO MySQL, mbstring, DOM/libxml, GD z WebP, fileinfo, OpenSSL, cURL i sesje. Warto ustawić `upload_max_filesize=6M`, `post_max_size=7M` i co najmniej 256 MB pamięci PHP. Aplikacja ogranicza pojedynczy obraz do 5 MB / 24 mln pikseli, a zapis treści do 2 MB. Katalog danych musi być zapisywalny dla użytkownika PHP i niedostępny przez WWW.
+PHP 8.3+, PDO MySQL, mbstring, DOM/libxml, GD z WebP, fileinfo, OpenSSL, cURL, ZipArchive i sesje. Warto ustawić `upload_max_filesize=6M`, `post_max_size=7M` i co najmniej 256 MB pamięci PHP. Aplikacja ogranicza pojedynczy obraz do 5 MB / 24 mln pikseli, a zapis treści do 2 MB. Katalog danych musi być zapisywalny dla użytkownika PHP i niedostępny przez WWW.
 
 Lokalnie sprawdzono PHP 8.3.36 i prawdziwą MariaDB 11.4.8. Podgląd użytkownika używa SQLite, obsługiwanej przez tę samą warstwę PDO. Wdrożenie w nazwa.pl nadal wymaga testu konkretnego konta, w tym reguł `.htaccess`, HTTPS, dostępu do bazy i zapisu plików. Test lokalny nie jest dowodem ukończonej instalacji u dostawcy.
 

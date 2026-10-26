@@ -4,6 +4,7 @@ RewriteEngine On
 RewriteRule ^panel/index\.html$ index.php [L,QSA]
 # Dynamic contact code uses the address saved in the panel.
 RewriteRule ^style-a1/ui/contact(?:-designs)?\.js$ index.php [L,QSA]
+RewriteRule ^cms-catalog\.js$ index.php [L,QSA]
 # PHP is only executed through the reviewed front controller.
 RewriteRule ^(?!index\.php$).*\.php$ - [F,L]
 RewriteCond %{REQUEST_FILENAME} !-f
