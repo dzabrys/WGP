@@ -53,6 +53,7 @@ function publish_github(array $state,int $revision): array {
         if($tree['truncated']??false)throw new RuntimeException('Repozytorium jest zbyt duże do publikacji.');
         $existing=[];foreach($tree['tree']as$f)$existing[$f['path']]=$f['sha'];
         $files=public_files($state);$changes=[];
+        $files['docs/wgp-publication.json']=json_encode_safe(['schema'=>1,'revision'=>$revision,'contentHash'=>hash('sha256',json_encode_safe($state))]);
         foreach($files as$path=>$content){
             $sha=sha1('blob '.strlen($content)."\0".$content);if(($existing[$path]??null)===$sha)continue;
             if(str_starts_with($path,'docs/media/')){$blob=github_request('POST','git/blobs',['content'=>base64_encode($content),'encoding'=>'base64']);$changes[]=['path'=>$path,'mode'=>'100644','type'=>'blob','sha'=>$blob['sha']];}
