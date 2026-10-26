@@ -3,7 +3,9 @@
 ## Dwa adresy
 
 - Publiczna strona: https://dzabrys.github.io/WGP/.
-- Prywatny panel: adres portu 4180 konkretnego GitHub Codespace, zakończony `/panel/`.
+- Wejście do panelu: https://dzabrys.github.io/WGP/panel/.
+- Prywatny panel: https://spindly-sorcery-9vqqppvg765c7wx7-4180.app.github.dev/panel/.
+- Środowisko do uruchomienia po uśpieniu: `spindly-sorcery-9vqqppvg765c7wx7` na https://github.com/codespaces.
 
 GitHub Pages nie wykonuje PHP. Panel uruchamiamy tymczasowo w Codespaces, a jego przycisk „Opublikuj” wysyła wyrenderowane HTML, katalog i przesłane zdjęcia do `docs` w repozytorium `dzabrys/WGP`. GitHub Pages następnie aktualizuje stronę. Szkic i podgląd nie zmieniają publicznej witryny. Link „Otwórz stronę WGP” prowadzi do publicznej wersji.
 
