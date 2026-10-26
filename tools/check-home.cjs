@@ -19,7 +19,7 @@ async function main() {
   assert.equal(parsed.warnings.length, 0);
   assert(html.includes('fetchpriority="high"'));
   assert(html.includes('home-skarb-piratow-960.webp 960w'));
-  assert.equal((html.match(/data-product-slide=/g)||[]).length,3);
+  assert.equal((html.match(/<figure\b[^>]*\bdata-product-slide=/g)||[]).length,3);
   assert(!html.includes('class="hero-subtitle"'));
   assert(!html.includes('class="hero-slide-copy"'));
   assert(!html.includes('assets/hero-1536.webp'));
