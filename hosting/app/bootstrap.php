@@ -74,6 +74,7 @@ function require_user(string $role='viewer'): array {
 function mutation_guard(): void {
     start_session();
     if (($_SERVER['HTTP_ORIGIN']??'')!==config()['base_url'] || !hash_equals($_SESSION['csrf'],$_SERVER['HTTP_X_CSRF_TOKEN']??'')) {
+        if((config()['codespaces_proxy']??false)===true)error_log('WGP proxy CSRF diagnostic: '.json_encode(['origin'=>$_SERVER['HTTP_ORIGIN']??'missing','forwardedOrigin'=>$_SERVER['HTTP_X_FORWARDED_ORIGIN']??'missing','fetchSite'=>$_SERVER['HTTP_SEC_FETCH_SITE']??'missing','cookie'=>isset($_COOKIE['wgp_panel']),'tokenPresent'=>isset($_SERVER['HTTP_X_CSRF_TOKEN']),'tokenMatches'=>hash_equals($_SESSION['csrf'],$_SERVER['HTTP_X_CSRF_TOKEN']??'')]));
         if (config()['environment']==='development') error_log('WGP CSRF diagnostic: origin='.($_SERVER['HTTP_ORIGIN']??'missing').'; cookie='.(isset($_COOKIE['wgp_panel'])?'present':'missing').'; token='.(isset($_SERVER['HTTP_X_CSRF_TOKEN'])?'present':'missing'));
         fail('Odśwież panel i spróbuj ponownie.',403);
     }
