@@ -1,204 +1,557 @@
-/* Only szkoly1.html and firmy1.html opt into this compact layout. */
 body.audience-compact {
-  --gutter: clamp(16px, 4vw, 56px);
+  --gutter: clamp(1rem, 4vw, 3.5rem);
 }
-body.audience-compact #app > .header,
-body.audience-compact #main.company-main.company-polished,
-body.audience-compact .a-site-footer {
+
+body.audience-compact #app > .header, body.audience-compact #main.company-main.company-polished, body.audience-compact .a-site-footer {
   width: calc(100% - 2 * var(--gutter));
-  max-width: 1280px;
+  max-width: 80rem;
 }
-body.audience-compact #app > .header { min-height: 94px; padding-block: 10px; z-index: 10; }
-body.audience-compact #app > .header .brand { flex-basis: 220px; width: 220px; }
-/* Keep only the desktop navbar aligned with the existing page frame. */
-@media (min-width: 1101px) {
+
+body.audience-compact #app > .header {
+  z-index: 10;
+  min-height: 5.875rem;
+  padding-block: .625rem;
+}
+
+body.audience-compact #app > .header .brand {
+  flex-basis: 13.75rem;
+  width: 13.75rem;
+}
+
+@media (width >= 1101px) {
   body.audience-compact #app > .header {
-    width: calc(100% - 2 * var(--gutter)); max-width: 1440px;
-    min-height: 110px; padding-block: 14px; gap: 28px;
+    width: calc(100% - 2 * var(--gutter));
+    gap: 1.75rem;
+    max-width: 90rem;
+    min-height: 6.875rem;
+    padding-block: .875rem;
   }
+
   body.audience-compact #app > .header .brand {
-    flex: 0 0 250px; width: 250px; height: 80px;
+    flex: 0 0 15.625rem;
+    width: 15.625rem;
+    height: 5rem;
   }
 }
-body.audience-compact #main > .breadcrumb { margin-bottom: 16px; padding-top: 6px; font-size: 13px; }
+
+body.audience-compact #main > .breadcrumb {
+  margin-bottom: 1rem;
+  padding-top: .375rem;
+  font-size: .8125rem;
+}
+
 body.audience-compact .company-polished .company-hero {
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-  gap: clamp(20px, 3vw, 42px);
-  align-items: stretch;
-  padding: 8px 0 14px;
+  box-shadow: none;
+  background: none;
   border: 0;
   border-radius: 0;
-  background: transparent;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: stretch;
+  gap: clamp(1.25rem, 3vw, 2.625rem);
+  padding: .5rem 0 .875rem;
   overflow: visible;
-  box-shadow: none;
 }
-body.audience-compact .company-polished .company-intro { padding: 8px 0; align-self: center; min-width: 0; }
-body.audience-compact .company-polished .company-intro > .company-eyebrow { margin-bottom: 12px; color: #52617d; }
+
+body.audience-compact .company-polished .company-intro {
+  align-self: center;
+  min-width: 0;
+  padding: .5rem 0;
+}
+
+body.audience-compact .company-polished .company-intro > .company-eyebrow {
+  color: #52617d;
+  margin-bottom: .75rem;
+}
+
 body.audience-compact .company-polished .company-intro h1 {
-  font-size: clamp(40px, 4.6vw, 64px); line-height: 1.04; margin-bottom: 16px;
+  margin-bottom: 1rem;
+  font-size: clamp(2.5rem, 4.6vw, 4rem);
+  line-height: 1.04;
 }
+
 body.audience-compact .company-polished .company-intro > p:not(.company-eyebrow) {
-  font-size: 18px; line-height: 1.55; max-width: 46ch;
+  max-width: 46ch;
+  font-size: 1.125rem;
+  line-height: 1.55;
 }
-body.audience-compact .company-polished .company-actions { margin-top: 18px; gap: 4px 16px; }
+
+body.audience-compact .company-polished .company-actions {
+  gap: .25rem 1rem;
+  margin-top: 1.125rem;
+}
+
 body.audience-compact .company-polished .company-photo {
-  width: 100%; height: auto; min-height: 350px; max-height: 410px;
-  aspect-ratio: auto; margin: 0; border-radius: 16px; align-self: stretch;
+  aspect-ratio: auto;
+  width: 100%;
+  height: auto;
+  min-height: 21.875rem;
+  max-height: 25.625rem;
   box-shadow: none;
+  border-radius: 1rem;
+  align-self: stretch;
+  margin: 0;
 }
-body.audience-compact .company-polished .company-photo img { object-position: 60% center; }
+
+body.audience-compact .company-polished .company-photo img {
+  object-position: 60% center;
+}
+
 body.audience-compact .company-polished .games-section {
-  margin-top: 24px; padding: 24px; border-radius: 22px;
-  /* Keep the brand hue; Open Props supplies the palette and smooth color space. */
   --audience-gradient-top: #ffdcc0;
   --audience-gradient-bottom: #deebff;
   background: linear-gradient(to bottom left, var(--audience-gradient-top) 0% 20%, #fff 50%, var(--audience-gradient-bottom) 80% 100%);
-  box-shadow: 0 18px 42px -18px rgb(16 36 120 / 22%), 0 3px 12px rgb(16 36 120 / 5%);
+  border-radius: 1.375rem;
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1.125rem 2.625rem -1.125rem #10247838, 0 .1875rem .75rem #1024780d;
 }
+
 @supports (color: color-mix(in oklab, #000, #fff)) {
   body.audience-compact .company-polished .games-section {
     --audience-gradient-top: color-mix(in oklab, var(--a-orange) 29%, #fff);
-    --audience-gradient-bottom: color-mix(in oklab, #5b97ef 23%, #fff);
+    --audience-gradient-bottom: oklab(92.5392% -.0069978 -.0326827);
     background: linear-gradient(to bottom left var(--gradient-space), var(--audience-gradient-top) 0% 20%, #fff 50%, var(--audience-gradient-bottom) 80% 100%);
   }
 }
-body.audience-compact .company-polished .games-section::before { content: none; }
-body.audience-compact .company-polished .company-section-heading { margin-bottom: 18px; gap: 16px; }
-body.audience-compact .company-polished .company-section-heading p,
-body.audience-compact .company-polished .school-result-count { color: #102478; }
-body.audience-compact .company-polished .company-section-heading h2 { font-size: clamp(25px, 2.4vw, 32px); }
+
+body.audience-compact .company-polished .games-section:before {
+  content: none;
+}
+
+body.audience-compact .company-polished .company-section-heading {
+  gap: 1rem;
+  margin-bottom: 1.125rem;
+}
+
+body.audience-compact .company-polished .company-section-heading p, body.audience-compact .company-polished .school-result-count {
+  color: #102478;
+}
+
+body.audience-compact .company-polished .company-section-heading h2 {
+  font-size: clamp(1.5625rem, 2.4vw, 2rem);
+}
+
 body.audience-compact .company-polished .games-grid {
-  gap: 24px; grid-template-columns: repeat(3, minmax(0, 360px));
+  grid-template-columns: repeat(3, minmax(0, 22.5rem));
   justify-content: center;
-  width: 100%; max-width: none; margin-inline: 0;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
 }
-body.audience-compact .company-polished .game-card { border-radius: 15px; box-shadow: 0 6px 16px -12px #10247838; }
-body.audience-compact .company-polished :is(.game-card, .custom-game-card) { aspect-ratio: 5 / 6; }
-body.audience-compact .company-polished .game-image { aspect-ratio: 1.4; flex-shrink: 0; }
-body.audience-compact .company-polished .game-copy { padding: 12px 16px; min-height: 0; }
-body.audience-compact .company-polished .game-copy h3 { font-size: 20px; margin-bottom: 7px; }
-body.audience-compact .company-polished .game-description { min-height: 0; margin-bottom: 8px; }
-body.audience-compact .company-polished .game-bottom { padding-top: 8px; gap: 8px; flex-wrap: wrap; }
+
+body.audience-compact .company-polished .game-card {
+  border-radius: .9375rem;
+  box-shadow: 0 .375rem 1rem -.75rem #10247838;
+}
+
+body.audience-compact .company-polished :is(.game-card, .custom-game-card) {
+  aspect-ratio: 5 / 6;
+}
+
+body.audience-compact .company-polished .game-image {
+  aspect-ratio: 1.4;
+  flex-shrink: 0;
+}
+
+body.audience-compact .company-polished .game-copy {
+  min-height: 0;
+  padding: .75rem 1rem;
+}
+
+body.audience-compact .company-polished .game-copy h3 {
+  margin-bottom: .4375rem;
+  font-size: 1.25rem;
+}
+
+body.audience-compact .company-polished .game-description {
+  min-height: 0;
+  margin-bottom: .5rem;
+}
+
+body.audience-compact .company-polished .game-bottom {
+  flex-wrap: wrap;
+  gap: .5rem;
+  padding-top: .5rem;
+}
+
 body.audience-compact .company-polished .game-action .company-icon {
-  width: 30px; height: 30px; padding: 6px; background: #102478; color: #fff; stroke-width: 2;
+  color: #fff;
+  stroke-width: .125rem;
+  background: #102478;
+  width: 1.875rem;
+  height: 1.875rem;
+  padding: .375rem;
 }
-body.audience-compact .company-polished .game-link:hover .game-action .company-icon,
-body.audience-compact .company-polished .game-link:focus-visible .game-action .company-icon {
-  background: #ff8818; color: #102478;
+
+body.audience-compact .company-polished .game-link:hover .game-action .company-icon, body.audience-compact .company-polished .game-link:focus-visible .game-action .company-icon {
+  color: #102478;
+  background: #ff8818;
 }
+
 body.audience-compact .company-polished .custom-game-card {
-  padding: 20px; gap: 16px; border-radius: 15px; background: #102478; border: 1px solid #102478;
+  background: #102478;
+  border: .0625rem solid #102478;
+  border-radius: .9375rem;
+  gap: 1rem;
+  padding: 1.25rem;
 }
-body.audience-compact .company-polished .custom-game-card h3 { font-size: clamp(25px, 2.2vw, 30px); color: #fff; }
-body.audience-compact .company-polished .custom-game-card p:not(.section-eyebrow) { color: #e3eaff; }
-body.audience-compact .company-polished .custom-game-card .section-eyebrow { color: #ffb46a; margin-bottom: 12px; }
-body.audience-compact .company-polished .custom-game-card .custom-link { color: #fff; border-top-color: #ffffff45; }
+
+body.audience-compact .company-polished .custom-game-card h3 {
+  color: #fff;
+  font-size: clamp(1.5625rem, 2.2vw, 1.875rem);
+}
+
+body.audience-compact .company-polished .custom-game-card p:not(.section-eyebrow) {
+  color: #e3eaff;
+}
+
+body.audience-compact .company-polished .custom-game-card .section-eyebrow {
+  color: #ffb46a;
+  margin-bottom: .75rem;
+}
+
+body.audience-compact .company-polished .custom-game-card .custom-link {
+  color: #fff;
+  border-top-color: #ffffff45;
+}
+
 body.audience-compact .company-polished .custom-link .company-icon {
-  width: 32px; height: 32px; padding: 7px; border-radius: 50%; background: #ff8818; color: #102478; stroke-width: 2;
+  color: #102478;
+  stroke-width: .125rem;
+  background: #ff8818;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  padding: .4375rem;
 }
-body.audience-compact .company-polished .custom-game-card a:focus-visible { outline-color: #fff; }
-/* One shared card for the school selection guide and its related questions. */
+
+body.audience-compact .company-polished .custom-game-card a:focus-visible {
+  outline-color: #fff;
+}
+
 body.audience-compact .company-polished .company-help-card {
-  margin-top: 24px;
-  padding: clamp(22px, 3vw, 36px);
-  border: 1px solid #dfe7f3;
-  border-radius: 24px;
   background: linear-gradient(145deg, #f4f8ff, #fff 62%);
-  box-shadow: 0 18px 44px -20px rgb(16 36 120 / 24%), 0 4px 12px rgb(16 36 120 / 5%);
+  border: .0625rem solid #dfe7f3;
+  border-radius: 1.5rem;
+  margin-top: 1.5rem;
+  padding: clamp(1.375rem, 3vw, 2.25rem);
+  box-shadow: 0 1.125rem 2.75rem -1.25rem #1024783d, 0 .25rem .75rem #1024780d;
 }
+
 body.audience-compact .company-polished .company-help-card > :is(.company-order, .company-faq) {
-  margin: 0;
-  padding: 0;
+  box-shadow: none;
+  background: none;
   border: 0;
   border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  gap: clamp(24px, 4vw, 48px);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  margin: 0;
+  padding: 0;
 }
-body.audience-compact .company-polished .company-help-card > .company-faq {
-  display: block;
-  margin-top: 28px;
-  padding-top: 26px;
-  border-top: 1px solid #dfe7f3;
-}
-body.audience-compact .company-polished .company-help-card > .company-faq h2 { margin: 0 0 12px; }
-body.audience-compact .company-polished .company-help-card > .company-faq:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
-body.audience-compact .company-polished .company-help-card .company-order li:first-child { padding-top: 0; }
-@media (max-width: 700px) {
-  body.audience-compact .company-polished .company-help-card { margin-top: 20px; padding: 22px 20px; border-radius: 20px; }
-  body.audience-compact .company-polished .company-help-card > :is(.company-order, .company-faq) { gap: 18px; }
-  body.audience-compact .company-polished .company-help-card > .company-faq { margin-top: 24px; padding-top: 22px; }
-}
-@media (max-width: 520px) {
-  body.audience-compact .company-polished .company-help-card { width: calc(100% + 12px); margin-inline: -6px; padding: 22px 18px; }
-  body.audience-compact .company-polished .company-help-card > .company-faq h2 { text-align: center; margin-bottom: 16px; }
-  body.audience-compact .company-polished .company-help-card .company-faq summary { min-height: 56px; }
-}
-body.audience-compact .company-polished .company-order,
-body.audience-compact .company-polished .company-faq {
-  grid-template-columns: minmax(0, .85fr) minmax(0, 1.3fr);
-  gap: clamp(24px, 4vw, 48px); margin-top: 24px; padding: 24px;
-}
-body.audience-compact .company-polished .company-order {
-  background: #f7f9fc; border: 1px solid #e3e9f2; border-radius: 20px;
-}
-body.audience-compact .company-polished .company-order li { padding-block: 12px; }
-body.audience-compact .company-polished .company-order li:last-child { padding-bottom: 0; }
-body.audience-compact .company-polished .company-order li > span {
-  display: grid; place-items: center; width: 30px; height: 30px;
-  border-radius: 9px; background: #ffead2; color: #873900;
-}
-body.audience-compact .company-polished .company-faq { margin-top: 12px; padding-block: 22px; }
-body.audience-compact .company-polished .company-faq summary { min-height: 48px; padding-block: 13px; }
-body.audience-compact .company-polished .company-faq details:first-child summary { padding-top: 13px; }
-body.audience-compact .company-polished .company-contact {
-  margin: 12px 0 0; padding: 24px; gap: 24px; border-radius: 20px;
-  background: #fff3e4; border: 1px solid #ffdbb5;
-}
-body.audience-compact .company-polished .company-contact h2 { font-size: clamp(24px, 2.3vw, 29px); }
-body.audience-compact .a-site-footer { margin-top: 12px; padding-block: 24px; gap: 24px; }
-body.audience-compact .company-polished :is(.company-intro, .game-copy, .company-order, .company-contact) { overflow-wrap: anywhere; }
-body.audience-compact .company-polished :is(.button, .company-text-link, .custom-link) { max-width: 100%; }
-body.audience-compact .company-polished .button { white-space: normal; text-align: center; }
 
-@media (max-width: 1000px) {
-  body.audience-compact .company-polished .games-grid { grid-template-columns: repeat(2, minmax(0, 360px)); }
-  body.audience-compact .company-polished .company-hero { padding: 8px 0 12px; gap: 26px; }
-  body.audience-compact .company-polished .company-intro h1 { font-size: clamp(38px, 4.8vw, 48px); }
-  body.audience-compact .company-polished .company-photo { min-height: 310px; }
+body.audience-compact .company-polished .company-help-card > .company-faq {
+  border-top: .0625rem solid #dfe7f3;
+  margin-top: 1.75rem;
+  padding-top: 1.625rem;
+  display: block;
 }
-@media (max-width: 700px) {
-  body.audience-compact #app > .header { min-height: 80px; padding-block: 6px; }
-  body.audience-compact #app > .header .brand { flex-basis: 190px; width: 190px; height: 62px; }
-  body.audience-compact .company-polished .company-hero { grid-template-columns: minmax(0, 1fr); padding: 4px 0 8px; gap: 18px; }
-  body.audience-compact .company-polished .company-intro { padding: 0; }
-  body.audience-compact .company-polished .company-intro h1 { font-size: clamp(40px, 7.5vw, 52px); }
-  body.audience-compact .company-polished .company-photo { height: clamp(200px, 46vw, 300px); min-height: 0; max-height: none; }
-  body.audience-compact .company-polished .games-section { padding: 18px; margin-top: 20px; }
-  body.audience-compact .company-polished .company-section-heading { display: block; margin-bottom: 14px; }
-  body.audience-compact .company-polished .company-section-heading > .company-text-link { margin-top: 4px; }
-  body.audience-compact .company-polished .games-grid { gap: 20px; }
-  body.audience-compact .company-polished .game-link { display: flex; padding: 0; gap: 0; }
-  body.audience-compact .company-polished .game-image { width: 100%; height: auto; aspect-ratio: 1.4; border-radius: 0; }
-  body.audience-compact .company-polished .game-copy { padding: 12px 16px; }
-  body.audience-compact .company-polished .game-copy h3 { font-size: 20px; }
-  body.audience-compact .company-polished .game-bottom { align-items: center; }
-  body.audience-compact .company-polished .company-order,
-  body.audience-compact .company-polished .company-faq { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 20px; margin-top: 20px; }
-  body.audience-compact .company-polished .company-faq { padding: 4px 6px 12px; gap: 0; }
-  body.audience-compact .company-polished .company-contact { flex-direction: column; align-items: start; padding: 20px; gap: 16px; }
+
+body.audience-compact .company-polished .company-help-card > .company-faq h2 {
+  margin: 0 0 .75rem;
 }
-@media (max-width: 520px) {
-  body.audience-compact .company-polished .games-grid { grid-template-columns: minmax(0, 360px); justify-content: center; }
-  body.audience-compact .company-polished .games-section { padding: 16px 12px; }
-  body.audience-compact .company-polished .company-intro > p:not(.company-eyebrow) { font-size: 16px; }
-  body.audience-compact .company-polished .game-link { display: flex; flex-direction: column; gap: 0; padding: 0; }
-  body.audience-compact .company-polished .game-image { width: 100%; height: auto; aspect-ratio: 1.4; border-radius: 0; }
-  body.audience-compact .company-polished .game-copy { padding: 12px 16px; }
-  body.audience-compact .company-polished .game-copy h3 { font-size: 18px; }
-  body.audience-compact .company-polished .game-description { font-size: 13px; margin-bottom: 8px; }
-  body.audience-compact .company-polished .game-category { font-size: 11px; }
-  body.audience-compact .company-polished .game-action { min-height: 32px; font-size: 12px; }
-  body.audience-compact .company-polished .age { inset: 5px auto auto 5px; font-size: 10px; padding: 3px 5px; }
-  body.audience-compact .company-polished .custom-game-card { padding: 20px; }
+
+body.audience-compact .company-polished .company-help-card > .company-faq:first-child {
+  border-top: 0;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+body.audience-compact .company-polished .company-help-card .company-order li:first-child {
+  padding-top: 0;
+}
+
+@media (width <= 700px) {
+  body.audience-compact .company-polished .company-help-card {
+    border-radius: 1.25rem;
+    margin-top: 1.25rem;
+    padding: 1.375rem 1.25rem;
+  }
+
+  body.audience-compact .company-polished .company-help-card > :is(.company-order, .company-faq) {
+    gap: 1.125rem;
+  }
+
+  body.audience-compact .company-polished .company-help-card > .company-faq {
+    margin-top: 1.5rem;
+    padding-top: 1.375rem;
+  }
+}
+
+@media (width <= 520px) {
+  body.audience-compact .company-polished .company-help-card {
+    width: calc(100% + .75rem);
+    margin-inline: -.375rem;
+    padding: 1.375rem 1.125rem;
+  }
+
+  body.audience-compact .company-polished .company-help-card > .company-faq h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  body.audience-compact .company-polished .company-help-card .company-faq summary {
+    min-height: 3.5rem;
+  }
+}
+
+body.audience-compact .company-polished .company-order, body.audience-compact .company-polished .company-faq {
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.3fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+}
+
+body.audience-compact .company-polished .company-order {
+  background: #f7f9fc;
+  border: .0625rem solid #e3e9f2;
+  border-radius: 1.25rem;
+}
+
+body.audience-compact .company-polished .company-order li {
+  padding-block: .75rem;
+}
+
+body.audience-compact .company-polished .company-order li:last-child {
+  padding-bottom: 0;
+}
+
+body.audience-compact .company-polished .company-order li > span {
+  color: #873900;
+  background: #ffead2;
+  border-radius: .5625rem;
+  place-items: center;
+  width: 1.875rem;
+  height: 1.875rem;
+  display: grid;
+}
+
+body.audience-compact .company-polished .company-faq {
+  margin-top: .75rem;
+  padding-block: 1.375rem;
+}
+
+body.audience-compact .company-polished .company-faq summary {
+  min-height: 3rem;
+  padding-block: .8125rem;
+}
+
+body.audience-compact .company-polished .company-faq details:first-child summary {
+  padding-top: .8125rem;
+}
+
+body.audience-compact .company-polished .company-contact {
+  background: #fff3e4;
+  border: .0625rem solid #ffdbb5;
+  border-radius: 1.25rem;
+  gap: 1.5rem;
+  margin: .75rem 0 0;
+  padding: 1.5rem;
+}
+
+body.audience-compact .company-polished .company-contact h2 {
+  font-size: clamp(1.5rem, 2.3vw, 1.8125rem);
+}
+
+body.audience-compact .a-site-footer {
+  gap: 1.5rem;
+  margin-top: .75rem;
+  padding-block: 1.5rem;
+}
+
+body.audience-compact .company-polished :is(.company-intro, .game-copy, .company-order, .company-contact) {
+  overflow-wrap: anywhere;
+}
+
+body.audience-compact .company-polished :is(.button, .company-text-link, .custom-link) {
+  max-width: 100%;
+}
+
+body.audience-compact .company-polished .button {
+  white-space: normal;
+  text-align: center;
+}
+
+@media (width <= 1000px) {
+  body.audience-compact .company-polished .games-grid {
+    grid-template-columns: repeat(2, minmax(0, 22.5rem));
+  }
+
+  body.audience-compact .company-polished .company-hero {
+    gap: 1.625rem;
+    padding: .5rem 0 .75rem;
+  }
+
+  body.audience-compact .company-polished .company-intro h1 {
+    font-size: clamp(2.375rem, 4.8vw, 3rem);
+  }
+
+  body.audience-compact .company-polished .company-photo {
+    min-height: 19.375rem;
+  }
+}
+
+@media (width <= 700px) {
+  body.audience-compact #app > .header {
+    min-height: 5rem;
+    padding-block: .375rem;
+  }
+
+  body.audience-compact #app > .header .brand {
+    flex-basis: 11.875rem;
+    width: 11.875rem;
+    height: 3.875rem;
+  }
+
+  body.audience-compact .company-polished .company-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.125rem;
+    padding: .25rem 0 .5rem;
+  }
+
+  body.audience-compact .company-polished .company-intro {
+    padding: 0;
+  }
+
+  body.audience-compact .company-polished .company-intro h1 {
+    font-size: clamp(2.5rem, 7.5vw, 3.25rem);
+  }
+
+  body.audience-compact .company-polished .company-photo {
+    height: clamp(12.5rem, 46vw, 18.75rem);
+    min-height: 0;
+    max-height: none;
+  }
+
+  body.audience-compact .company-polished .games-section {
+    margin-top: 1.25rem;
+    padding: 1.125rem;
+  }
+
+  body.audience-compact .company-polished .company-section-heading {
+    margin-bottom: .875rem;
+    display: block;
+  }
+
+  body.audience-compact .company-polished .company-section-heading > .company-text-link {
+    margin-top: .25rem;
+  }
+
+  body.audience-compact .company-polished .games-grid {
+    gap: 1.25rem;
+  }
+
+  body.audience-compact .company-polished .game-link {
+    gap: 0;
+    padding: 0;
+    display: flex;
+  }
+
+  body.audience-compact .company-polished .game-image {
+    aspect-ratio: 1.4;
+    border-radius: 0;
+    width: 100%;
+    height: auto;
+  }
+
+  body.audience-compact .company-polished .game-copy {
+    padding: .75rem 1rem;
+  }
+
+  body.audience-compact .company-polished .game-copy h3 {
+    font-size: 1.25rem;
+  }
+
+  body.audience-compact .company-polished .game-bottom {
+    align-items: center;
+  }
+
+  body.audience-compact .company-polished .company-order, body.audience-compact .company-polished .company-faq {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    margin-top: 1.25rem;
+    padding: 1.25rem;
+  }
+
+  body.audience-compact .company-polished .company-faq {
+    gap: 0;
+    padding: .25rem .375rem .75rem;
+  }
+
+  body.audience-compact .company-polished .company-contact {
+    flex-direction: column;
+    align-items: start;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+}
+
+@media (width <= 520px) {
+  body.audience-compact .company-polished .games-grid {
+    grid-template-columns: minmax(0, 22.5rem);
+    justify-content: center;
+  }
+
+  body.audience-compact .company-polished .games-section {
+    padding: 1rem .75rem;
+  }
+
+  body.audience-compact .company-polished .company-intro > p:not(.company-eyebrow) {
+    font-size: 1rem;
+  }
+
+  body.audience-compact .company-polished .game-link {
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    display: flex;
+  }
+
+  body.audience-compact .company-polished .game-image {
+    aspect-ratio: 1.4;
+    border-radius: 0;
+    width: 100%;
+    height: auto;
+  }
+
+  body.audience-compact .company-polished .game-copy {
+    padding: .75rem 1rem;
+  }
+
+  body.audience-compact .company-polished .game-copy h3 {
+    font-size: 1.125rem;
+  }
+
+  body.audience-compact .company-polished .game-description {
+    margin-bottom: .5rem;
+    font-size: .8125rem;
+  }
+
+  body.audience-compact .company-polished .game-category {
+    font-size: .6875rem;
+  }
+
+  body.audience-compact .company-polished .game-action {
+    min-height: 2rem;
+    font-size: .75rem;
+  }
+
+  body.audience-compact .company-polished .age {
+    padding: .1875rem .3125rem;
+    font-size: .625rem;
+    inset: .3125rem auto auto .3125rem;
+  }
+
+  body.audience-compact .company-polished .custom-game-card {
+    padding: 1.25rem;
+  }
 }

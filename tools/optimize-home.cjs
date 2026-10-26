@@ -6,7 +6,7 @@ const zlib = require('node:zlib');
 const css = require(process.env.LIGHTNINGCSS_PATH || 'lightningcss');
 const sharp = require(process.env.SHARP_PATH || 'sharp');
 const root = path.resolve(__dirname, '../docs');
-const files = ['base.css', 'theme.css', 'refined.css', 'reference-airy.css', 'ui/vendor/open-props-gradients.css', 'footer.css', 'footer-actions.css', 'responsive.css'];
+const files = ['base.css', 'theme.css', 'refined.css', 'reference-airy.css', 'ui/vendor/open-props-gradients.css', 'footer.css', 'footer-actions.css', 'responsive.css', 'desktop-scale.css'];
 const digest = data => crypto.createHash('sha256').update(data).digest('hex').slice(0, 12);
 
 async function main() {

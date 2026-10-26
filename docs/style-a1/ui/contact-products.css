@@ -1,136 +1,254 @@
-/* Product selection and disclosures are scoped to the contact page. */
 body.contact-designs .contact-product-tools {
-  display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-body.contact-designs .contact-product-count {
-  margin: 10px 0;
-  font-size: 13px;
-  color: #315eaa;
-}
-body.contact-designs .contact-product-grid {
+  gap: .75rem;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  max-height: 380px;
-  overflow-y: auto;
+}
+
+body.contact-designs .contact-product-count {
+  color: #315eaa;
+  margin: .625rem 0;
+  font-size: .8125rem;
+}
+
+body.contact-designs .contact-product-grid {
   overscroll-behavior: contain;
-  padding: 4px;
   scrollbar-color: #a9c8f0 #f0f6ff;
   scrollbar-gutter: stable;
-}
-body.contact-designs .contact-ready .contact-form .contact-product {
-  position: relative;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .625rem;
+  max-height: 23.75rem;
+  padding: .25rem;
   display: grid;
-  grid-template-rows: 100px 1fr;
+  overflow-y: auto;
+}
+
+body.contact-designs .contact-ready .contact-form .contact-product {
+  cursor: pointer;
+  background: #fff;
+  border: .0625rem solid #c4d3e7;
+  border-radius: .75rem;
+  grid-template-rows: 6.25rem 1fr;
   align-content: start;
   gap: 0;
   min-width: 0;
   margin: 0;
-  border: 1px solid #c4d3e7;
-  border-radius: 12px;
-  background: #fff;
-  cursor: pointer;
+  display: grid;
+  position: relative;
   overflow: hidden;
 }
-body.contact-designs .contact-product[hidden] { display: none !important; }
+
+body.contact-designs .contact-product[hidden] {
+  display: none !important;
+}
+
 body.contact-designs .contact-ready .contact-form .contact-product input {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  width: 19px;
-  height: 19px;
-  margin: 0;
   accent-color: #b95500;
   z-index: 1;
+  width: 1.1875rem;
+  height: 1.1875rem;
+  margin: 0;
+  position: absolute;
+  top: .5rem;
+  left: .5rem;
 }
+
 body.contact-designs .contact-product img {
-  width: 100%;
-  height: 100px;
   object-fit: contain;
   background: #f0f6ff;
+  width: 100%;
+  height: 6.25rem;
 }
+
 body.contact-designs .contact-product > span {
-  display: grid;
-  gap: 4px;
-  padding: 10px;
+  gap: .25rem;
+  padding: .625rem;
   line-height: 1.3;
+  display: grid;
 }
-body.contact-designs .contact-product strong { font-size: 14px; }
-body.contact-designs .contact-product small { font-size: 11px; color: #385891; }
-body.contact-designs .contact-product small:empty { display: none; }
+
+body.contact-designs .contact-product strong {
+  font-size: .875rem;
+}
+
+body.contact-designs .contact-product small {
+  color: #385891;
+  font-size: .6875rem;
+}
+
+body.contact-designs .contact-product small:empty {
+  display: none;
+}
+
 body.contact-designs .contact-product:has(input:checked) {
+  box-shadow: 0 0 0 .0625rem #ed8a29;
   background: #fff0df !important;
   border-color: #ed8a29 !important;
-  box-shadow: 0 0 0 1px #ed8a29;
 }
+
 body.contact-designs .contact-product:has(input:focus-visible) {
-  outline: 2px solid #315eaa;
-  outline-offset: 2px;
+  outline-offset: .125rem;
+  outline: .125rem solid #315eaa;
 }
+
 body.contact-designs .contact-product-selection {
-  display: flex;
-  align-items: center;
   flex-wrap: wrap;
-  gap: 8px 16px;
-  margin: 12px 0 18px;
+  align-items: center;
+  gap: .5rem 1rem;
+  margin: .75rem 0 1.125rem;
+  display: flex;
 }
-body.contact-designs .contact-product-selection p { margin: 0; font-size: 13px; }
-body.contact-designs .contact-product-selection button { margin: 0; }
+
+body.contact-designs .contact-product-selection p {
+  margin: 0;
+  font-size: .8125rem;
+}
+
+body.contact-designs .contact-product-selection button {
+  margin: 0;
+}
+
 body.contact-designs .contact-ready .contact-form #contact-format {
-  background: #edf5ff;
   color: #173875;
   opacity: 1;
   cursor: default;
+  background: #edf5ff;
 }
+
 body.contact-designs .contact-help {
-  margin: 24px 0 18px;
-  padding: 18px;
-  border: 1px solid #f0dcc7;
-  border-radius: 12px;
   background: #fff8f0;
+  border: .0625rem solid #f0dcc7;
+  border-radius: .75rem;
+  margin: 1.5rem 0 1.125rem;
+  padding: 1.125rem;
 }
-body.contact-designs .contact-help legend { padding: 0 6px; }
-body.contact-designs .contact-help p { margin: 0 0 12px; font-size: 13px; }
-body.contact-designs .contact-ready details.contact-privacy { padding: 0; }
+
+body.contact-designs .contact-help legend {
+  padding: 0 .375rem;
+}
+
+body.contact-designs .contact-help p {
+  margin: 0 0 .75rem;
+  font-size: .8125rem;
+}
+
+body.contact-designs .contact-ready details.contact-privacy {
+  padding: 0;
+}
+
 body.contact-designs .contact-privacy summary {
-  padding: 14px 18px;
   cursor: pointer;
+  padding: .875rem 1.125rem;
+  font-size: .9375rem;
   font-weight: 700;
-  font-size: 15px;
 }
+
 body.contact-designs .contact-privacy summary:focus-visible {
-  outline: 2px solid #315eaa;
-  outline-offset: 3px;
-  border-radius: 10px;
+  outline-offset: .1875rem;
+  border-radius: .625rem;
+  outline: .125rem solid #315eaa;
 }
-body.contact-designs .contact-privacy-content { padding: 0 18px 16px; }
+
+body.contact-designs .contact-privacy-content {
+  padding: 0 1.125rem 1rem;
+}
+
 body.contact-designs .contact-order-context {
-  margin-top: 16px;
-  padding: 14px 18px;
-  border: 1px solid #f0cfa8;
-  border-radius: 12px;
   background: #fff0df;
-  font-size: 13px;
+  border: .0625rem solid #f0cfa8;
+  border-radius: .75rem;
+  margin-top: 1rem;
+  padding: .875rem 1.125rem;
+  font-size: .8125rem;
   line-height: 1.6;
 }
-body.contact-designs .contact-order-context > span { display: block; color: #8f4500; font-size: 11px; }
-body.contact-designs .contact-order-context > strong { display: block; font-size: 17px; }
-body.contact-designs .contact-order-context p { margin: 3px 0 0; }
-body.contact-designs .contact-product-spec { margin: 4px 0 20px; padding: 12px 16px; background: #f1f7ff; border-radius: 12px; }
-body.contact-designs .contact-product-spec summary { cursor: pointer; font-size: 14px; font-weight: 700; }
-body.contact-designs .contact-product-spec p { font-size: 13px; line-height: 1.65; margin: 12px 0 0; }
-body.contact-designs .contact-product-spec dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; margin: 12px 0; font-size: 13px; }
-body.contact-designs .contact-product-spec dt { font-weight: 700; }
-body.contact-designs .contact-product-spec dd { margin: 0; }
-body.contact-designs .contact-order-prices { padding: 14px; border-radius: 10px; background: #fff0df; font-size: 13px; line-height: 1.6; }
-body.contact-designs .contact-order-prices p { margin: 0 0 4px; }
-body.contact-designs [data-summary="specification"] { white-space: pre-line; font-size: 13px; line-height: 1.6; }
-body.contact-designs .contact-summary [data-summary="specification"] { max-width: 60ch; }
-body.contact-designs .contact-summary dl > div:has([data-summary="specification"]) { grid-column: 1 / -1; }
-@media (max-width: 620px) {
-  body.contact-designs .contact-product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-height: 350px; }
-  body.contact-designs .contact-product-tools { grid-template-columns: 1fr; }
-  body.contact-designs .contact-help { padding: 12px; }
+
+body.contact-designs .contact-order-context > span {
+  color: #8f4500;
+  font-size: .6875rem;
+  display: block;
+}
+
+body.contact-designs .contact-order-context > strong {
+  font-size: 1.0625rem;
+  display: block;
+}
+
+body.contact-designs .contact-order-context p {
+  margin: .1875rem 0 0;
+}
+
+body.contact-designs .contact-product-spec {
+  background: #f1f7ff;
+  border-radius: .75rem;
+  margin: .25rem 0 1.25rem;
+  padding: .75rem 1rem;
+}
+
+body.contact-designs .contact-product-spec summary {
+  cursor: pointer;
+  font-size: .875rem;
+  font-weight: 700;
+}
+
+body.contact-designs .contact-product-spec p {
+  margin: .75rem 0 0;
+  font-size: .8125rem;
+  line-height: 1.65;
+}
+
+body.contact-designs .contact-product-spec dl {
+  grid-template-columns: auto 1fr;
+  gap: .375rem 1rem;
+  margin: .75rem 0;
+  font-size: .8125rem;
+  display: grid;
+}
+
+body.contact-designs .contact-product-spec dt {
+  font-weight: 700;
+}
+
+body.contact-designs .contact-product-spec dd {
+  margin: 0;
+}
+
+body.contact-designs .contact-order-prices {
+  background: #fff0df;
+  border-radius: .625rem;
+  padding: .875rem;
+  font-size: .8125rem;
+  line-height: 1.6;
+}
+
+body.contact-designs .contact-order-prices p {
+  margin: 0 0 .25rem;
+}
+
+body.contact-designs [data-summary="specification"] {
+  white-space: pre-line;
+  font-size: .8125rem;
+  line-height: 1.6;
+}
+
+body.contact-designs .contact-summary [data-summary="specification"] {
+  max-width: 60ch;
+}
+
+body.contact-designs .contact-summary dl > div:has([data-summary="specification"]) {
+  grid-column: 1 / -1;
+}
+
+@media (width <= 620px) {
+  body.contact-designs .contact-product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-height: 21.875rem;
+  }
+
+  body.contact-designs .contact-product-tools {
+    grid-template-columns: 1fr;
+  }
+
+  body.contact-designs .contact-help {
+    padding: .75rem;
+  }
 }

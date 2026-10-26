@@ -1,108 +1,544 @@
-/* Contact form controls and product choices, sharing the site's navy and orange. */
 body.contact-designs .contact-copy-toast {
-  position:fixed;z-index:1100;left:50%;bottom:max(24px,env(safe-area-inset-bottom));transform:translateX(-50%);
-  display:flex;align-items:center;gap:12px;width:max-content;max-width:calc(100% - 32px);box-sizing:border-box;
-  padding:16px 18px;border:1px solid #bddcf5;border-radius:16px;background:#eaf5ff;color:#102478;
-  box-shadow:0 10px 35px #10247826;font:400 14px/1.45 Lato,Arial,sans-serif;
+  z-index: 1100;
+  left: 50%;
+  bottom: max(1.5rem,env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  color: #102478;
+  background: #eaf5ff;
+  border: .0625rem solid #bddcf5;
+  border-radius: 1rem;
+  align-items: center;
+  gap: .75rem;
+  width: max-content;
+  max-width: calc(100% - 2rem);
+  padding: 1rem 1.125rem;
+  font: 400 .875rem / 1.45 Lato, Arial, sans-serif;
+  display: flex;
+  position: fixed;
+  transform: translateX(-50%);
+  box-shadow: 0 .625rem 2.1875rem #10247826;
 }
-body.contact-designs .contact-copy-toast[hidden] {display:none!important;}
-body.contact-designs .contact-copy-toast-icon {display:grid;place-items:center;flex:0 0 36px;height:36px;border-radius:50%;background:#d2eaff;color:#165898;font-size:22px;}
-body.contact-designs .contact-copy-toast [role="status"] {min-width:0;}
-body.contact-designs .contact-copy-toast strong,body.contact-designs .contact-copy-toast [role="status"]>span {display:block;}
-body.contact-designs .contact-copy-toast strong {font-size:15px;}
-body.contact-designs .contact-copy-toast button {flex:0 0 36px;height:36px;padding:0;border:0;border-radius:9px;background:transparent;color:#345882;font-size:25px;cursor:pointer;}
-body.contact-designs .contact-copy-toast button:focus-visible {outline:2px solid #102478;outline-offset:2px;}
-body.contact-designs .contact-control {position:relative;min-width:0;width:100%;}
+
+body.contact-designs .contact-copy-toast[hidden] {
+  display: none !important;
+}
+
+body.contact-designs .contact-copy-toast-icon {
+  color: #165898;
+  background: #d2eaff;
+  border-radius: 50%;
+  flex: 0 0 2.25rem;
+  place-items: center;
+  height: 2.25rem;
+  font-size: 1.375rem;
+  display: grid;
+}
+
+body.contact-designs .contact-copy-toast [role="status"] {
+  min-width: 0;
+}
+
+body.contact-designs .contact-copy-toast strong, body.contact-designs .contact-copy-toast [role="status"] > span {
+  display: block;
+}
+
+body.contact-designs .contact-copy-toast strong {
+  font-size: .9375rem;
+}
+
+body.contact-designs .contact-copy-toast button {
+  color: #345882;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  border-radius: .5625rem;
+  flex: 0 0 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  font-size: 1.5625rem;
+}
+
+body.contact-designs .contact-copy-toast button:focus-visible {
+  outline-offset: .125rem;
+  outline: .125rem solid #102478;
+}
+
+body.contact-designs .contact-control {
+  width: 100%;
+  min-width: 0;
+  position: relative;
+}
+
 body.contact-designs .contact-ready .contact-form .contact-control-native {
-  position:absolute!important;width:1px!important;height:1px!important;min-height:0!important;
-  padding:0!important;margin:-1px!important;clip-path:inset(50%);overflow:hidden;
+  clip-path: inset(50%);
+  overflow: hidden;
+  width: .0625rem !important;
+  height: .0625rem !important;
+  min-height: 0 !important;
+  margin: -.0625rem !important;
+  padding: 0 !important;
+  position: absolute !important;
 }
+
 body.contact-designs .contact-control-trigger {
-  display:flex;align-items:center;justify-content:space-between;gap:14px;
-  width:100%;min-width:0;min-height:50px;padding:12px 14px;border:1px solid #bdcde4;
-  border-radius:12px;background:#fff;color:#102478;font:400 15px/1.45 Lato,Arial,sans-serif;text-align:left;
-  transition:border-color .18s,box-shadow .18s;
+  color: #102478;
+  text-align: left;
+  background: #fff;
+  border: .0625rem solid #bdcde4;
+  border-radius: .75rem;
+  justify-content: space-between;
+  align-items: center;
+  gap: .875rem;
+  width: 100%;
+  min-width: 0;
+  min-height: 3.125rem;
+  padding: .75rem .875rem;
+  font: 400 .9375rem / 1.45 Lato, Arial, sans-serif;
+  transition: border-color .18s, box-shadow .18s;
+  display: flex;
 }
-body.contact-designs .contact-control-trigger>span:first-child {min-width:0;overflow-wrap:anywhere;}
-body.contact-designs .contact-control-trigger.is-placeholder {color:#5e6e88;}
-body.contact-designs .contact-control-trigger[aria-expanded="true"] {border-color:#102478;box-shadow:0 0 0 3px #e9effc;}
-body.contact-designs .contact-control-trigger[aria-invalid="true"] {border-color:#b32c2c;}
-body.contact-designs .contact-control-icon {display:grid;place-items:center;flex:0 0 28px;width:28px;height:28px;border-radius:8px;background:#f0f5fd;color:#102478;}
-body.contact-designs .contact-control-icon svg {width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+
+body.contact-designs .contact-control-trigger > span:first-child {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+body.contact-designs .contact-control-trigger.is-placeholder {
+  color: #5e6e88;
+}
+
+body.contact-designs .contact-control-trigger[aria-expanded="true"] {
+  border-color: #102478;
+  box-shadow: 0 0 0 .1875rem #e9effc;
+}
+
+body.contact-designs .contact-control-trigger[aria-invalid="true"] {
+  border-color: #b32c2c;
+}
+
+body.contact-designs .contact-control-icon {
+  color: #102478;
+  background: #f0f5fd;
+  border-radius: .5rem;
+  flex: 0 0 1.75rem;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: grid;
+}
+
+body.contact-designs .contact-control-icon svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: .1125rem;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  width: 1.1875rem;
+  height: 1.1875rem;
+}
+
 body.contact-designs .contact-control-popup {
-  position:fixed;z-index:1000;box-sizing:border-box;overflow:auto;overscroll-behavior:contain;
-  padding:10px;border:1px solid #dbe4f1;border-radius:18px;background:#fff;color:#102478;
-  box-shadow:0 20px 60px -16px #10247840,0 4px 14px #1024780d;
-  font:400 14px/1.45 Lato,Arial,sans-serif;max-width:calc(100vw - 24px);
+  z-index: 1000;
+  box-sizing: border-box;
+  overscroll-behavior: contain;
+  color: #102478;
+  background: #fff;
+  border: .0625rem solid #dbe4f1;
+  border-radius: 1.125rem;
+  max-width: calc(100vw - 1.5rem);
+  padding: .625rem;
+  font: 400 .875rem / 1.45 Lato, Arial, sans-serif;
+  position: fixed;
+  overflow: auto;
+  box-shadow: 0 1.25rem 3.75rem -1rem #10247840, 0 .25rem .875rem #1024780d;
 }
-body.contact-designs .contact-control-popup[hidden] {display:none!important;}
-body.contact-designs .contact-options {max-height:min(360px,70dvh);padding:6px;}
+
+body.contact-designs .contact-control-popup[hidden] {
+  display: none !important;
+}
+
+body.contact-designs .contact-options {
+  max-height: min(22.5rem, 70dvh);
+  padding: .375rem;
+}
+
 body.contact-designs .contact-option {
-  display:block;position:relative;width:100%;min-height:46px;padding:12px 38px 12px 14px;
-  border:0;border-radius:10px;background:#fff;color:#102478;font:inherit;text-align:left;line-height:1.45;
-  white-space:normal;overflow-wrap:anywhere;
+  color: #102478;
+  width: 100%;
+  min-height: 2.875rem;
+  font: inherit;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  background: #fff;
+  border: 0;
+  border-radius: .625rem;
+  padding: .75rem 2.375rem .75rem .875rem;
+  line-height: 1.45;
+  display: block;
+  position: relative;
 }
-body.contact-designs .contact-option[aria-selected="true"] {background:#edf4ff;font-weight:700;}
-body.contact-designs .contact-option[aria-selected="true"]::after {content:'✓';position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:18px;color:#b65300;}
-body.contact-designs .contact-option.is-active {box-shadow:inset 0 0 0 2px #102478;background:#f4f7fd;}
-body.contact-designs .contact-calendar {padding:18px;}
-body.contact-designs .contact-calendar-caption {margin:0 0 10px;font-size:10px;letter-spacing:.12em;font-weight:700;color:#657593;}
-body.contact-designs .contact-calendar-header {display:grid;grid-template-columns:40px minmax(0,1fr) 40px;align-items:center;gap:6px;margin-bottom:16px;}
-body.contact-designs .contact-calendar-arrow {display:grid;place-items:center;width:40px;height:40px;padding:0;border:1px solid #e0e7f2;border-radius:12px;background:#fff;color:#102478;font-size:27px;line-height:1;}
-body.contact-designs .contact-calendar-title {min-height:40px;padding:4px;border:0;background:transparent;color:#102478;font:900 17px/1.3 Lato,Arial,sans-serif;text-transform:capitalize;}
-body.contact-designs .contact-calendar-week,body.contact-designs .contact-calendar-days {display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;}
-body.contact-designs .contact-calendar-week {text-align:center;margin-bottom:8px;font-size:11px;font-weight:700;color:#71809a;}
-body.contact-designs .contact-calendar-day {display:grid;place-items:center;min-width:0;aspect-ratio:1;min-height:32px;width:100%;padding:0;border:1px solid transparent;border-radius:11px;background:transparent;color:#102478;font:700 13px/1 Lato,Arial,sans-serif;}
-body.contact-designs .contact-calendar-day.is-muted {color:#8c98ad;font-weight:400;}
-body.contact-designs .contact-calendar-day[aria-current="date"] {border-color:#ffb56c;background:#fff5e9;color:#9b4800;}
-body.contact-designs .contact-calendar-day[aria-pressed="true"] {background:#102478;border-color:#102478;color:#fff;box-shadow:0 3px 8px #10247826;}
-body.contact-designs .contact-calendar-months {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;}
-body.contact-designs .contact-calendar-month {min-height:46px;padding:8px 2px;border:0;border-radius:10px;background:#f3f7fd;color:#102478;font:700 12px/1.4 Lato,Arial,sans-serif;text-transform:capitalize;}
-body.contact-designs .contact-calendar-month[aria-pressed="true"] {background:#102478;color:#fff;}
-body.contact-designs .contact-calendar-actions {display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;padding-top:12px;border-top:1px solid #e7edf6;}
-body.contact-designs .contact-calendar-actions button {min-height:36px;padding:8px 14px;border:0;border-radius:10px;font:700 13px/1.4 Lato,Arial,sans-serif;}
-body.contact-designs .contact-calendar-clear {background:transparent;color:#64748b;}
-body.contact-designs .contact-calendar-today {background:#fff0df;color:#934300;}
-body.contact-designs .contact-control-popup button:disabled {opacity:.4;cursor:default;}
-body.contact-designs :is(.contact-control-popup button,.contact-control-trigger):focus-visible {outline:2px solid #102478;outline-offset:2px;}
-/* Horizontal cards make names easier to scan and give every image equal space. */
-body.contact-designs .contact-product-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-height:416px;padding:5px 10px 5px 5px;scrollbar-width:thin;scrollbar-color:#a6bad8 #f0f5fc;}
+
+body.contact-designs .contact-option[aria-selected="true"] {
+  background: #edf4ff;
+  font-weight: 700;
+}
+
+body.contact-designs .contact-option[aria-selected="true"]:after {
+  content: "✓";
+  color: #b65300;
+  font-size: 1.125rem;
+  position: absolute;
+  top: 50%;
+  right: .8125rem;
+  transform: translateY(-50%);
+}
+
+body.contact-designs .contact-option.is-active {
+  background: #f4f7fd;
+  box-shadow: inset 0 0 0 .125rem #102478;
+}
+
+body.contact-designs .contact-calendar {
+  padding: 1.125rem;
+}
+
+body.contact-designs .contact-calendar-caption {
+  letter-spacing: .12em;
+  color: #657593;
+  margin: 0 0 .625rem;
+  font-size: .625rem;
+  font-weight: 700;
+}
+
+body.contact-designs .contact-calendar-header {
+  grid-template-columns: 2.5rem minmax(0, 1fr) 2.5rem;
+  align-items: center;
+  gap: .375rem;
+  margin-bottom: 1rem;
+  display: grid;
+}
+
+body.contact-designs .contact-calendar-arrow {
+  color: #102478;
+  background: #fff;
+  border: .0625rem solid #e0e7f2;
+  border-radius: .75rem;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  font-size: 1.6875rem;
+  line-height: 1;
+  display: grid;
+}
+
+body.contact-designs .contact-calendar-title {
+  color: #102478;
+  text-transform: capitalize;
+  background: none;
+  border: 0;
+  min-height: 2.5rem;
+  padding: .25rem;
+  font: 900 1.0625rem / 1.3 Lato, Arial, sans-serif;
+}
+
+body.contact-designs .contact-calendar-week, body.contact-designs .contact-calendar-days {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: .25rem;
+  display: grid;
+}
+
+body.contact-designs .contact-calendar-week {
+  text-align: center;
+  color: #71809a;
+  margin-bottom: .5rem;
+  font-size: .6875rem;
+  font-weight: 700;
+}
+
+body.contact-designs .contact-calendar-day {
+  aspect-ratio: 1;
+  color: #102478;
+  background: none;
+  border: .0625rem solid #0000;
+  border-radius: .6875rem;
+  place-items: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 2rem;
+  padding: 0;
+  font: 700 .8125rem / 1 Lato, Arial, sans-serif;
+  display: grid;
+}
+
+body.contact-designs .contact-calendar-day.is-muted {
+  color: #8c98ad;
+  font-weight: 400;
+}
+
+body.contact-designs .contact-calendar-day[aria-current="date"] {
+  color: #9b4800;
+  background: #fff5e9;
+  border-color: #ffb56c;
+}
+
+body.contact-designs .contact-calendar-day[aria-pressed="true"] {
+  color: #fff;
+  background: #102478;
+  border-color: #102478;
+  box-shadow: 0 .1875rem .5rem #10247826;
+}
+
+body.contact-designs .contact-calendar-months {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .375rem;
+  display: grid;
+}
+
+body.contact-designs .contact-calendar-month {
+  color: #102478;
+  text-transform: capitalize;
+  background: #f3f7fd;
+  border: 0;
+  border-radius: .625rem;
+  min-height: 2.875rem;
+  padding: .5rem .125rem;
+  font: 700 .75rem / 1.4 Lato, Arial, sans-serif;
+}
+
+body.contact-designs .contact-calendar-month[aria-pressed="true"] {
+  color: #fff;
+  background: #102478;
+}
+
+body.contact-designs .contact-calendar-actions {
+  border-top: .0625rem solid #e7edf6;
+  justify-content: space-between;
+  align-items: center;
+  gap: .625rem;
+  margin-top: .875rem;
+  padding-top: .75rem;
+  display: flex;
+}
+
+body.contact-designs .contact-calendar-actions button {
+  border: 0;
+  border-radius: .625rem;
+  min-height: 2.25rem;
+  padding: .5rem .875rem;
+  font: 700 .8125rem / 1.4 Lato, Arial, sans-serif;
+}
+
+body.contact-designs .contact-calendar-clear {
+  color: #64748b;
+  background: none;
+}
+
+body.contact-designs .contact-calendar-today {
+  color: #934300;
+  background: #fff0df;
+}
+
+body.contact-designs .contact-control-popup button:disabled {
+  opacity: .4;
+  cursor: default;
+}
+
+body.contact-designs :is(.contact-control-popup button, .contact-control-trigger):focus-visible {
+  outline-offset: .125rem;
+  outline: .125rem solid #102478;
+}
+
+body.contact-designs .contact-product-grid {
+  scrollbar-width: thin;
+  scrollbar-color: #a6bad8 #f0f5fc;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .75rem;
+  max-height: 26rem;
+  padding: .3125rem .625rem .3125rem .3125rem;
+}
+
 body.contact-designs .contact-ready .contact-form .contact-product {
-  grid-template-columns:90px minmax(0,1fr);grid-template-rows:minmax(112px,auto);align-items:center;
-  gap:12px;padding:12px 36px 12px 12px;border:1px solid #dae3f0;border-radius:16px;background:#fff;
-  box-shadow:0 3px 9px #10247805;transition:border-color .18s,box-shadow .18s,background-color .18s;
+  background: #fff;
+  border: .0625rem solid #dae3f0;
+  border-radius: 1rem;
+  grid-template-rows: minmax(7rem, auto);
+  grid-template-columns: 5.625rem minmax(0, 1fr);
+  align-items: center;
+  gap: .75rem;
+  padding: .75rem 2.25rem .75rem .75rem;
+  transition: border-color .18s, box-shadow .18s, background-color .18s;
+  box-shadow: 0 .1875rem .5625rem #10247805;
 }
-body.contact-designs .contact-product img {width:90px;height:90px;object-fit:contain;padding:6px;border-radius:11px;background:#f2f6fc;}
-body.contact-designs .contact-product>span {display:flex;flex-direction:column;gap:6px;min-width:0;padding:0;}
-body.contact-designs .contact-product strong {font-size:15px;font-weight:900;line-height:1.25;overflow-wrap:anywhere;color:#102478;}
-body.contact-designs .contact-product small {font-size:11px;line-height:1.4;color:#687c99;}
-body.contact-designs .contact-product-price {display:block;font-size:14px;line-height:1.35;font-weight:900;color:#102478;overflow-wrap:anywhere;}
+
+body.contact-designs .contact-product img {
+  object-fit: contain;
+  background: #f2f6fc;
+  border-radius: .6875rem;
+  width: 5.625rem;
+  height: 5.625rem;
+  padding: .375rem;
+}
+
+body.contact-designs .contact-product > span {
+  flex-direction: column;
+  gap: .375rem;
+  min-width: 0;
+  padding: 0;
+  display: flex;
+}
+
+body.contact-designs .contact-product strong {
+  overflow-wrap: anywhere;
+  color: #102478;
+  font-size: .9375rem;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+body.contact-designs .contact-product small {
+  color: #687c99;
+  font-size: .6875rem;
+  line-height: 1.4;
+}
+
+body.contact-designs .contact-product-price {
+  color: #102478;
+  overflow-wrap: anywhere;
+  font-size: .875rem;
+  font-weight: 900;
+  line-height: 1.35;
+  display: block;
+}
+
 body.contact-designs .contact-ready .contact-form .contact-product input {
-  appearance:none;display:block;position:absolute;top:14px;right:12px;left:auto;width:18px;height:18px;min-height:18px;
-  padding:0;margin:0;border:1.5px solid #becce0;border-radius:50%;background:#fff;box-shadow:none;
+  appearance: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  min-height: 1.125rem;
+  box-shadow: none;
+  background: #fff;
+  border: .09375rem solid #becce0;
+  border-radius: 50%;
+  margin: 0;
+  padding: 0;
+  display: block;
+  position: absolute;
+  top: .875rem;
+  left: auto;
+  right: .75rem;
 }
-body.contact-designs .contact-ready .contact-form .contact-product input:checked {border:5px solid #102478;background:#fff;}
-body.contact-designs .contact-ready .contact-form .contact-product:has(input:checked) {background:#f1f6ff!important;border-color:#102478!important;box-shadow:inset 0 0 0 1px #102478,0 4px 14px #1024780d;}
-body.contact-designs .contact-product:has(input:checked) img {background:#fff;}
-body.contact-designs .contact-product>span::after {content:'Wybrana gra';visibility:hidden;align-self:start;font-size:10px;line-height:1.3;font-weight:700;color:#974600;background:#ffead2;border-radius:6px;padding:4px 7px;}
-body.contact-designs .contact-product:has(input:checked)>span::after {visibility:visible;}
-body.contact-designs .contact-product-selection {margin:14px 0 20px;padding:12px 14px;background:#f3f7fd;border-radius:12px;gap:6px 16px;}
-body.contact-designs .contact-product-selection p {font-size:13px;color:#34517e;}
-@media(hover:hover) and (pointer:fine) {
-  body.contact-designs .contact-option:hover,body.contact-designs .contact-calendar-day:not(:disabled):hover {background:#edf4ff;}
-  body.contact-designs .contact-calendar-day[aria-pressed="true"]:hover {background:#183887;}
-  body.contact-designs .contact-ready .contact-form .contact-product:hover {border-color:#9fb5d8;box-shadow:0 5px 16px #1024780c;}
+
+body.contact-designs .contact-ready .contact-form .contact-product input:checked {
+  background: #fff;
+  border: .3125rem solid #102478;
 }
-@media(max-width:1000px) {
-  body.contact-designs .contact-ready .contact-form .contact-product {grid-template-columns:72px minmax(0,1fr);gap:10px;padding:10px 30px 10px 10px;}
-  body.contact-designs .contact-product img {width:72px;height:80px;padding:4px;}
+
+body.contact-designs .contact-ready .contact-form .contact-product:has(input:checked) {
+  box-shadow: inset 0 0 0 .0625rem #102478, 0 .25rem .875rem #1024780d;
+  background: #f1f6ff !important;
+  border-color: #102478 !important;
 }
-@media(max-width:620px) {
-  body.contact-designs .contact-calendar {padding:14px;border-radius:14px;}
-  body.contact-designs .contact-product-grid {grid-template-columns:minmax(0,1fr);max-height:394px;gap:10px;}
-  body.contact-designs .contact-ready .contact-form .contact-product {grid-template-columns:76px minmax(0,1fr);grid-template-rows:minmax(90px,auto);padding:10px 34px 10px 10px;border-radius:14px;}
-  body.contact-designs .contact-product img {width:76px;height:76px;}
-  body.contact-designs .contact-product strong {font-size:15px;}
-  body.contact-designs .contact-control-trigger {font-size:16px;}
+
+body.contact-designs .contact-product:has(input:checked) img {
+  background: #fff;
 }
-@media(prefers-reduced-motion:reduce) {body.contact-designs :is(.contact-control-trigger,.contact-product) {transition:none!important;}}
+
+body.contact-designs .contact-product > span:after {
+  content: "Wybrana gra";
+  visibility: hidden;
+  color: #974600;
+  background: #ffead2;
+  border-radius: .375rem;
+  align-self: start;
+  padding: .25rem .4375rem;
+  font-size: .625rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+body.contact-designs .contact-product:has(input:checked) > span:after {
+  visibility: visible;
+}
+
+body.contact-designs .contact-product-selection {
+  background: #f3f7fd;
+  border-radius: .75rem;
+  gap: .375rem 1rem;
+  margin: .875rem 0 1.25rem;
+  padding: .75rem .875rem;
+}
+
+body.contact-designs .contact-product-selection p {
+  color: #34517e;
+  font-size: .8125rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.contact-designs .contact-option:hover, body.contact-designs .contact-calendar-day:not(:disabled):hover {
+    background: #edf4ff;
+  }
+
+  body.contact-designs .contact-calendar-day[aria-pressed="true"]:hover {
+    background: #183887;
+  }
+
+  body.contact-designs .contact-ready .contact-form .contact-product:hover {
+    border-color: #9fb5d8;
+    box-shadow: 0 .3125rem 1rem #1024780c;
+  }
+}
+
+@media (width <= 1000px) {
+  body.contact-designs .contact-ready .contact-form .contact-product {
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    gap: .625rem;
+    padding: .625rem 1.875rem .625rem .625rem;
+  }
+
+  body.contact-designs .contact-product img {
+    width: 4.5rem;
+    height: 5rem;
+    padding: .25rem;
+  }
+}
+
+@media (width <= 620px) {
+  body.contact-designs .contact-calendar {
+    border-radius: .875rem;
+    padding: .875rem;
+  }
+
+  body.contact-designs .contact-product-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: .625rem;
+    max-height: 24.625rem;
+  }
+
+  body.contact-designs .contact-ready .contact-form .contact-product {
+    border-radius: .875rem;
+    grid-template-rows: minmax(5.625rem, auto);
+    grid-template-columns: 4.75rem minmax(0, 1fr);
+    padding: .625rem 2.125rem .625rem .625rem;
+  }
+
+  body.contact-designs .contact-product img {
+    width: 4.75rem;
+    height: 4.75rem;
+  }
+
+  body.contact-designs .contact-product strong {
+    font-size: .9375rem;
+  }
+
+  body.contact-designs .contact-control-trigger {
+    font-size: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.contact-designs :is(.contact-control-trigger, .contact-product) {
+    transition: none !important;
+  }
+}

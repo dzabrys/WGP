@@ -6,6 +6,10 @@ Repozytorium: https://github.com/dzabrys/WGP
 
 GitHub Pages publikuje cały katalog `docs` z gałęzi `main`, zgodnie z wersją lokalną na porcie 4176.
 
+## Skalowanie dużych ekranów
+
+Rozdzielczość 1920 × 1080 pozostaje punktem odniesienia. Wymiary elementów i typografia używają jednostek `rem` przy bazie 16 px. Arkusz `desktop-scale.css` zwiększa tę bazę dopiero powyżej 1920 px szerokości: przy 2560 px wynosi ona 21,33 px, dzięki czemu treść, odstępy i przyciski rosną proporcjonalnie o jedną trzecią. Skala jest ograniczona do dwukrotnej przy 3840 px i szerszych ekranach. Progi układów mobilnych pozostają w pikselach; nie stosujemy CSS `zoom` ani transformacji całej strony. Wymiary pozycjonowanych okienek formularza uwzględniają tę samą bazę.
+
 ## Potwierdzona oferta klienta — 23.10.2026
 
 Lokalny katalog porównano z `/nasze-gry/`, `/oferta/` i `/realizacje-indywidualne/` na wielkiegryplanszowe.pl. Aktualna lista w `docs/style-a1/product-catalog.js` zawiera 12 gotowych plansz oraz 5 innych formatów/projektów. Formularz i strony szczegółów korzystają z tej samej listy. `npm run check:offer` sprawdza jej spójność, warianty i ceny. Dodatkowy test treści wiadomości: `node work/check-verified-contact.cjs`.

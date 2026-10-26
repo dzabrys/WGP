@@ -1,202 +1,763 @@
-/* Local design proposal. Existing A1 pages are preserved in the source folder. */
 .design-refined {
-  --gutter: clamp(20px, 4.5vw, 88px);
+  --gutter: clamp(1.25rem, 4.5vw, 5.5rem);
   --a-muted: #52617a;
   --a-edge: #e3e8ef;
-  --ref-shadow: 0 12px 32px -22px rgb(16 36 120 / 32%);
+  --ref-shadow: 0 .75rem 2rem -1.375rem #10247852;
   -webkit-font-smoothing: antialiased;
 }
-.design-refined #main { padding-bottom: 40px; }
-.design-refined #main > .breadcrumb { padding-block: 10px 0; margin-bottom: 28px; font-size: 14px; }
-.design-refined #main :is(section[id], h2[id]) { scroll-margin-top: 26px; }
-body.design-refined #app > .header { min-height: 110px; padding-block: 14px; }
-body.design-refined #app > .header .brand { flex: 0 0 250px; width: 250px; }
-body.design-refined #app > .header nav > a { font-size: 14px; }
-body.design-refined #app > .header nav > a > svg { width: 29px; height: 29px; }
-.design-refined :is(.a-eyebrow,.company-eyebrow,.section-eyebrow,.proposal-eyebrow,.product-category) {
-  font-size: 12px; line-height: 1.5; font-weight: 700; letter-spacing: .04em;
+
+.design-refined #main {
+  padding-bottom: 2.5rem;
 }
-.design-refined :is(.a-home-hero,.company-polished .company-hero,.custom-proposal .proposal-hero) {
-  grid-template-columns: 1.04fr 1fr; gap: clamp(30px, 5vw, 72px); align-items: center;
+
+.design-refined #main > .breadcrumb {
+  margin-bottom: 1.75rem;
+  padding-block: .625rem 0;
+  font-size: .875rem;
 }
-.design-refined .a-home-hero { margin-top: 30px; padding-bottom: 44px; }
-.design-refined .a-home-hero h1,
-.design-refined .company-polished .company-intro h1,
-.design-refined.page-custom .custom-proposal .proposal-intro h1 {
-  font-size: clamp(40px, 4.2vw, 58px); line-height: 1.04; letter-spacing: -.045em;
+
+.design-refined #main :is(section[id], h2[id]) {
+  scroll-margin-top: 1.625rem;
 }
-.design-refined :is(.a-lead,.company-polished .company-intro > p:not(.company-eyebrow),.custom-proposal .proposal-lead) {
-  font-size: 17px; line-height: 1.65; max-width: 43ch; color: var(--a-muted);
+
+body.design-refined #app > .header {
+  min-height: 6.875rem;
+  padding-block: .875rem;
 }
-.design-refined .a-home-hero figure,
-.design-refined .company-polished .company-photo,
-.design-refined.page-custom .custom-proposal .proposal-hero-visual {
-  min-height: 0; height: auto; aspect-ratio: 1.22; border-radius: 24px;
-  box-shadow: var(--ref-shadow); align-self: stretch;
+
+body.design-refined #app > .header .brand {
+  flex: 0 0 15.625rem;
+  width: 15.625rem;
 }
-.design-refined .a-home-hero figure img { object-position: 73% center; }
-.design-refined .company-polished .company-photo img { object-position: 74% center; }
-.design-refined .company-polished .company-intro { padding-block: 20px; }
-.design-refined .a-audiences { padding-block: 40px; gap: 70px; }
-.design-refined .a-audience-list > a { padding-block: 22px; }
-.design-refined .a-audience-list > a > svg { width: 30px; height: 30px; padding: 6px; border-radius: 50%; background: #fff1df; }
-.design-refined .a-home-featured { padding: 32px; margin-block: 40px; }
-.design-refined .a-section-title h2,
-.design-refined .company-polished .company-section-heading h2,
-.design-refined.page-custom .custom-proposal .proposal-section-heading h2 { font-size: 32px; line-height: 1.15; }
-.design-refined .a-featured-grid .game-card,
-.design-refined .company-polished .game-card,
-.design-refined .catalog-card { border-color: #e3e8ef; border-radius: 19px; box-shadow: var(--ref-shadow); }
-.design-refined .a-featured-grid .game-copy,
-.design-refined .company-polished .game-copy { padding: 22px; }
-.design-refined .a-featured-grid .game-bottom,
-.design-refined .company-polished .game-bottom { padding-top: 18px; gap: 12px; }
-.design-refined .company-polished .games-section { margin-top: 38px; padding: 34px 28px; }
-.design-refined .company-polished .games-grid { gap: 24px; }
-.design-refined .company-polished .game-copy h3 { font-size: 22px; line-height: 1.2; }
+
+body.design-refined #app > .header nav > a {
+  font-size: .875rem;
+}
+
+body.design-refined #app > .header nav > a > svg {
+  width: 1.8125rem;
+  height: 1.8125rem;
+}
+
+.design-refined :is(.a-eyebrow, .company-eyebrow, .section-eyebrow, .proposal-eyebrow, .product-category) {
+  letter-spacing: .04em;
+  font-size: .75rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.design-refined :is(.a-home-hero, .company-polished .company-hero, .custom-proposal .proposal-hero) {
+  grid-template-columns: 1.04fr 1fr;
+  align-items: center;
+  gap: clamp(1.875rem, 5vw, 4.5rem);
+}
+
+.design-refined .a-home-hero {
+  margin-top: 1.875rem;
+  padding-bottom: 2.75rem;
+}
+
+.design-refined .a-home-hero h1, .design-refined .company-polished .company-intro h1, .design-refined.page-custom .custom-proposal .proposal-intro h1 {
+  letter-spacing: -.045em;
+  font-size: clamp(2.5rem, 4.2vw, 3.625rem);
+  line-height: 1.04;
+}
+
+.design-refined :is(.a-lead, .company-polished .company-intro > p:not(.company-eyebrow), .custom-proposal .proposal-lead) {
+  max-width: 43ch;
+  color: var(--a-muted);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+.design-refined .a-home-hero figure, .design-refined .company-polished .company-photo, .design-refined.page-custom .custom-proposal .proposal-hero-visual {
+  aspect-ratio: 1.22;
+  height: auto;
+  min-height: 0;
+  box-shadow: var(--ref-shadow);
+  border-radius: 1.5rem;
+  align-self: stretch;
+}
+
+.design-refined .a-home-hero figure img {
+  object-position: 73% center;
+}
+
+.design-refined .company-polished .company-photo img {
+  object-position: 74% center;
+}
+
+.design-refined .company-polished .company-intro {
+  padding-block: 1.25rem;
+}
+
+.design-refined .a-audiences {
+  gap: 4.375rem;
+  padding-block: 2.5rem;
+}
+
+.design-refined .a-audience-list > a {
+  padding-block: 1.375rem;
+}
+
+.design-refined .a-audience-list > a > svg {
+  background: #fff1df;
+  border-radius: 50%;
+  width: 1.875rem;
+  height: 1.875rem;
+  padding: .375rem;
+}
+
+.design-refined .a-home-featured {
+  margin-block: 2.5rem;
+  padding: 2rem;
+}
+
+.design-refined .a-section-title h2, .design-refined .company-polished .company-section-heading h2, .design-refined.page-custom .custom-proposal .proposal-section-heading h2 {
+  font-size: 2rem;
+  line-height: 1.15;
+}
+
+.design-refined .a-featured-grid .game-card, .design-refined .company-polished .game-card, .design-refined .catalog-card {
+  box-shadow: var(--ref-shadow);
+  border-color: #e3e8ef;
+  border-radius: 1.1875rem;
+}
+
+.design-refined .a-featured-grid .game-copy, .design-refined .company-polished .game-copy {
+  padding: 1.375rem;
+}
+
+.design-refined .a-featured-grid .game-bottom, .design-refined .company-polished .game-bottom {
+  gap: .75rem;
+  padding-top: 1.125rem;
+}
+
+.design-refined .company-polished .games-section {
+  margin-top: 2.375rem;
+  padding: 2.125rem 1.75rem;
+}
+
+.design-refined .company-polished .games-grid {
+  gap: 1.5rem;
+}
+
+.design-refined .company-polished .game-copy h3 {
+  font-size: 1.375rem;
+  line-height: 1.2;
+}
+
 .design-refined .company-polished .custom-game-card {
-  padding: 28px; border-radius: 19px; border: 0; background: #102478; color: white;
+  color: #fff;
+  background: #102478;
+  border: 0;
+  border-radius: 1.1875rem;
+  padding: 1.75rem;
 }
-.design-refined .company-polished .custom-game-card h3 { color: white; font-size: 31px; }
-.design-refined .company-polished .custom-game-card :is(.section-eyebrow,p:not(.section-eyebrow)) { color: #e0e7ff; }
-.design-refined .company-polished .custom-game-card .custom-link { color: white; border-top-color: #ffffff38; }
-.design-refined .company-polished .custom-game-card a:focus-visible { outline-color: white; }
-.design-refined .a-home-contact,
-.design-refined .company-polished .company-contact {
-  padding: 32px 36px; background: #102478; border-radius: 22px; color: white; margin-block: 36px 12px;
+
+.design-refined .company-polished .custom-game-card h3 {
+  color: #fff;
+  font-size: 1.9375rem;
 }
-.design-refined :is(.a-home-contact,.company-polished .company-contact) h2 { color: white; font-size: 29px; }
-.design-refined :is(.a-home-contact,.company-polished .company-contact) p { color: #dee5fa; }
-.design-refined :is(.a-home-contact,.company-contact) a:focus-visible { outline-color: white; }
-.design-refined .catalog-topics { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 32px; }
-.design-refined .catalog-topics a { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 16px; border: 1px solid var(--a-edge); border-radius: 999px; font-size: 14px; text-decoration: none; background: #f7f9fc; }
-.design-refined .catalog-section { margin-bottom: 44px; }
-.design-refined .catalog-grid { grid-template-columns: repeat(5,minmax(0,1fr)); gap: 18px; }
-.design-refined .catalog-image { aspect-ratio: 1; padding: 14px; }
-.design-refined .catalog-image:has(img.crop) { aspect-ratio: 1.4; padding: 0; }
-.design-refined .catalog-image > img.crop { object-fit: cover; }
-.design-refined .catalog-copy { padding: 18px; }
-.design-refined .catalog-copy h3 { font-size: 20px; }
-.design-refined .product-layout { gap: 0 56px; }
-.design-refined .product-heading h1 { font-size: clamp(34px,3.4vw,46px); }
-.design-refined .product-heading { padding-bottom: 26px; }
-.design-refined .product-visual { border-radius: 24px; box-shadow: var(--ref-shadow); }
-.design-refined.product-illustrated .product-image { aspect-ratio: 1.6; }
-.design-refined .product-facts > div { padding-block: 16px; grid-template-columns: 78px minmax(0,1fr); }
-.design-refined .product-related { margin-top: 48px; }
-.design-refined.page-custom .custom-proposal .proposal-formats { margin-block: 40px; }
-.design-refined.page-custom .custom-proposal .proposal-format > a { grid-template-columns: 1fr; padding: 22px; gap: 22px; }
-.design-refined.page-custom .custom-proposal .proposal-format-image { width: 100%; aspect-ratio: 2; background: #f4f7fb; }
-.design-refined.page-custom .custom-proposal .proposal-format-image img { padding: 12px; }
-.design-refined.page-custom .custom-proposal .proposal-format-copy { min-height: 137px; }
-.design-refined.page-custom .custom-proposal .proposal-format h3 { font-size: 22px; }
-.design-refined.page-custom .custom-proposal .proposal-format { border-radius: 20px; box-shadow: var(--ref-shadow); }
-.design-refined.page-custom .custom-proposal .proposal-process { padding: 32px; border-radius: 24px; }
-.design-refined.page-custom .custom-proposal .steps > li { min-height: 208px; padding: 22px; align-self: start; height: auto; }
-.design-refined.page-custom .custom-proposal .steps .step-copy { min-height: 0; display: flex; flex-direction: column; }
-.design-refined.page-custom .custom-proposal .steps .step-details { margin-top: auto; padding-top: 18px; }
-.design-refined.page-custom .custom-proposal .proposal-contact { background: #102478; border: 0; padding: 32px; border-radius: 24px; }
-.design-refined.page-custom .custom-proposal .proposal-contact :is(h2,h2 em,.proposal-text-link,address a) { color: #fff; }
-.design-refined.page-custom .custom-proposal .proposal-contact :is(.proposal-eyebrow,.proposal-mail-note,address span),
-.design-refined.page-custom .custom-proposal .proposal-contact > p:not(.proposal-eyebrow) { color: #e0e7ff; }
-.design-refined.page-custom .custom-proposal .proposal-contact address { border-top-color: #ffffff38; }
-.design-refined.page-custom .custom-proposal .proposal-contact a:focus-visible { outline-color: #fff; }
-.design-refined .contact-ready .contact-intro { padding-bottom: 12px; gap: 56px; }
-.design-refined .contact-ready .contact-intro h1 { font-size: clamp(38px,4vw,52px); }
-.design-refined .contact-ready .contact-form-card { gap: 20px 32px; grid-template-rows: auto 1fr; }
-.design-refined .contact-ready .contact-form-info { background: #102478; border-radius: 22px; padding: 24px 26px; }
-.design-refined .contact-ready .contact-form-info :is(h2,li),
-.design-refined .contact-ready .contact-guide-disclosure > summary > .contact-icon { color: #fff; }
-.design-refined .contact-ready .contact-form-info li > .contact-icon { color: #ffb46a; }
-.design-refined .contact-ready .contact-guide-note { color: #e0e7ff; }
-.design-refined .contact-ready .contact-form-info summary:focus-visible { outline-color: #fff; }
-.design-refined .contact-ready .contact-direct { background: #f5f8fc; border-radius: 22px; padding: 24px 26px; align-self: start; }
-.design-refined .contact-ready .contact-direct h2 { padding-top: 0; border: 0; font-size: 20px; }
-.design-refined .contact-ready .contact-form { padding: 32px; border-radius: 22px; box-shadow: var(--ref-shadow); }
-.design-refined .contact-ready .contact-form :is(input,select,textarea) { background: white; border-color: #b7c2d3; }
-.design-refined .contact-ready .contact-form textarea { min-height: 148px; }
-.design-refined .contact-ready .contact-form .contact-field-error { color: #9e2525; }
-.design-refined .contact-ready .contact-form [aria-invalid="true"] { border-color: #b32c2c; background: #fff9f8; }
-.design-refined .contact-ready .contact-form-actions { padding-top: 4px; }
-.design-refined .a-site-footer { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 36px; padding-block: 32px; margin-top: 30px; font-size: 13px; }
-.design-refined .a-site-footer nav { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; }
-.design-refined .a-site-footer address { display: grid; gap: 6px; font-style: normal; }
-.design-refined .a-site-footer address a { min-height: 32px; display: flex; align-items: center; text-decoration: none; }
-.design-refined .a-site-footer small { font-size: 12px; line-height: 1.5; }
-@media (hover:hover) and (pointer:fine) {
-  .design-refined .catalog-topics a:hover { background: #fff0dc; border-color: #ffd7a5; }
-  .design-refined .a-audience-list > a:hover strong { text-decoration: underline; text-underline-offset: 5px; }
-  .design-refined .catalog-arrow { transition: background-color .4s, transform .5s var(--a-ease); }
-  .design-refined .catalog-card:hover .catalog-arrow { background: #ffdcac; transform: translateX(3px); }
+
+.design-refined .company-polished .custom-game-card :is(.section-eyebrow, p:not(.section-eyebrow)) {
+  color: #e0e7ff;
 }
-@media (max-width:1100px) {
-  body.design-refined #app > .header { min-height: 94px; }
-  body.design-refined #app > .header .brand { flex: 0 1 220px; width: 220px; }
-  .design-refined .catalog-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
-  .design-refined .a-featured-grid .game-copy,.design-refined .company-polished .game-copy { padding: 18px; }
-  .design-refined .company-polished .game-copy h3 { font-size: 20px; }
-  .design-refined .a-site-footer { grid-template-columns: 1fr 1fr; }
-  .design-refined .a-site-footer > a { grid-column: 1/-1; }
+
+.design-refined .company-polished .custom-game-card .custom-link {
+  color: #fff;
+  border-top-color: #ffffff38;
 }
-@media (max-width:760px) {
-  .design-refined :is(.a-home-hero,.company-polished .company-hero,.custom-proposal .proposal-hero) { grid-template-columns: 1fr; gap: 24px; }
-  .design-refined .a-home-hero h1,.design-refined .company-polished .company-intro h1,.design-refined.page-custom .custom-proposal .proposal-intro h1 { font-size: 43px; }
-  .design-refined :is(.a-home-hero figure,.company-polished .company-photo),
-  .design-refined.page-custom .custom-proposal .proposal-hero-visual { aspect-ratio: 1.65; min-height: 0; }
-  .design-refined .company-polished .company-intro { padding-block: 0; }
-  .design-refined .product-layout { gap: 0 28px; }
-  .design-refined .catalog-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .design-refined .a-home-contact { flex-direction: column; align-items: start; }
-  .design-refined .contact-ready .contact-form-card { grid-template-columns: 1fr; grid-template-areas: 'form' 'guide' 'direct'; gap: 20px; }
-  .design-refined .contact-ready .contact-intro { display: block; }
-  .design-refined .contact-ready .contact-intro > p { margin-top: 18px; }
+
+.design-refined .company-polished .custom-game-card a:focus-visible {
+  outline-color: #fff;
 }
-@media (max-width:620px) {
-  .design-refined #main > .breadcrumb { margin-bottom: 22px; font-size: 13px; }
-  .design-refined .a-home-hero { margin-top: 18px; padding-bottom: 30px; }
-  .design-refined .a-home-hero h1,.design-refined .company-polished .company-intro h1,.design-refined.page-custom .custom-proposal .proposal-intro h1 { font-size: clamp(33px,9.6vw,41px); }
-  .design-refined :is(.a-lead,.company-polished .company-intro > p:not(.company-eyebrow),.custom-proposal .proposal-lead) { font-size: 16px; }
-  .design-refined :is(.a-home-hero figure,.company-polished .company-photo),
-  .design-refined.page-custom .custom-proposal .proposal-hero-visual { height: auto; aspect-ratio: 1.45; border-radius: 19px; }
-  .design-refined .a-audiences { padding-block: 28px; gap: 24px; }
-  .design-refined .a-home-featured { padding: 24px 14px; margin-block: 28px; }
-  .design-refined .a-section-title h2,.design-refined .company-polished .company-section-heading h2,.design-refined.page-custom .custom-proposal .proposal-section-heading h2 { font-size: 27px; }
-  .design-refined .company-polished .games-section { padding: 26px 12px; margin-top: 26px; }
-  .design-refined .company-polished .games-grid { gap: 14px; }
-  .design-refined .company-polished .game-copy,.design-refined .a-featured-grid .game-copy { padding: 0; }
-  .design-refined .company-polished .game-copy h3 { font-size: 19px; }
-  .design-refined .company-polished .game-bottom,.design-refined .a-featured-grid .game-bottom { padding-top: 12px; }
-  .design-refined .company-polished .custom-game-card { padding: 24px; }
-  .design-refined :is(.a-home-contact,.company-polished .company-contact) { padding: 26px 24px; margin-top: 26px; }
-  .design-refined :is(.a-home-contact,.company-polished .company-contact) h2 { font-size: 26px; }
-  .design-refined .catalog-topics { gap: 7px; margin-bottom: 24px; }
-  .design-refined .catalog-topics a { font-size: 12px; padding-inline: 12px; }
-  .design-refined .catalog-grid { grid-template-columns: 1fr; gap: 14px; }
-  .design-refined .catalog-image,.design-refined .catalog-image:has(img.crop) { width: 90px; height: 100px; aspect-ratio: auto; padding: 5px; border-radius: 10px; }
-  .design-refined .catalog-image > img.crop { object-fit: contain; }
-  .design-refined .catalog-copy { padding: 0; }
-  .design-refined .catalog-copy h3 { font-size: 19px; }
-  .design-refined .product-heading { padding-bottom: 22px; }
-  .design-refined .product-related { margin-top: 32px; }
-  .design-refined .product-related .catalog-grid { grid-template-columns: 1fr; }
-  .design-refined.page-custom .custom-proposal .proposal-format > a { grid-template-columns: 82px minmax(0,1fr); gap: 18px; padding: 20px; }
-  .design-refined.page-custom .custom-proposal .proposal-format-image { aspect-ratio: 1; }
-  .design-refined.page-custom .custom-proposal .proposal-format-image img { padding: 5px; }
-  .design-refined.page-custom .custom-proposal .proposal-format-copy { min-height: 0; }
-  .design-refined.page-custom .custom-proposal .proposal-format h3 { font-size: 20px; }
-  .design-refined.page-custom .custom-proposal .proposal-process { padding: 24px 16px; }
-  .design-refined.page-custom .custom-proposal .steps > li { min-height: 0; padding: 20px 16px; }
-  .design-refined.page-custom .custom-proposal .proposal-contact { padding: 26px; }
-  .design-refined .contact-ready .contact-intro h1 { font-size: 38px; }
-  .design-refined .contact-ready .contact-form { padding: 24px 20px; }
-  .design-refined .contact-ready .contact-form-info,.design-refined .contact-ready .contact-direct { padding: 22px; }
-  .design-refined .a-site-footer { grid-template-columns: 1fr; gap: 22px; padding-block: 26px; }
-  .design-refined .a-site-footer nav { gap: 4px 20px; }
+
+.design-refined .a-home-contact, .design-refined .company-polished .company-contact {
+  color: #fff;
+  background: #102478;
+  border-radius: 1.375rem;
+  margin-block: 2.25rem .75rem;
+  padding: 2rem 2.25rem;
 }
-@media (max-width:350px) {
-  .design-refined .catalog-image,.design-refined .catalog-image:has(img.crop) { width: 65px; height: 82px; }
-  .design-refined.page-custom .custom-proposal .proposal-format > a { grid-template-columns: 62px minmax(0,1fr); gap: 12px; padding: 16px; }
+
+.design-refined :is(.a-home-contact, .company-polished .company-contact) h2 {
+  color: #fff;
+  font-size: 1.8125rem;
 }
-@media (prefers-reduced-motion:reduce) {
-  .design-refined *, .design-refined *::before, .design-refined *::after { transition: none !important; animation: none !important; }
+
+.design-refined :is(.a-home-contact, .company-polished .company-contact) p {
+  color: #dee5fa;
+}
+
+.design-refined :is(.a-home-contact, .company-contact) a:focus-visible {
+  outline-color: #fff;
+}
+
+.design-refined .catalog-topics {
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin: 0 0 2rem;
+  display: flex;
+}
+
+.design-refined .catalog-topics a {
+  border: .0625rem solid var(--a-edge);
+  background: #f7f9fc;
+  border-radius: 62.4375rem;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: .625rem 1rem;
+  font-size: .875rem;
+  text-decoration: none;
+  display: inline-flex;
+}
+
+.design-refined .catalog-section {
+  margin-bottom: 2.75rem;
+}
+
+.design-refined .catalog-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1.125rem;
+}
+
+.design-refined .catalog-image {
+  aspect-ratio: 1;
+  padding: .875rem;
+}
+
+.design-refined .catalog-image:has(img.crop) {
+  aspect-ratio: 1.4;
+  padding: 0;
+}
+
+.design-refined .catalog-image > img.crop {
+  object-fit: cover;
+}
+
+.design-refined .catalog-copy {
+  padding: 1.125rem;
+}
+
+.design-refined .catalog-copy h3 {
+  font-size: 1.25rem;
+}
+
+.design-refined .product-layout {
+  gap: 0 3.5rem;
+}
+
+.design-refined .product-heading h1 {
+  font-size: clamp(2.125rem, 3.4vw, 2.875rem);
+}
+
+.design-refined .product-heading {
+  padding-bottom: 1.625rem;
+}
+
+.design-refined .product-visual {
+  box-shadow: var(--ref-shadow);
+  border-radius: 1.5rem;
+}
+
+.design-refined.product-illustrated .product-image {
+  aspect-ratio: 1.6;
+}
+
+.design-refined .product-facts > div {
+  grid-template-columns: 4.875rem minmax(0, 1fr);
+  padding-block: 1rem;
+}
+
+.design-refined .product-related {
+  margin-top: 3rem;
+}
+
+.design-refined.page-custom .custom-proposal .proposal-formats {
+  margin-block: 2.5rem;
+}
+
+.design-refined.page-custom .custom-proposal .proposal-format > a {
+  grid-template-columns: 1fr;
+  gap: 1.375rem;
+  padding: 1.375rem;
+}
+
+.design-refined.page-custom .custom-proposal .proposal-format-image {
+  aspect-ratio: 2;
+  background: #f4f7fb;
+  width: 100%;
+}
+
+.design-refined.page-custom .custom-proposal .proposal-format-image img {
+  padding: .75rem;
+}
+
+.design-refined.page-custom .custom-proposal .proposal-format-copy {
+  min-height: 8.5625rem;
+}
+
+.design-refined.page-custom .custom-proposal .proposal-format h3 {
+  font-size: 1.375rem;
+}
+
+.design-refined.page-custom .custom-proposal .proposal-format {
+  box-shadow: var(--ref-shadow);
+  border-radius: 1.25rem;
+}
+
+.design-refined.page-custom .custom-proposal .proposal-process {
+  border-radius: 1.5rem;
+  padding: 2rem;
+}
+
+.design-refined.page-custom .custom-proposal .steps > li {
+  align-self: start;
+  height: auto;
+  min-height: 13rem;
+  padding: 1.375rem;
+}
+
+.design-refined.page-custom .custom-proposal .steps .step-copy {
+  flex-direction: column;
+  min-height: 0;
+  display: flex;
+}
+
+.design-refined.page-custom .custom-proposal .steps .step-details {
+  margin-top: auto;
+  padding-top: 1.125rem;
+}
+
+.design-refined.page-custom .custom-proposal .proposal-contact {
+  background: #102478;
+  border: 0;
+  border-radius: 1.5rem;
+  padding: 2rem;
+}
+
+.design-refined.page-custom .custom-proposal .proposal-contact :is(h2, h2 em, .proposal-text-link, address a) {
+  color: #fff;
+}
+
+.design-refined.page-custom .custom-proposal .proposal-contact :is(.proposal-eyebrow, .proposal-mail-note, address span), .design-refined.page-custom .custom-proposal .proposal-contact > p:not(.proposal-eyebrow) {
+  color: #e0e7ff;
+}
+
+.design-refined.page-custom .custom-proposal .proposal-contact address {
+  border-top-color: #ffffff38;
+}
+
+.design-refined.page-custom .custom-proposal .proposal-contact a:focus-visible {
+  outline-color: #fff;
+}
+
+.design-refined .contact-ready .contact-intro {
+  gap: 3.5rem;
+  padding-bottom: .75rem;
+}
+
+.design-refined .contact-ready .contact-intro h1 {
+  font-size: clamp(2.375rem, 4vw, 3.25rem);
+}
+
+.design-refined .contact-ready .contact-form-card {
+  grid-template-rows: auto 1fr;
+  gap: 1.25rem 2rem;
+}
+
+.design-refined .contact-ready .contact-form-info {
+  background: #102478;
+  border-radius: 1.375rem;
+  padding: 1.5rem 1.625rem;
+}
+
+.design-refined .contact-ready .contact-form-info :is(h2, li), .design-refined .contact-ready .contact-guide-disclosure > summary > .contact-icon {
+  color: #fff;
+}
+
+.design-refined .contact-ready .contact-form-info li > .contact-icon {
+  color: #ffb46a;
+}
+
+.design-refined .contact-ready .contact-guide-note {
+  color: #e0e7ff;
+}
+
+.design-refined .contact-ready .contact-form-info summary:focus-visible {
+  outline-color: #fff;
+}
+
+.design-refined .contact-ready .contact-direct {
+  background: #f5f8fc;
+  border-radius: 1.375rem;
+  align-self: start;
+  padding: 1.5rem 1.625rem;
+}
+
+.design-refined .contact-ready .contact-direct h2 {
+  border: 0;
+  padding-top: 0;
+  font-size: 1.25rem;
+}
+
+.design-refined .contact-ready .contact-form {
+  box-shadow: var(--ref-shadow);
+  border-radius: 1.375rem;
+  padding: 2rem;
+}
+
+.design-refined .contact-ready .contact-form :is(input, select, textarea) {
+  background: #fff;
+  border-color: #b7c2d3;
+}
+
+.design-refined .contact-ready .contact-form textarea {
+  min-height: 9.25rem;
+}
+
+.design-refined .contact-ready .contact-form .contact-field-error {
+  color: #9e2525;
+}
+
+.design-refined .contact-ready .contact-form [aria-invalid="true"] {
+  background: #fff9f8;
+  border-color: #b32c2c;
+}
+
+.design-refined .contact-ready .contact-form-actions {
+  padding-top: .25rem;
+}
+
+.design-refined .a-site-footer {
+  grid-template-columns: 1.1fr 1fr 1fr;
+  gap: 2.25rem;
+  margin-top: 1.875rem;
+  padding-block: 2rem;
+  font-size: .8125rem;
+  display: grid;
+}
+
+.design-refined .a-site-footer nav {
+  grid-template-columns: 1fr 1fr;
+  gap: .25rem 1rem;
+  display: grid;
+}
+
+.design-refined .a-site-footer address {
+  gap: .375rem;
+  font-style: normal;
+  display: grid;
+}
+
+.design-refined .a-site-footer address a {
+  align-items: center;
+  min-height: 2rem;
+  text-decoration: none;
+  display: flex;
+}
+
+.design-refined .a-site-footer small {
+  font-size: .75rem;
+  line-height: 1.5;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .design-refined .catalog-topics a:hover {
+    background: #fff0dc;
+    border-color: #ffd7a5;
+  }
+
+  .design-refined .a-audience-list > a:hover strong {
+    text-underline-offset: .3125rem;
+    text-decoration: underline;
+  }
+
+  .design-refined .catalog-arrow {
+    transition: background-color .4s, transform .5s var(--a-ease);
+  }
+
+  .design-refined .catalog-card:hover .catalog-arrow {
+    background: #ffdcac;
+    transform: translateX(.1875rem);
+  }
+}
+
+@media (width <= 1100px) {
+  body.design-refined #app > .header {
+    min-height: 5.875rem;
+  }
+
+  body.design-refined #app > .header .brand {
+    flex: 0 13.75rem;
+    width: 13.75rem;
+  }
+
+  .design-refined .catalog-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .design-refined .a-featured-grid .game-copy, .design-refined .company-polished .game-copy {
+    padding: 1.125rem;
+  }
+
+  .design-refined .company-polished .game-copy h3 {
+    font-size: 1.25rem;
+  }
+
+  .design-refined .a-site-footer {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .design-refined .a-site-footer > a {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (width <= 760px) {
+  .design-refined :is(.a-home-hero, .company-polished .company-hero, .custom-proposal .proposal-hero) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .design-refined .a-home-hero h1, .design-refined .company-polished .company-intro h1, .design-refined.page-custom .custom-proposal .proposal-intro h1 {
+    font-size: 2.6875rem;
+  }
+
+  .design-refined :is(.a-home-hero figure, .company-polished .company-photo), .design-refined.page-custom .custom-proposal .proposal-hero-visual {
+    aspect-ratio: 1.65;
+    min-height: 0;
+  }
+
+  .design-refined .company-polished .company-intro {
+    padding-block: 0;
+  }
+
+  .design-refined .product-layout {
+    gap: 0 1.75rem;
+  }
+
+  .design-refined .catalog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .design-refined .a-home-contact {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .design-refined .contact-ready .contact-form-card {
+    grid-template-columns: 1fr;
+    grid-template-areas: "form"
+                         "guide"
+                         "direct";
+    gap: 1.25rem;
+  }
+
+  .design-refined .contact-ready .contact-intro {
+    display: block;
+  }
+
+  .design-refined .contact-ready .contact-intro > p {
+    margin-top: 1.125rem;
+  }
+}
+
+@media (width <= 620px) {
+  .design-refined #main > .breadcrumb {
+    margin-bottom: 1.375rem;
+    font-size: .8125rem;
+  }
+
+  .design-refined .a-home-hero {
+    margin-top: 1.125rem;
+    padding-bottom: 1.875rem;
+  }
+
+  .design-refined .a-home-hero h1, .design-refined .company-polished .company-intro h1, .design-refined.page-custom .custom-proposal .proposal-intro h1 {
+    font-size: clamp(2.0625rem, 9.6vw, 2.5625rem);
+  }
+
+  .design-refined :is(.a-lead, .company-polished .company-intro > p:not(.company-eyebrow), .custom-proposal .proposal-lead) {
+    font-size: 1rem;
+  }
+
+  .design-refined :is(.a-home-hero figure, .company-polished .company-photo), .design-refined.page-custom .custom-proposal .proposal-hero-visual {
+    aspect-ratio: 1.45;
+    border-radius: 1.1875rem;
+    height: auto;
+  }
+
+  .design-refined .a-audiences {
+    gap: 1.5rem;
+    padding-block: 1.75rem;
+  }
+
+  .design-refined .a-home-featured {
+    margin-block: 1.75rem;
+    padding: 1.5rem .875rem;
+  }
+
+  .design-refined .a-section-title h2, .design-refined .company-polished .company-section-heading h2, .design-refined.page-custom .custom-proposal .proposal-section-heading h2 {
+    font-size: 1.6875rem;
+  }
+
+  .design-refined .company-polished .games-section {
+    margin-top: 1.625rem;
+    padding: 1.625rem .75rem;
+  }
+
+  .design-refined .company-polished .games-grid {
+    gap: .875rem;
+  }
+
+  .design-refined .company-polished .game-copy, .design-refined .a-featured-grid .game-copy {
+    padding: 0;
+  }
+
+  .design-refined .company-polished .game-copy h3 {
+    font-size: 1.1875rem;
+  }
+
+  .design-refined .company-polished .game-bottom, .design-refined .a-featured-grid .game-bottom {
+    padding-top: .75rem;
+  }
+
+  .design-refined .company-polished .custom-game-card {
+    padding: 1.5rem;
+  }
+
+  .design-refined :is(.a-home-contact, .company-polished .company-contact) {
+    margin-top: 1.625rem;
+    padding: 1.625rem 1.5rem;
+  }
+
+  .design-refined :is(.a-home-contact, .company-polished .company-contact) h2 {
+    font-size: 1.625rem;
+  }
+
+  .design-refined .catalog-topics {
+    gap: .4375rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .design-refined .catalog-topics a {
+    padding-inline: .75rem;
+    font-size: .75rem;
+  }
+
+  .design-refined .catalog-grid {
+    grid-template-columns: 1fr;
+    gap: .875rem;
+  }
+
+  .design-refined .catalog-image, .design-refined .catalog-image:has(img.crop) {
+    aspect-ratio: auto;
+    border-radius: .625rem;
+    width: 5.625rem;
+    height: 6.25rem;
+    padding: .3125rem;
+  }
+
+  .design-refined .catalog-image > img.crop {
+    object-fit: contain;
+  }
+
+  .design-refined .catalog-copy {
+    padding: 0;
+  }
+
+  .design-refined .catalog-copy h3 {
+    font-size: 1.1875rem;
+  }
+
+  .design-refined .product-heading {
+    padding-bottom: 1.375rem;
+  }
+
+  .design-refined .product-related {
+    margin-top: 2rem;
+  }
+
+  .design-refined .product-related .catalog-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .design-refined.page-custom .custom-proposal .proposal-format > a {
+    grid-template-columns: 5.125rem minmax(0, 1fr);
+    gap: 1.125rem;
+    padding: 1.25rem;
+  }
+
+  .design-refined.page-custom .custom-proposal .proposal-format-image {
+    aspect-ratio: 1;
+  }
+
+  .design-refined.page-custom .custom-proposal .proposal-format-image img {
+    padding: .3125rem;
+  }
+
+  .design-refined.page-custom .custom-proposal .proposal-format-copy {
+    min-height: 0;
+  }
+
+  .design-refined.page-custom .custom-proposal .proposal-format h3 {
+    font-size: 1.25rem;
+  }
+
+  .design-refined.page-custom .custom-proposal .proposal-process {
+    padding: 1.5rem 1rem;
+  }
+
+  .design-refined.page-custom .custom-proposal .steps > li {
+    min-height: 0;
+    padding: 1.25rem 1rem;
+  }
+
+  .design-refined.page-custom .custom-proposal .proposal-contact {
+    padding: 1.625rem;
+  }
+
+  .design-refined .contact-ready .contact-intro h1 {
+    font-size: 2.375rem;
+  }
+
+  .design-refined .contact-ready .contact-form {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .design-refined .contact-ready .contact-form-info, .design-refined .contact-ready .contact-direct {
+    padding: 1.375rem;
+  }
+
+  .design-refined .a-site-footer {
+    grid-template-columns: 1fr;
+    gap: 1.375rem;
+    padding-block: 1.625rem;
+  }
+
+  .design-refined .a-site-footer nav {
+    gap: .25rem 1.25rem;
+  }
+}
+
+@media (width <= 350px) {
+  .design-refined .catalog-image, .design-refined .catalog-image:has(img.crop) {
+    width: 4.0625rem;
+    height: 5.125rem;
+  }
+
+  .design-refined.page-custom .custom-proposal .proposal-format > a {
+    grid-template-columns: 3.875rem minmax(0, 1fr);
+    gap: .75rem;
+    padding: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .design-refined *, .design-refined :before, .design-refined :after {
+    transition: none !important;
+    animation: none !important;
+  }
 }

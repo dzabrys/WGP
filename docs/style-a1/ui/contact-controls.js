@@ -90,18 +90,21 @@
         if (panel.hidden) return;
         const rect = trigger.getBoundingClientRect();
         const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
-        const preferredWidth = viewportWidth <= 620 ? rect.width : kind === 'calendar' ? 352 : Math.max(300, rect.width);
-        const width = Math.min(preferredWidth, viewportWidth - 24);
+        const scale = parseFloat(getComputedStyle(document.documentElement).fontSize) / 16 || 1;
+        const edge = 12 * scale;
+        const gap = 8 * scale;
+        const preferredWidth = viewportWidth <= 620 ? rect.width : kind === 'calendar' ? 352 * scale : Math.max(300 * scale, rect.width);
+        const width = Math.min(preferredWidth, viewportWidth - edge * 2);
         panel.style.width = width + 'px';
-        panel.style.left = Math.max(12, Math.min(rect.left, viewportWidth - width - 12)) + 'px';
-        const available = Math.max(120, Math.min(window.innerHeight - 24, kind === 'calendar' ? 560 : 360));
+        panel.style.left = Math.max(edge, Math.min(rect.left, viewportWidth - width - edge)) + 'px';
+        const available = Math.max(120 * scale, Math.min(window.innerHeight - edge * 2, (kind === 'calendar' ? 560 : 360) * scale));
         panel.style.maxHeight = available + 'px';
         const height = Math.min(panel.scrollHeight, available);
-        const below = window.innerHeight - rect.bottom - 12;
-        const top = below >= height || rect.top < height + 12
-          ? Math.min(rect.bottom + 8, window.innerHeight - height - 12)
-          : rect.top - height - 8;
-        panel.style.top = Math.max(12, top) + 'px';
+        const below = window.innerHeight - rect.bottom - edge;
+        const top = below >= height || rect.top < height + edge
+          ? Math.min(rect.bottom + gap, window.innerHeight - height - edge)
+          : rect.top - height - gap;
+        panel.style.top = Math.max(edge, top) + 'px';
       };
       const close = (focus = false) => {
         panel.hidden = true; trigger.setAttribute('aria-expanded', 'false');

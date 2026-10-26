@@ -1,147 +1,677 @@
-/* Three layout proposals. Original offer and shared product data stay intact. */
-.modern-school .school-polished .school-filters button{min-height:44px}
-
-/* A: open white composition with a distinct photo and a calm product grid. */
-.school-variant-a .school-polished .company-hero{grid-template-columns:1.12fr 1fr;background:#fff;box-shadow:none;border-radius:0;overflow:visible;gap:40px;padding:4px 0 26px}
-.school-variant-a .school-polished .company-intro{padding:20px 0}
-.school-variant-a .school-polished .company-intro>.company-eyebrow{color:#52617d;margin-bottom:18px}
-.school-variant-a .school-polished .company-intro h1{color:#102478;font-size:clamp(38px,4vw,55px)}
-.school-variant-a .school-polished .company-intro h1 em{color:#102478}
-.school-variant-a .school-polished .company-intro>p:not(.company-eyebrow){color:#52617d;font-size:17px;max-width:38ch}
-.school-variant-a .school-polished .company-intro .company-text-link{color:#102478}
-.school-variant-a .school-polished .company-intro a:focus-visible{outline-color:#102478}
-.school-variant-a .school-polished .company-photo{margin:0;min-height:345px;border-radius:20px;box-shadow:0 15px 30px -22px #10247855}
-.school-variant-a .school-polished .company-use-strip{border-top:1px solid #dfe5ef;padding-top:22px}
-.school-variant-a .school-polished .games-section{padding:30px 24px;margin-top:30px}
-.school-variant-a .school-polished .company-section-heading h2{font-size:30px}
-.school-variant-a .school-polished .game-image{aspect-ratio:2}
-.school-variant-a .school-polished .game-card{box-shadow:0 5px 14px -11px #10247855}
-.school-variant-a .school-polished .custom-game-card{background:#fff5e9;border:1px solid #ffe3c4;color:#102478}
-.school-variant-a .school-polished .custom-game-card h3{color:#102478}
-.school-variant-a .school-polished .custom-game-card :is(.section-eyebrow,p:not(.section-eyebrow)){color:#52617d}
-.school-variant-a .school-polished .custom-link{color:#102478;border-top-color:#e9d8c4}
-.school-variant-a .school-polished .custom-link:focus-visible{outline-color:#102478}
-
-/* B: photo-led opening, two wide product columns and a short custom banner. */
-.school-variant-b .school-polished .company-hero{display:block;min-height:440px;border-radius:24px}
-.school-variant-b .school-polished .company-photo{position:absolute;inset:0;width:100%;height:100%;min-height:0;margin:0;border-radius:0;z-index:0;pointer-events:none}
-.school-variant-b .school-polished .company-photo>img{object-position:68% 38%}
-.school-variant-b .school-polished .company-photo:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#0c1c62f7 0%,#0c1c62ee 23%,#0c1c62a6 48%,#0c1c621a 77%)}
-.school-variant-b .school-polished .company-intro{max-width:55%;padding:42px;min-height:440px;display:flex;flex-direction:column;justify-content:center}
-.school-variant-b .school-polished .company-intro h1{font-size:clamp(38px,3.6vw,49px);max-width:12ch}
-.school-variant-b .school-polished .company-intro>p:not(.company-eyebrow){max-width:34ch}
-.school-variant-b .school-polished .games-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-.school-variant-b .school-polished .game-link{display:grid;grid-template-columns:36% minmax(0,1fr)}
-.school-variant-b .school-polished .game-image{width:100%;height:100%;min-height:235px;aspect-ratio:auto}
-.school-variant-b .school-polished .game-image img{object-position:center}
-.school-variant-b .school-polished .game-copy{padding:20px;min-height:235px}
-.school-variant-b .school-polished .game-copy h3{font-size:21px}
-.school-variant-b .school-polished .game-description{min-height:0;margin-bottom:18px}
-.school-variant-b .school-polished .game-bottom{flex-wrap:wrap;gap:10px}
-.school-variant-b .school-polished .custom-game-card{padding:24px;gap:15px;background:#102478}
-.school-variant-b .school-polished .custom-game-card h3{font-size:27px}
-.school-variant-b .school-polished .custom-game-card h3 br{display:none}
-.school-variant-b .school-polished .games-section:before{background-image:none;background-color:#f1f6fb;border-radius:22px}
-.school-variant-b .school-polished .company-use-strip{padding-top:24px}
-
-/* C: short opening and catalog with persistent grade choices beside the grid. */
-.school-variant-c .school-polished .company-hero{grid-template-columns:1fr 230px;background:#fff;border-radius:0;box-shadow:none;border-bottom:1px solid #dfe5ef;padding:0 0 25px;gap:35px;overflow:visible}
-.school-variant-c .school-polished .company-intro{padding:4px 0;max-width:620px}
-.school-variant-c .school-polished .company-intro>.company-eyebrow{color:#52617d;margin-bottom:12px}
-.school-variant-c .school-polished .company-intro h1{color:#102478;font-size:39px;line-height:1.08;margin-bottom:14px}
-.school-variant-c .school-polished .company-intro h1 br{display:none}
-.school-variant-c .school-polished .company-intro h1 em{color:#102478}
-.school-variant-c .school-polished .company-intro>p:not(.company-eyebrow){color:#52617d;max-width:47ch;font-size:15px}
-.school-variant-c .school-polished .company-intro .company-text-link{color:#102478}
-.school-variant-c .school-polished .company-intro a:focus-visible{outline-color:#102478}
-.school-variant-c .school-polished .company-actions{margin-top:17px}
-.school-variant-c .school-polished .company-photo{margin:0;min-height:210px;border-radius:15px}
-.school-variant-c .school-polished .company-photo>img{object-position:65% 50%}
-.school-variant-c .school-polished .company-use-strip{display:none}
-.school-variant-c .school-polished .games-section{display:grid;grid-template-columns:160px minmax(0,1fr);gap:0 26px;background:none;padding:0;margin-top:30px}
-.school-variant-c .school-polished .games-section:before{content:none}
-.school-variant-c .school-polished .company-section-heading{grid-column:1/-1;margin-bottom:24px}
-.school-variant-c .school-polished .company-section-heading h2{font-size:27px}
-.school-variant-c .school-polished .school-filter-bar{grid-column:1;grid-row:2;display:flex;flex-direction:column;align-items:stretch;gap:15px;margin:0;padding-top:2px}
-.school-variant-c .school-polished .school-filter-bar[hidden]{display:none}
-.school-variant-c .school-polished .school-filters{display:grid;gap:7px}
-.school-variant-c .school-polished .school-filters button{justify-content:start;min-height:44px;border-radius:9px;padding-inline:15px;border-color:transparent;background:#f1f5fb}
-.school-variant-c .school-polished .school-filters button[aria-pressed="true"]{background:#102478}
-.school-variant-c .school-polished .school-result-count{padding-left:15px}
-.school-variant-c .school-polished .games-grid{grid-column:2;grid-row:2;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-.school-variant-c .school-polished .game-image{aspect-ratio:2.2}
-.school-variant-c .school-polished .game-copy{padding:17px}
-.school-variant-c .school-polished .game-copy h3{font-size:20px}
-.school-variant-c .school-polished .game-bottom{flex-wrap:wrap}
-.school-variant-c .school-polished .catalog-note{grid-column:2}
-.school-variant-c .school-polished .custom-game-card{background:#f1f5fb;color:#102478;padding:24px}
-.school-variant-c .school-polished .custom-game-card h3{font-size:27px;color:#102478}
-.school-variant-c .school-polished .custom-game-card :is(p:not(.section-eyebrow),.section-eyebrow){color:#52617d}
-.school-variant-c .school-polished .custom-link{color:#102478;border-top-color:#dfe5ef}
-.school-variant-c .school-polished .custom-link:focus-visible{outline-color:#102478}
-.school-variant-c .school-polished .company-order{padding-top:38px}
-
-@media(max-width:1000px){
-  .school-variant-a .school-polished .company-hero{gap:26px}
-  .school-variant-b .school-polished .company-intro{max-width:60%;padding:32px}
-  .school-variant-b .school-polished .game-link{grid-template-columns:1fr}
-  .school-variant-b .school-polished .game-image{min-height:0;aspect-ratio:2.2;height:auto}
-  .school-variant-b .school-polished .game-copy{min-height:205px}
-  .school-variant-c .school-polished .company-hero{grid-template-columns:1fr 190px;gap:25px}
-  .school-variant-c .school-polished .games-section{grid-template-columns:140px minmax(0,1fr);gap:0 20px}
-  .school-variant-c .school-polished .game-copy h3{font-size:18px}
+.modern-school .school-polished .school-filters button {
+  min-height: 2.75rem;
 }
-@media(max-width:750px){
-  .school-variant-c .school-polished .games-section{display:block}
-  .school-variant-c .school-polished .school-filter-bar{display:flex;flex-direction:row;align-items:center;flex-wrap:wrap;margin-bottom:18px}
-  .school-variant-c .school-polished .school-filters{display:flex;flex-wrap:wrap}
-  .school-variant-c .school-polished .school-result-count{padding-left:0}
+
+.school-variant-a .school-polished .company-hero {
+  box-shadow: none;
+  background: #fff;
+  border-radius: 0;
+  grid-template-columns: 1.12fr 1fr;
+  gap: 2.5rem;
+  padding: .25rem 0 1.625rem;
+  overflow: visible;
 }
-@media(max-width:620px){
-  .school-variant-a .school-polished .company-hero{grid-template-columns:1fr;gap:8px;padding-bottom:22px}
-  .school-variant-a .school-polished .company-intro{padding:5px 4px 12px}
-  .school-variant-a .school-polished .company-intro h1{font-size:39px}
-  .school-variant-a .school-polished .company-intro>p:not(.company-eyebrow){font-size:15px}
-  .school-variant-a .school-polished .company-photo{height:210px;min-height:0;margin:0;border-radius:16px}
-  .school-variant-a .school-polished .games-section{padding:24px 12px;margin-top:25px}
-  .school-variant-a .school-polished .game-image{aspect-ratio:1}
-  .school-variant-a .school-polished .company-section-heading h2{font-size:26px}
-  .school-variant-b .school-polished .company-hero{display:grid;grid-template-columns:1fr;min-height:0}
-  .school-variant-b .school-polished .company-photo{position:relative;inset:auto;grid-row:1;height:215px;min-height:0;margin:0;width:100%;border-radius:0}
-  .school-variant-b .school-polished .company-photo:after{content:none}
-  .school-variant-b .school-polished .company-photo>img{object-position:60% 45%}
-  .school-variant-b .school-polished .company-intro{grid-row:2;max-width:none;min-height:0;padding:26px 24px}
-  .school-variant-b .school-polished .company-intro h1{font-size:35px;max-width:15ch}
-  .school-variant-b .school-polished .company-intro>p:not(.company-eyebrow){max-width:none}
-  .school-variant-b .school-polished .games-grid{grid-template-columns:1fr}
-  .school-variant-b .school-polished .game-link{grid-template-columns:90px minmax(0,1fr);padding:13px;gap:13px}
-  .school-variant-b .school-polished .game-image{width:90px;height:100px;min-height:0;aspect-ratio:auto;border-radius:9px}
-  .school-variant-b .school-polished .game-copy{padding:0;min-height:140px}
-  .school-variant-b .school-polished .game-copy h3{font-size:18px}
-  .school-variant-b .school-polished .custom-game-card h3{font-size:27px}
-  .school-variant-c .school-polished .company-hero{grid-template-columns:minmax(0,1fr) 100px;gap:14px;padding-bottom:22px}
-  .school-variant-c .school-polished .company-intro{display:contents}
-  .school-variant-c .school-polished .company-intro>.company-eyebrow{grid-column:1/-1;margin-bottom:0;font-size:11px}
-  .school-variant-c .school-polished .company-intro h1{grid-column:1;grid-row:2;font-size:32px;align-self:center;margin:0}
-  .school-variant-c .school-polished .company-intro h1 br{display:initial}
-  .school-variant-c .school-polished .company-intro>p:not(.company-eyebrow){grid-column:1/-1;font-size:14px}
-  .school-variant-c .school-polished .company-photo{grid-column:2;grid-row:2;height:112px;min-height:0;border-radius:11px;margin:0}
-  .school-variant-c .school-polished .company-actions{grid-column:1/-1;margin-top:0;gap:0 10px}
-  .school-variant-c .school-polished .company-intro .button{font-size:13px;padding-inline:15px;gap:8px}
-  .school-variant-c .school-polished .company-intro .company-text-link{font-size:12px}
-  .school-variant-c .school-polished .games-section{margin-top:23px}
-  .school-variant-c .school-polished .company-section-heading h2{font-size:25px}
-  .school-variant-c .school-polished .school-filter-bar{gap:10px;margin-bottom:16px}
-  .school-variant-c .school-polished .school-filters button{border-radius:8px;font-size:12px;padding-inline:12px}
-  .school-variant-c .school-polished .games-grid{grid-template-columns:1fr;gap:12px}
-  .school-variant-c .school-polished .game-copy{padding:0}
-  .school-variant-c .school-polished .game-image{aspect-ratio:1}
-  .school-variant-c .school-polished .game-copy h3{font-size:18px}
+
+.school-variant-a .school-polished .company-intro {
+  padding: 1.25rem 0;
 }
-@media(max-width:350px){
-  .school-variant-b .school-polished .company-intro h1{font-size:31px}
-  .school-variant-b .school-polished .game-link{grid-template-columns:65px minmax(0,1fr);padding:11px;gap:10px}
-  .school-variant-b .school-polished .game-image{width:65px;height:76px}
-  .school-variant-c .school-polished .company-hero{grid-template-columns:minmax(0,1fr) 80px}
-  .school-variant-c .school-polished .company-intro h1{font-size:29px}
+
+.school-variant-a .school-polished .company-intro > .company-eyebrow {
+  color: #52617d;
+  margin-bottom: 1.125rem;
+}
+
+.school-variant-a .school-polished .company-intro h1 {
+  color: #102478;
+  font-size: clamp(2.375rem, 4vw, 3.4375rem);
+}
+
+.school-variant-a .school-polished .company-intro h1 em {
+  color: #102478;
+}
+
+.school-variant-a .school-polished .company-intro > p:not(.company-eyebrow) {
+  color: #52617d;
+  max-width: 38ch;
+  font-size: 1.0625rem;
+}
+
+.school-variant-a .school-polished .company-intro .company-text-link {
+  color: #102478;
+}
+
+.school-variant-a .school-polished .company-intro a:focus-visible {
+  outline-color: #102478;
+}
+
+.school-variant-a .school-polished .company-photo {
+  border-radius: 1.25rem;
+  min-height: 21.5625rem;
+  margin: 0;
+  box-shadow: 0 .9375rem 1.875rem -1.375rem #10247855;
+}
+
+.school-variant-a .school-polished .company-use-strip {
+  border-top: .0625rem solid #dfe5ef;
+  padding-top: 1.375rem;
+}
+
+.school-variant-a .school-polished .games-section {
+  margin-top: 1.875rem;
+  padding: 1.875rem 1.5rem;
+}
+
+.school-variant-a .school-polished .company-section-heading h2 {
+  font-size: 1.875rem;
+}
+
+.school-variant-a .school-polished .game-image {
+  aspect-ratio: 2;
+}
+
+.school-variant-a .school-polished .game-card {
+  box-shadow: 0 .3125rem .875rem -.6875rem #10247855;
+}
+
+.school-variant-a .school-polished .custom-game-card {
+  color: #102478;
+  background: #fff5e9;
+  border: .0625rem solid #ffe3c4;
+}
+
+.school-variant-a .school-polished .custom-game-card h3 {
+  color: #102478;
+}
+
+.school-variant-a .school-polished .custom-game-card :is(.section-eyebrow, p:not(.section-eyebrow)) {
+  color: #52617d;
+}
+
+.school-variant-a .school-polished .custom-link {
+  color: #102478;
+  border-top-color: #e9d8c4;
+}
+
+.school-variant-a .school-polished .custom-link:focus-visible {
+  outline-color: #102478;
+}
+
+.school-variant-b .school-polished .company-hero {
+  border-radius: 1.5rem;
+  min-height: 27.5rem;
+  display: block;
+}
+
+.school-variant-b .school-polished .company-photo {
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  position: absolute;
+  inset: 0;
+}
+
+.school-variant-b .school-polished .company-photo > img {
+  object-position: 68% 38%;
+}
+
+.school-variant-b .school-polished .company-photo:after {
+  content: "";
+  background: linear-gradient(90deg, #0c1c62f7 0%, #0c1c62ee 23%, #0c1c62a6 48%, #0c1c621a 77%);
+  position: absolute;
+  inset: 0;
+}
+
+.school-variant-b .school-polished .company-intro {
+  flex-direction: column;
+  justify-content: center;
+  max-width: 55%;
+  min-height: 27.5rem;
+  padding: 2.625rem;
+  display: flex;
+}
+
+.school-variant-b .school-polished .company-intro h1 {
+  max-width: 12ch;
+  font-size: clamp(2.375rem, 3.6vw, 3.0625rem);
+}
+
+.school-variant-b .school-polished .company-intro > p:not(.company-eyebrow) {
+  max-width: 34ch;
+}
+
+.school-variant-b .school-polished .games-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.school-variant-b .school-polished .game-link {
+  grid-template-columns: 36% minmax(0, 1fr);
+  display: grid;
+}
+
+.school-variant-b .school-polished .game-image {
+  aspect-ratio: auto;
+  width: 100%;
+  height: 100%;
+  min-height: 14.6875rem;
+}
+
+.school-variant-b .school-polished .game-image img {
+  object-position: center;
+}
+
+.school-variant-b .school-polished .game-copy {
+  min-height: 14.6875rem;
+  padding: 1.25rem;
+}
+
+.school-variant-b .school-polished .game-copy h3 {
+  font-size: 1.3125rem;
+}
+
+.school-variant-b .school-polished .game-description {
+  min-height: 0;
+  margin-bottom: 1.125rem;
+}
+
+.school-variant-b .school-polished .game-bottom {
+  flex-wrap: wrap;
+  gap: .625rem;
+}
+
+.school-variant-b .school-polished .custom-game-card {
+  background: #102478;
+  gap: .9375rem;
+  padding: 1.5rem;
+}
+
+.school-variant-b .school-polished .custom-game-card h3 {
+  font-size: 1.6875rem;
+}
+
+.school-variant-b .school-polished .custom-game-card h3 br {
+  display: none;
+}
+
+.school-variant-b .school-polished .games-section:before {
+  background-color: #f1f6fb;
+  background-image: none;
+  border-radius: 1.375rem;
+}
+
+.school-variant-b .school-polished .company-use-strip {
+  padding-top: 1.5rem;
+}
+
+.school-variant-c .school-polished .company-hero {
+  box-shadow: none;
+  background: #fff;
+  border-bottom: .0625rem solid #dfe5ef;
+  border-radius: 0;
+  grid-template-columns: 1fr 14.375rem;
+  gap: 2.1875rem;
+  padding: 0 0 1.5625rem;
+  overflow: visible;
+}
+
+.school-variant-c .school-polished .company-intro {
+  max-width: 38.75rem;
+  padding: .25rem 0;
+}
+
+.school-variant-c .school-polished .company-intro > .company-eyebrow {
+  color: #52617d;
+  margin-bottom: .75rem;
+}
+
+.school-variant-c .school-polished .company-intro h1 {
+  color: #102478;
+  margin-bottom: .875rem;
+  font-size: 2.4375rem;
+  line-height: 1.08;
+}
+
+.school-variant-c .school-polished .company-intro h1 br {
+  display: none;
+}
+
+.school-variant-c .school-polished .company-intro h1 em {
+  color: #102478;
+}
+
+.school-variant-c .school-polished .company-intro > p:not(.company-eyebrow) {
+  color: #52617d;
+  max-width: 47ch;
+  font-size: .9375rem;
+}
+
+.school-variant-c .school-polished .company-intro .company-text-link {
+  color: #102478;
+}
+
+.school-variant-c .school-polished .company-intro a:focus-visible {
+  outline-color: #102478;
+}
+
+.school-variant-c .school-polished .company-actions {
+  margin-top: 1.0625rem;
+}
+
+.school-variant-c .school-polished .company-photo {
+  border-radius: .9375rem;
+  min-height: 13.125rem;
+  margin: 0;
+}
+
+.school-variant-c .school-polished .company-photo > img {
+  object-position: 65% 50%;
+}
+
+.school-variant-c .school-polished .company-use-strip {
+  display: none;
+}
+
+.school-variant-c .school-polished .games-section {
+  background: none;
+  grid-template-columns: 10rem minmax(0, 1fr);
+  gap: 0 1.625rem;
+  margin-top: 1.875rem;
+  padding: 0;
+  display: grid;
+}
+
+.school-variant-c .school-polished .games-section:before {
+  content: none;
+}
+
+.school-variant-c .school-polished .company-section-heading {
+  grid-column: 1 / -1;
+  margin-bottom: 1.5rem;
+}
+
+.school-variant-c .school-polished .company-section-heading h2 {
+  font-size: 1.6875rem;
+}
+
+.school-variant-c .school-polished .school-filter-bar {
+  flex-direction: column;
+  grid-area: 2 / 1;
+  align-items: stretch;
+  gap: .9375rem;
+  margin: 0;
+  padding-top: .125rem;
+  display: flex;
+}
+
+.school-variant-c .school-polished .school-filter-bar[hidden] {
+  display: none;
+}
+
+.school-variant-c .school-polished .school-filters {
+  gap: .4375rem;
+  display: grid;
+}
+
+.school-variant-c .school-polished .school-filters button {
+  background: #f1f5fb;
+  border-color: #0000;
+  border-radius: .5625rem;
+  justify-content: start;
+  min-height: 2.75rem;
+  padding-inline: .9375rem;
+}
+
+.school-variant-c .school-polished .school-filters button[aria-pressed="true"] {
+  background: #102478;
+}
+
+.school-variant-c .school-polished .school-result-count {
+  padding-left: .9375rem;
+}
+
+.school-variant-c .school-polished .games-grid {
+  grid-area: 2 / 2;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.125rem;
+}
+
+.school-variant-c .school-polished .game-image {
+  aspect-ratio: 2.2;
+}
+
+.school-variant-c .school-polished .game-copy {
+  padding: 1.0625rem;
+}
+
+.school-variant-c .school-polished .game-copy h3 {
+  font-size: 1.25rem;
+}
+
+.school-variant-c .school-polished .game-bottom {
+  flex-wrap: wrap;
+}
+
+.school-variant-c .school-polished .catalog-note {
+  grid-column: 2;
+}
+
+.school-variant-c .school-polished .custom-game-card {
+  color: #102478;
+  background: #f1f5fb;
+  padding: 1.5rem;
+}
+
+.school-variant-c .school-polished .custom-game-card h3 {
+  color: #102478;
+  font-size: 1.6875rem;
+}
+
+.school-variant-c .school-polished .custom-game-card :is(p:not(.section-eyebrow), .section-eyebrow) {
+  color: #52617d;
+}
+
+.school-variant-c .school-polished .custom-link {
+  color: #102478;
+  border-top-color: #dfe5ef;
+}
+
+.school-variant-c .school-polished .custom-link:focus-visible {
+  outline-color: #102478;
+}
+
+.school-variant-c .school-polished .company-order {
+  padding-top: 2.375rem;
+}
+
+@media (width <= 1000px) {
+  .school-variant-a .school-polished .company-hero {
+    gap: 1.625rem;
+  }
+
+  .school-variant-b .school-polished .company-intro {
+    max-width: 60%;
+    padding: 2rem;
+  }
+
+  .school-variant-b .school-polished .game-link {
+    grid-template-columns: 1fr;
+  }
+
+  .school-variant-b .school-polished .game-image {
+    aspect-ratio: 2.2;
+    height: auto;
+    min-height: 0;
+  }
+
+  .school-variant-b .school-polished .game-copy {
+    min-height: 12.8125rem;
+  }
+
+  .school-variant-c .school-polished .company-hero {
+    grid-template-columns: 1fr 11.875rem;
+    gap: 1.5625rem;
+  }
+
+  .school-variant-c .school-polished .games-section {
+    grid-template-columns: 8.75rem minmax(0, 1fr);
+    gap: 0 1.25rem;
+  }
+
+  .school-variant-c .school-polished .game-copy h3 {
+    font-size: 1.125rem;
+  }
+}
+
+@media (width <= 750px) {
+  .school-variant-c .school-polished .games-section {
+    display: block;
+  }
+
+  .school-variant-c .school-polished .school-filter-bar {
+    flex-flow: wrap;
+    align-items: center;
+    margin-bottom: 1.125rem;
+    display: flex;
+  }
+
+  .school-variant-c .school-polished .school-filters {
+    flex-wrap: wrap;
+    display: flex;
+  }
+
+  .school-variant-c .school-polished .school-result-count {
+    padding-left: 0;
+  }
+}
+
+@media (width <= 620px) {
+  .school-variant-a .school-polished .company-hero {
+    grid-template-columns: 1fr;
+    gap: .5rem;
+    padding-bottom: 1.375rem;
+  }
+
+  .school-variant-a .school-polished .company-intro {
+    padding: .3125rem .25rem .75rem;
+  }
+
+  .school-variant-a .school-polished .company-intro h1 {
+    font-size: 2.4375rem;
+  }
+
+  .school-variant-a .school-polished .company-intro > p:not(.company-eyebrow) {
+    font-size: .9375rem;
+  }
+
+  .school-variant-a .school-polished .company-photo {
+    border-radius: 1rem;
+    height: 13.125rem;
+    min-height: 0;
+    margin: 0;
+  }
+
+  .school-variant-a .school-polished .games-section {
+    margin-top: 1.5625rem;
+    padding: 1.5rem .75rem;
+  }
+
+  .school-variant-a .school-polished .game-image {
+    aspect-ratio: 1;
+  }
+
+  .school-variant-a .school-polished .company-section-heading h2 {
+    font-size: 1.625rem;
+  }
+
+  .school-variant-b .school-polished .company-hero {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    display: grid;
+  }
+
+  .school-variant-b .school-polished .company-photo {
+    border-radius: 0;
+    grid-row: 1;
+    width: 100%;
+    height: 13.4375rem;
+    min-height: 0;
+    margin: 0;
+    position: relative;
+    inset: auto;
+  }
+
+  .school-variant-b .school-polished .company-photo:after {
+    content: none;
+  }
+
+  .school-variant-b .school-polished .company-photo > img {
+    object-position: 60% 45%;
+  }
+
+  .school-variant-b .school-polished .company-intro {
+    grid-row: 2;
+    max-width: none;
+    min-height: 0;
+    padding: 1.625rem 1.5rem;
+  }
+
+  .school-variant-b .school-polished .company-intro h1 {
+    max-width: 15ch;
+    font-size: 2.1875rem;
+  }
+
+  .school-variant-b .school-polished .company-intro > p:not(.company-eyebrow) {
+    max-width: none;
+  }
+
+  .school-variant-b .school-polished .games-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .school-variant-b .school-polished .game-link {
+    grid-template-columns: 5.625rem minmax(0, 1fr);
+    gap: .8125rem;
+    padding: .8125rem;
+  }
+
+  .school-variant-b .school-polished .game-image {
+    aspect-ratio: auto;
+    border-radius: .5625rem;
+    width: 5.625rem;
+    height: 6.25rem;
+    min-height: 0;
+  }
+
+  .school-variant-b .school-polished .game-copy {
+    min-height: 8.75rem;
+    padding: 0;
+  }
+
+  .school-variant-b .school-polished .game-copy h3 {
+    font-size: 1.125rem;
+  }
+
+  .school-variant-b .school-polished .custom-game-card h3 {
+    font-size: 1.6875rem;
+  }
+
+  .school-variant-c .school-polished .company-hero {
+    grid-template-columns: minmax(0, 1fr) 6.25rem;
+    gap: .875rem;
+    padding-bottom: 1.375rem;
+  }
+
+  .school-variant-c .school-polished .company-intro {
+    display: contents;
+  }
+
+  .school-variant-c .school-polished .company-intro > .company-eyebrow {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+    font-size: .6875rem;
+  }
+
+  .school-variant-c .school-polished .company-intro h1 {
+    grid-area: 2 / 1;
+    align-self: center;
+    margin: 0;
+    font-size: 2rem;
+  }
+
+  .school-variant-c .school-polished .company-intro h1 br {
+    display: initial;
+  }
+
+  .school-variant-c .school-polished .company-intro > p:not(.company-eyebrow) {
+    grid-column: 1 / -1;
+    font-size: .875rem;
+  }
+
+  .school-variant-c .school-polished .company-photo {
+    border-radius: .6875rem;
+    grid-area: 2 / 2;
+    height: 7rem;
+    min-height: 0;
+    margin: 0;
+  }
+
+  .school-variant-c .school-polished .company-actions {
+    grid-column: 1 / -1;
+    gap: 0 .625rem;
+    margin-top: 0;
+  }
+
+  .school-variant-c .school-polished .company-intro .button {
+    gap: .5rem;
+    padding-inline: .9375rem;
+    font-size: .8125rem;
+  }
+
+  .school-variant-c .school-polished .company-intro .company-text-link {
+    font-size: .75rem;
+  }
+
+  .school-variant-c .school-polished .games-section {
+    margin-top: 1.4375rem;
+  }
+
+  .school-variant-c .school-polished .company-section-heading h2 {
+    font-size: 1.5625rem;
+  }
+
+  .school-variant-c .school-polished .school-filter-bar {
+    gap: .625rem;
+    margin-bottom: 1rem;
+  }
+
+  .school-variant-c .school-polished .school-filters button {
+    border-radius: .5rem;
+    padding-inline: .75rem;
+    font-size: .75rem;
+  }
+
+  .school-variant-c .school-polished .games-grid {
+    grid-template-columns: 1fr;
+    gap: .75rem;
+  }
+
+  .school-variant-c .school-polished .game-copy {
+    padding: 0;
+  }
+
+  .school-variant-c .school-polished .game-image {
+    aspect-ratio: 1;
+  }
+
+  .school-variant-c .school-polished .game-copy h3 {
+    font-size: 1.125rem;
+  }
+}
+
+@media (width <= 350px) {
+  .school-variant-b .school-polished .company-intro h1 {
+    font-size: 1.9375rem;
+  }
+
+  .school-variant-b .school-polished .game-link {
+    grid-template-columns: 4.0625rem minmax(0, 1fr);
+    gap: .625rem;
+    padding: .6875rem;
+  }
+
+  .school-variant-b .school-polished .game-image {
+    width: 4.0625rem;
+    height: 4.75rem;
+  }
+
+  .school-variant-c .school-polished .company-hero {
+    grid-template-columns: minmax(0, 1fr) 5rem;
+  }
+
+  .school-variant-c .school-polished .company-intro h1 {
+    font-size: 1.8125rem;
+  }
 }

@@ -1,0 +1,5 @@
+/* Full HD remains the reference size. At 2560px, 1rem grows from 16px to 21.33px.
+   Scale layout and text together without CSS zoom or transformed pointer coordinates. */
+@media (min-width: 1921px) {
+  html { font-size: clamp(16px, calc(100vw / 120), 32px); }
+}

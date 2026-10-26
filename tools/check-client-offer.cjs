@@ -12,7 +12,7 @@ for(const product of catalog.products){
  const page=read(product.url);
  assert(page.includes(`<h1 id="product-title">${product.name}</h1>`),product.name);
  assert(page.includes(`data-product-offer="${product.id}"`),product.name);
- assert(page.includes('product-warm-accents.css?v=shared-products-8'),`${product.name}: shared design`);
+ assert(/href="style-a1\/product-warm-accents\.css\?v=[^"\s]+"/.test(page),`${product.name}: shared design`);
  assert(page.includes('product-selection.js?v=shared-1'),`${product.name}: row selection`);
  assert.equal((page.match(/class="product-bottom-row"/g)||[]).length,1,`${product.name}: return button`);
  assert(page.indexOf('class="product-facts"')>page.indexOf('class="product-information"') && page.indexOf('class="product-facts"')<page.indexOf('class="product-included"'),`${product.name}: facts below description`);

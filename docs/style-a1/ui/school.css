@@ -1,19 +1,100 @@
-/* School-specific details; shared offer layout is loaded before this file. */
-.modern-school .school-polished .company-photo>img{object-position:65% 43%}
-.modern-school .school-polished .school-filter-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 20px}
-.modern-school .school-polished .school-filter-bar[hidden],.modern-school .school-polished .game-card[hidden]{display:none}
-.modern-school .school-polished .school-filters{display:flex;flex-wrap:wrap;gap:8px}
-.modern-school .school-polished .school-filters button{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:8px 16px;border:1px solid #d6e1ed;border-radius:999px;background:#fff;color:#102478;font:700 13px/1.4 Lato,Arial,sans-serif;cursor:pointer;transition:background-color .25s,color .25s,border-color .25s}
-.modern-school .school-polished .school-filters button[aria-pressed="true"]{background:#102478;color:#fff;border-color:#102478}
-.modern-school .school-polished .school-filters button:focus-visible{outline:3px solid #102478;outline-offset:3px}
-.modern-school .school-polished .school-result-count{font-size:12px;line-height:1.5;white-space:nowrap;color:#52617d;margin:0}
-.modern-school .school-polished .age{font-size:10px}
-@media(hover:hover) and (pointer:fine){.modern-school .school-polished .school-filters button:not([aria-pressed="true"]):hover{border-color:#102478;background:#f1f5fb}}
-@media(max-width:620px){
-  .modern-school .school-polished .company-photo>img{object-position:60% 43%}
-  .modern-school .school-polished .school-filter-bar{align-items:start;flex-direction:column;gap:9px;margin-bottom:15px}
-  .modern-school .school-polished .school-filters{gap:7px}
-  .modern-school .school-polished .school-filters button{min-height:40px;font-size:12px;padding:8px 13px}
-  .modern-school .school-polished .school-result-count{font-size:11px}
-  .modern-school .school-polished .age{font-size:9px;inset:6px auto auto 5px;padding:3px 5px;min-height:21px}
+.modern-school .school-polished .company-photo > img {
+  object-position: 65% 43%;
+}
+
+.modern-school .school-polished .school-filter-bar {
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 1.25rem;
+  display: flex;
+}
+
+.modern-school .school-polished .school-filter-bar[hidden], .modern-school .school-polished .game-card[hidden] {
+  display: none;
+}
+
+.modern-school .school-polished .school-filters {
+  flex-wrap: wrap;
+  gap: .5rem;
+  display: flex;
+}
+
+.modern-school .school-polished .school-filters button {
+  color: #102478;
+  cursor: pointer;
+  background: #fff;
+  border: .0625rem solid #d6e1ed;
+  border-radius: 62.4375rem;
+  justify-content: center;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: .5rem 1rem;
+  font: 700 .8125rem / 1.4 Lato, Arial, sans-serif;
+  transition: background-color .25s, color .25s, border-color .25s;
+  display: inline-flex;
+}
+
+.modern-school .school-polished .school-filters button[aria-pressed="true"] {
+  color: #fff;
+  background: #102478;
+  border-color: #102478;
+}
+
+.modern-school .school-polished .school-filters button:focus-visible {
+  outline-offset: .1875rem;
+  outline: .1875rem solid #102478;
+}
+
+.modern-school .school-polished .school-result-count {
+  white-space: nowrap;
+  color: #52617d;
+  margin: 0;
+  font-size: .75rem;
+  line-height: 1.5;
+}
+
+.modern-school .school-polished .age {
+  font-size: .625rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .modern-school .school-polished .school-filters button:not([aria-pressed="true"]):hover {
+    background: #f1f5fb;
+    border-color: #102478;
+  }
+}
+
+@media (width <= 620px) {
+  .modern-school .school-polished .company-photo > img {
+    object-position: 60% 43%;
+  }
+
+  .modern-school .school-polished .school-filter-bar {
+    flex-direction: column;
+    align-items: start;
+    gap: .5625rem;
+    margin-bottom: .9375rem;
+  }
+
+  .modern-school .school-polished .school-filters {
+    gap: .4375rem;
+  }
+
+  .modern-school .school-polished .school-filters button {
+    min-height: 2.5rem;
+    padding: .5rem .8125rem;
+    font-size: .75rem;
+  }
+
+  .modern-school .school-polished .school-result-count {
+    font-size: .6875rem;
+  }
+
+  .modern-school .school-polished .age {
+    min-height: 1.3125rem;
+    padding: .1875rem .3125rem;
+    font-size: .5625rem;
+    inset: .375rem auto auto .3125rem;
+  }
 }
