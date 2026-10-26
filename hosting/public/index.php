@@ -11,7 +11,10 @@ header('X-Content-Type-Options: nosniff'); header('Referrer-Policy: strict-origi
 try {
     $c=config();
     if (in_array($_SERVER['HTTP_HOST']??'', $c['aliases']??[],true)) { header('Location: '.$c['base_url'].($_SERVER['REQUEST_URI']??'/'),true,301);exit; }
-    if (($_SERVER['HTTP_HOST']??'')!==parse_url($c['base_url'],PHP_URL_HOST).(parse_url($c['base_url'],PHP_URL_PORT)?':'.parse_url($c['base_url'],PHP_URL_PORT):'')) { http_response_code(400); exit('Nieprawidłowy adres.'); }
+    if (($_SERVER['HTTP_HOST']??'')!==parse_url($c['base_url'],PHP_URL_HOST).(parse_url($c['base_url'],PHP_URL_PORT)?':'.parse_url($c['base_url'],PHP_URL_PORT):'')) {
+        if(($c['codespaces_proxy']??false)===true)error_log('WGP proxy diagnostic: '.json_encode(array_intersect_key($_SERVER,array_flip(['HTTP_HOST','HTTP_X_FORWARDED_HOST','HTTP_X_FORWARDED_PROTO','REMOTE_ADDR']))));
+        http_response_code(400); exit('Nieprawidłowy adres.');
+    }
     $cloudProxy=($c['codespaces_proxy']??false)===true && in_array($_SERVER['REMOTE_ADDR']??'',['127.0.0.1','::1'],true) && ($_SERVER['HTTP_X_FORWARDED_PROTO']??'')==='https';
     if ($c['environment']!=='development' && (($_SERVER['HTTPS']??'')!=='on') && !$cloudProxy) { header('Location: '.$c['base_url'].($_SERVER['REQUEST_URI']??'/'),true,302);exit; }
     $path=parse_url($_SERVER['REQUEST_URI']??'/',PHP_URL_PATH); if(!is_string($path)||str_contains($path,'..')||str_contains($path,'\\')||str_contains($path,'%')){http_response_code(400);exit;}
