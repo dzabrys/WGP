@@ -13,7 +13,7 @@ try {
     $cloudProxy=($c['codespaces_proxy']??false)===true && in_array($_SERVER['REMOTE_ADDR']??'',['127.0.0.1','::1'],true) && ($_SERVER['HTTP_X_FORWARDED_PROTO']??'')==='https' && ($_SERVER['HTTP_X_FORWARDED_HOST']??'')===parse_url($c['base_url'],PHP_URL_HOST);
     // Codespaces rewrites Host to localhost. Trust its headers only from loopback,
     // with the exact configured HTTPS hostname; ordinary hosting never enables this.
-    if($cloudProxy)$_SERVER['HTTP_HOST']=$_SERVER['HTTP_X_FORWARDED_HOST'];
+    if($cloudProxy){$_SERVER['HTTP_HOST']=$_SERVER['HTTP_X_FORWARDED_HOST'];$_SERVER['WGP_TRUSTED_CLOUD_PROXY']=true;}
     if (in_array($_SERVER['HTTP_HOST']??'', $c['aliases']??[],true)) { header('Location: '.$c['base_url'].($_SERVER['REQUEST_URI']??'/'),true,301);exit; }
     if (($_SERVER['HTTP_HOST']??'')!==parse_url($c['base_url'],PHP_URL_HOST).(parse_url($c['base_url'],PHP_URL_PORT)?':'.parse_url($c['base_url'],PHP_URL_PORT):'')) { http_response_code(400); exit('Nieprawidłowy adres.'); }
     if ($c['environment']!=='development' && (($_SERVER['HTTPS']??'')!=='on') && !$cloudProxy) { header('Location: '.$c['base_url'].($_SERVER['REQUEST_URI']??'/'),true,302);exit; }
