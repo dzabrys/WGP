@@ -28,8 +28,46 @@ function catalog_js(array $state): string {
     $products=array_values(array_filter($state['products'],fn($p)=>$p['visible'])); $data=json_encode($products,JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR);
     return '(()=>{const products='.$data.';const money=amount=>amount==null?"Wycena indywidualna":new Intl.NumberFormat("pl-PL",{style:"currency",currency:"PLN",minimumFractionDigits:Number.isInteger(amount)?0:2,maximumFractionDigits:2}).format(amount);const normalize=text=>String(text).trim().toLocaleLowerCase("pl").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/ł/g,"l");const get=key=>products.find(p=>p.id===key||p.url===key||normalize(p.name)===normalize(key));const options=p=>p?.variants||[];const variant=(p,id)=>options(p).find(v=>v.id===id)||options(p)[0];const totals=(v,q)=>({net:v?.net==null?null:v.net*q,gross:v?.gross==null?null:Math.round(v.gross*q*100)/100});const contactURL=(p,v,q=1)=>{const x=new URLSearchParams({produkt:p.id,wariant:v.id,liczba:String(q),zamiar:"zakup"});if(location.search.includes("preview=1"))x.set("preview","1");return "kontakt.html?"+x+"#formularz-kontaktowy";};window.WGPCatalog={products,get,options,variant,money,totals,contactURL};})();';
 }
+function render_carousel(DOMDocument $d,array $state,array $visible): void {
+    $stage=first($d,'//*['.css_class('hero-product-stage').']');if(!$stage)return;
+    $templates=nodes($d,'//figure[@data-product-slide]');if(!$templates)return;
+    $original=['gra-skarb-piratow','gra-zostan-kierowca','gra-segreguj-smieci'];
+    $seed=array_column(json_decode(file_get_contents(__DIR__.'/seed.json'),true)['products'],null,'id');$byId=array_column($visible,null,'id');
+    $featured=array_values(array_filter($state['appearance']['featured']??$original,fn($id)=>isset($byId[$id])));$total=count($featured);
+    while($stage->firstChild)$stage->removeChild($stage->firstChild);$dots='';
+    foreach($featured as$i=>$id){
+        $p=$byId[$id];$originalIndex=array_search($id,$original,true);$optimized=$originalIndex!==false&&$p['image']===($seed[$id]['image']??'');
+        $figure=$templates[$optimized?$originalIndex:0]->cloneNode(true);$figure->setAttribute('data-product-slide',(string)$i);$figure->setAttribute('aria-label',($i+1).' z '.$total.': '.$p['name']);
+        $figure->setAttribute('class','hero-product-slide'.($i===0?' is-active':''));if($i===0)$figure->removeAttribute('hidden');else$figure->setAttribute('hidden','');
+        foreach(iterator_to_array($figure->getElementsByTagName('strong'))as$e)set_text($e,$p['name']);
+        foreach(iterator_to_array($figure->getElementsByTagName('img'))as$img){if(!$optimized)set_image($img,$p['image']);$img->setAttribute('alt','Plansza gry: '.$p['name']);$img->setAttribute('loading',$i===0?'eager':'lazy');$img->setAttribute('fetchpriority',$i===0?'high':'low');}
+        $stage->appendChild($figure);$dots.='<button type="button" data-slide="'.$i.'" aria-label="Pokaż grę: '.esc($p['name']).'" aria-pressed="'.($i===0?'true':'false').'"></button>';
+    }
+    if(!$total)replace_children($stage,'<p class="empty">Wybierz gry do karuzeli w panelu lub sprawdź naszą ofertę.</p>');
+    if($e=first($d,'//*['.css_class('carousel-dots').']'))replace_children($e,$dots);
+    if($e=first($d,'//*[@id="carousel-status"]'))set_text($e,$total?'Gra 1 z '.$total.': '.$byId[$featured[0]]['name'].'.':'');
+    if($e=first($d,'//*['.css_class('carousel-toolbar').']')){if($total<2)$e->setAttribute('hidden','');else$e->removeAttribute('hidden');}
+    $style=$d->createElement('style','.carousel-dots{flex-wrap:wrap;max-width:min(60vw,30rem)}.carousel-toolbar{max-width:calc(100% - 1.25rem)}.carousel-toolbar[hidden]{display:none!important}');$d->getElementsByTagName('head')->item(0)->appendChild($style);
+}
+function render_categories(DOMDocument $d,array $state,array $visible,string $catalog): void {
+    $sections=nodes($d,'//section['.css_class('catalog-section').']');if(!$sections)return;
+    $parent=$sections[0]->parentNode;$marker=$d->createComment('WGP catalog');$parent->insertBefore($marker,$sections[0]);foreach($sections as$e)$e->parentNode->removeChild($e);
+    $links='';$count=0;
+    foreach($state['categories']??default_categories()as$c){
+        if($c['catalog']!==$catalog)continue;$products=array_values(array_filter($visible,fn($p)=>$p['category']===$c['id']));if(!$products)continue;
+        $cards='';foreach($products as$p)$cards.=card_html($p);$id=esc($c['id']);
+        $html='<section class="catalog-section" id="'.$id.'" aria-labelledby="title-'.$id.'"><div class="catalog-section-heading"><h2 id="title-'.$id.'">'.esc($c['name']).'</h2><span>Produkty: '.count($products).'</span></div>'.($c['description']!==''?'<p>'.esc($c['description']).'</p>':'').'<div class="catalog-grid">'.$cards.'</div></section>';
+        $parent->insertBefore(fragment($d,$html),$marker);$links.='<a href="#'.$id.'">'.esc($c['name']).'</a>';$count++;
+    }
+    if(!$count)$parent->insertBefore(fragment($d,'<p class="empty">Obecnie nie ma produktów w tym katalogu. Zapraszamy do kontaktu.</p>'),$marker);
+    if($nav=first($d,'//*['.css_class('catalog-topics').']'))replace_children($nav,$links);
+    $parent->removeChild($marker);
+}
 function render_site(string $file,array $state,bool $preview=false): ?string {
     $all=array_column($state['products'],null,'url'); $product=$all[$file]??null;
+    $seedIds=array_column(json_decode(file_get_contents(__DIR__.'/seed.json'),true)['products'],'id');
+    $deleted=array_unique(array_merge($state['deletedProducts']??[],array_values(array_diff($seedIds,array_column($state['products'],'id')))));
+    if(in_array(basename($file,'.html'),$deleted,true)&&!$product)return null;
     if ($product && !$product['visible'] && !$preview) return null;
     $template=$file;
     if ($product && !is_file(config()['templates_dir'].'/'.$file)) $template='gra-farmer.html';
@@ -40,19 +78,7 @@ function render_site(string $file,array $state,bool $preview=false): ?string {
     $d=new DOMDocument('1.0','UTF-8'); $d->loadHTML('<?xml encoding="UTF-8">'.$html,LIBXML_NONET); $xp=new DOMXPath($d);
     foreach(iterator_to_array($d->childNodes) as $n) if ($n->nodeType===XML_PI_NODE) $d->removeChild($n);
     $visible=array_filter($state['products'],fn($p)=>$p['visible']);
-    if ($file==='index.html') {
-        $seedProducts=array_column(json_decode(file_get_contents(__DIR__.'/seed.json'),true)['products'],null,'id');
-        $originalFeatured=['gra-skarb-piratow','gra-zostan-kierowca','gra-segreguj-smieci'];
-        $featured=$state['appearance']['featured']??$originalFeatured; $active=array_values($visible);
-        foreach (nodes($d,'//figure[@data-product-slide]') as $i=>$figure) {
-            $p=null; foreach($visible as $candidate)if($candidate['id']===($featured[$i]??''))$p=$candidate;
-            $p??=$active[$i%max(1,count($active))]??null; if(!$p)continue;
-            $figure->setAttribute('aria-label',($i+1).' z 3: '.$p['name']);
-            foreach(iterator_to_array($figure->getElementsByTagName('strong'))as$e)set_text($e,$p['name']);
-            foreach(iterator_to_array($figure->getElementsByTagName('img'))as$img){$img->setAttribute('alt','Plansza gry: '.$p['name']);if($p['id']!==($originalFeatured[$i]??'')||($p['image']??'')!==($seedProducts[$originalFeatured[$i]??'']['image']??''))set_image($img,$p['image']);}
-            if($button=first($d,'//button[@data-slide="'.$i.'"]'))$button->setAttribute('aria-label','Pokaż grę: '.$p['name']);
-        }
-    }
+    if ($file==='index.html') render_carousel($d,$state,$visible);
     $page=null; foreach($state['pages'] as $p)if($p['file']===$file){$page=$p;break;}
     if ($page) {
         if ($e=first($d,'//title')) set_text($e,$page['title']);
@@ -67,16 +93,13 @@ function render_site(string $file,array $state,bool $preview=false): ?string {
     // Refresh all existing product cards, including related products and custom formats.
     foreach(nodes($d,'//*['.css_class('catalog-card').' or '.css_class('game-card').']') as $card) {
         $a=$card->getElementsByTagName('a')->item(0); $href=$a?basename(parse_url($a->getAttribute('href'),PHP_URL_PATH)??''):'';
+        if(in_array(basename($href,'.html'),$deleted,true)){$card->parentNode->removeChild($card);continue;}
         if(!isset($all[$href]))continue; $p=$all[$href];
         if(!$p['visible']){$card->parentNode->removeChild($card);continue;}
         $card->parentNode->replaceChild(fragment($d,card_html($p,str_contains(' '.$card->getAttribute('class').' ',' game-card '))),$card);
     }
     if(in_array($file,['wielkie-gry-planszowe.html','inne.html'],true)) {
-        foreach(nodes($d,'//section['.css_class('catalog-section').']') as $section) {
-            $id=$section->getAttribute('id'); $grids=(new DOMXPath($d))->query('.//*['.css_class('catalog-grid').']',$section);
-            if(!$grids->length)continue; $cards='';foreach($visible as $p)if($p['category']===$id)$cards.=card_html($p);
-            replace_children($grids->item(0),$cards?:'<p>W tym dziale nie ma obecnie produktów.</p>');
-        }
+        render_categories($d,$state,$visible,$file==='inne.html'?'custom':'boards');
     }
     if(in_array($file,['szkoly.html','firmy.html'],true)) {
         $key=$file==='szkoly.html'?'school':'company'; $cards='';foreach($visible as $p)if(in_array($key,$p['audiences'],true))$cards.=card_html($p,true);

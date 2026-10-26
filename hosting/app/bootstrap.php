@@ -34,10 +34,17 @@ function body(): array {
     if (!is_array($d)) fail('Nieprawidłowe dane.');
     return $d;
 }
+function default_categories(): array { return [
+    ['id'=>'przygodowe','name'=>'Przygoda i wspólna zabawa','description'=>'','catalog'=>'boards'],
+    ['id'=>'dla-szkol','name'=>'Nauka przez działanie','description'=>'','catalog'=>'boards'],
+    ['id'=>'dla-firm','name'=>'Ruch i rozgrywki zespołowe','description'=>'','catalog'=>'boards'],
+    ['id'=>'customowe','name'=>'Na Twoje zamówienie','description'=>'','catalog'=>'custom'],
+]; }
 function document(string $key): array {
     $row=query('SELECT body, revision FROM wgp_documents WHERE id=?',[$key])->fetch();
     if (!$row) throw new RuntimeException('Uruchom instalację panelu.');
     $state=json_decode($row['body'],true,64,JSON_THROW_ON_ERROR);
+    $state['categories']??=default_categories();$state['deletedProducts']??=[];
     $seed=array_column(json_decode(file_get_contents(__DIR__.'/seed.json'),true)['products'],null,'id');
     foreach($state['products'] as &$p){$p['summary']??=$seed[$p['id']]['summary']??$p['format'];$p['shortDescription']??=$seed[$p['id']]['shortDescription']??mb_substr($p['description'],0,200);}unset($p);
     return ['state'=>$state,'revision'=>(int)$row['revision']];

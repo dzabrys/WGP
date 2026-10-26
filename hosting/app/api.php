@@ -30,11 +30,16 @@ function api(string $action): never {
         $d=document('draft'); $p=document('published'); out(['ok'=>true]+$d+['hasChanges'=>json_encode_safe($d['state'])!==json_encode_safe($p['state']),'deliveryPending'=>github_pending(),'delivery'=>github_delivery(),'publishedRevision'=>$p['revision']]);
     }
     if ($action==='save' && $post) {
-        require_user('editor'); $in=body(); $state=validate_state($in['state']??[]); $rev=save_document('draft',$state,(int)($in['revision']??-1)); audit('Zapisanie szkicu',$u); out(['ok'=>true,'revision'=>$rev]);
+        require_user('editor'); $in=body(); $candidate=$in['state']??[];
+        if(!is_array($candidate)||!is_array($candidate['products']??null)||!is_array($candidate['deletedProducts']??[]))fail('Nieprawidłowe dane katalogu.');
+        $candidate['deletedProducts']=array_values(array_unique(array_merge($candidate['deletedProducts']??[],array_values(array_diff(array_column(document('draft')['state']['products'],'id'),array_column($candidate['products']??[],'id'))))));
+        $state=validate_state($candidate); $rev=save_document('draft',$state,(int)($in['revision']??-1)); audit('Zapisanie szkicu',$u); out(['ok'=>true,'revision'=>$rev]);
     }
     if ($action==='publish' && $post) {
         require_user('admin'); $in=body(); db()->beginTransaction();
         $d=document('draft'); $p=document('published'); if ($d['revision']!==(int)($in['revision']??-1)) { db()->rollBack(); fail('Szkic się zmienił. Odśwież panel.',409); }
+        $d['state']['deletedProducts']=array_values(array_unique(array_merge($d['state']['deletedProducts']??[],array_values(array_diff(array_column($p['state']['products'],'id'),array_column($d['state']['products'],'id'))))));
+        $d['state']=validate_state($d['state']);
         $rev=save_document('draft',$d['state'],$d['revision']);
         query('INSERT INTO wgp_history (id,created_at,user_name,body) VALUES (?,?,?,?)',[bin2hex(random_bytes(16)),gmdate('c'),$u['name'],json_encode_safe($p['state'])]);
         $publishedRev=save_document('published',$d['state'],$p['revision']); audit('Opublikowanie zmian',$u); db()->commit();

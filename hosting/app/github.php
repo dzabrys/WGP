@@ -63,6 +63,7 @@ function publish_github(array $state,int $revision): array {
         }
         // Delete only product pages explicitly hidden in this CMS, never unrelated repository files.
         foreach($state['products']as$p)if(!$p['visible']&&isset($existing['docs/'.$p['url']]))$changes[]=['path'=>'docs/'.$p['url'],'mode'=>'100644','type'=>'blob','sha'=>null];
+        foreach($state['deletedProducts']??[]as$id)if(isset($existing['docs/'.$id.'.html']))$changes[]=['path'=>'docs/'.$id.'.html','mode'=>'100644','type'=>'blob','sha'=>null];
         if($changes){
             $newTree=github_request('POST','git/trees',['base_tree'=>$commit['tree']['sha'],'tree'=>$changes]);
             $newCommit=github_request('POST','git/commits',['message'=>'Publish WGP website from management panel','tree'=>$newTree['sha'],'parents'=>[$head]]);

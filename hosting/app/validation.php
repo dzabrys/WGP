@@ -14,13 +14,21 @@ function valid_image(mixed $v): string {
 function validate_state(array $s): array {
     $seed=json_decode(file_get_contents(__DIR__.'/seed.json'),true,64,JSON_THROW_ON_ERROR);
     if (!isset($s['products'],$s['pages'],$s['appearance'],$s['contact']) || !is_array($s['products']) || count($s['products'])>500) fail('Nieprawidłowa lista produktów.');
-    $out=['schema'=>1,'products'=>[],'pages'=>[]]; $ids=[];
+    $out=['schema'=>1,'products'=>[],'pages'=>[],'categories'=>[],'deletedProducts'=>[]]; $ids=[];$categoryIds=[];
+    $categories=$s['categories']??default_categories();
+    if(!is_array($categories)||count($categories)<1||count($categories)>50)fail('Dodaj od 1 do 50 kategorii.');
+    foreach($categories as$category){
+        if(!is_array($category))fail('Sprawdź kategorię.');
+        $id=text_value($category['id']??'',90,'adres kategorii',true);
+        if(!preg_match('/^[a-z][a-z0-9-]*$/D',$id)||isset($categoryIds[$id])||!in_array($category['catalog']??'',['boards','custom'],true))fail('Sprawdź nazwę i miejsce kategorii.');
+        $categoryIds[$id]=true;$out['categories'][]=['id'=>$id,'name'=>text_value($category['name']??'',120,'nazwa kategorii',true),'description'=>text_value($category['description']??'',500,'opis kategorii'),'catalog'=>$category['catalog']];
+    }
     foreach ($s['products'] as $i=>$p) {
         if (!is_array($p)) fail('Sprawdź produkt.');
         $id=text_value($p['id']??null,90,'adres produktu',true);
         if (!preg_match('/^gra-[a-z0-9]+(?:-[a-z0-9]+)*$/D',$id) || isset($ids[$id])) fail('Adresy produktów muszą być różne, np. gra-nowa-przygoda.'); $ids[$id]=true;
         $kind=$p['kind']??''; if (!in_array($kind,['board','puzzle','memory','custom'],true)) fail('Wybierz rodzaj produktu.');
-        $category=$p['category']??''; if (!in_array($category,['przygodowe','dla-szkol','dla-firm','customowe'],true)) fail('Wybierz dział katalogu.');
+        $category=$p['category']??''; if (!is_string($category)||!isset($categoryIds[$category])) fail('Wybierz istniejącą kategorię produktu.');
         $audiences=$p['audiences']??[]; if (!is_array($audiences) || array_diff($audiences,['school','company'])) fail('Sprawdź grupę odbiorców.');
         $q=['id'=>$id,'url'=>$id.'.html','name'=>text_value($p['name']??null,120,'nazwa produktu',true),'image'=>valid_image($p['image']??null),'kind'=>$kind,'format'=>text_value($p['format']??'',160,'rodzaj gry'),'description'=>text_value($p['description']??'',6000,'opis'),'included'=>text_value($p['included']??'',3000,'zawartość zestawu'),'material'=>text_value($p['material']??'',3000,'materiał'),'sort'=>$i,'visible'=>($p['visible']??false)===true,'category'=>$category,'audiences'=>array_values(array_unique($audiences)),'facts'=>[],'variants'=>[]];
         $facts=$p['facts']??[]; if (!is_array($facts)||count($facts)>10) fail('Można dodać do 10 parametrów produktu.');
@@ -39,8 +47,10 @@ function validate_state(array $s): array {
         $out['products'][$last]['summary']=text_value($p['summary']??$p['format']??'',200,'podtytuł produktu');
         $out['products'][$last]['shortDescription']=text_value($p['shortDescription']??mb_substr($p['description']??'',0,200),400,'krótki opis w katalogu');
     }
-    if (count($out['products'])===0) fail('Zostaw przynajmniej jeden produkt.');
-    foreach ($seed['products'] as $original) if (!isset($ids[$original['id']])) fail('Istniejący produkt możesz ukryć. Zachowaj jego zapis, aby nie stracić treści.');
+    $deleted=$s['deletedProducts']??[];if(!is_array($deleted)||count($deleted)>2000)fail('Nieprawidłowa lista usuniętych produktów.');
+    foreach($seed['products']as$original)if(!isset($ids[$original['id']]))$deleted[]=$original['id'];
+    foreach($deleted as$id){if(!is_string($id)||strlen($id)>90||!preg_match('/^gra-[a-z0-9]+(?:-[a-z0-9]+)*$/D',$id))fail('Nieprawidłowy adres usuniętego produktu.');if(!isset($ids[$id]))$out['deletedProducts'][]=$id;}
+    $out['deletedProducts']=array_values(array_unique($out['deletedProducts']));
     if (!is_array($s['pages'])||count($s['pages'])!==count($seed['pages'])) fail('Nieprawidłowe strony.');
     $given=array_column($s['pages'],null,'id');
     foreach ($seed['pages'] as $page) {
@@ -55,7 +65,7 @@ function validate_state(array $s): array {
     if (!is_int($a['radius']??null)||$a['radius']<0||$a['radius']>40||!in_array($a['font']??'',['lato','system'],true)) fail('Sprawdź ustawienia wyglądu.');
     $out['appearance']+=['radius'=>$a['radius'],'font'=>$a['font']];
     $featured=$a['featured']??$seed['appearance']['featured'];
-    if (!is_array($featured)||count($featured)!==3) fail('Wybierz trzy gry do karuzeli.');
+    if (!is_array($featured)||count($featured)>20||count(array_unique($featured,SORT_REGULAR))!==count($featured)) fail('Wybierz do 20 różnych gier do karuzeli.');
     foreach($featured as $id)if(!is_string($id)||!isset($ids[$id]))fail('Wybierz istniejącą grę do karuzeli.');
     $out['appearance']['featured']=array_values($featured);
     $c=$s['contact']; $email=text_value($c['email']??null,190,'e-mail',true); if (!filter_var($email,FILTER_VALIDATE_EMAIL)||!preg_match('/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+$/D',$email)) fail('Wpisz poprawny adres e-mail.');

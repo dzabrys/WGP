@@ -9,6 +9,15 @@
 
 GitHub Pages nie wykonuje PHP. Panel uruchamiamy tymczasowo w Codespaces, a jego przycisk „Opublikuj” wysyła wyrenderowane HTML, katalog i przesłane zdjęcia do `docs` w repozytorium `dzabrys/WGP`. GitHub Pages następnie aktualizuje stronę. Szkic i podgląd nie zmieniają publicznej witryny. Link „Otwórz stronę WGP” prowadzi do publicznej wersji.
 
+## Zarządzanie katalogiem
+
+- **Wygląd → Dodaj grę do karuzeli:** od 0 do 20 różnych produktów, kolejność strzałkami, usuwanie z karuzeli przyciskiem ×. Ukryte produkty nie pojawiają się na publicznych slajdach. Automatyczna zmiana nadal co 5 sekund.
+- **Produkty → Dodaj kategorię:** nazwa, opcjonalny opis i wybór strony katalogu. Kategoria pojawia się po przypisaniu do niej widocznego produktu i publikacji.
+- **Kolejność:** strzałki na liście lub numer pozycji w edytorze produktu. Układ na stronach katalogu zachowuje grupowanie według kategorii; listy szkół i firm stosują tę samą kolejność produktów.
+- **Usuń produkt:** potwierdzenie usuwa produkt ze szkicu, a dopiero publikacja usuwa go z publicznej strony, formularza i karuzeli. W historii pozostają poprzednie opublikowane wersje. Usunięte adresy zapisujemy także w kopii danych, aby przy publikacji usunąć odpowiadające im statyczne pliki GitHub.
+
+Rozszerzenie nie wymaga przebudowy bazy ani ponownego importowania produktów. Stare dane otrzymują dotychczasowe cztery kategorie przy odczycie. Nowe kategorie, kolejność, karuzela i lista usuniętych adresów są częścią szkiców, historii oraz paczek migracyjnych na nazwa.pl.
+
 Panel wymaga e-maila i hasła; nie ma obejścia logowania. Dodatkowo port Codespaces pozostaje prywatny, więc do otwarcia potrzebne jest konto GitHub właściciela. To rozwiązanie tymczasowe dla właściciela, a nie współdzielony hosting dla całego zespołu. Uśpiony Codespace trzeba uruchomić na https://github.com/codespaces. Limity i ewentualne koszty obliczeń oraz przechowywania zależą od konta GitHub.
 
 ### Pierwsze uruchomienie
