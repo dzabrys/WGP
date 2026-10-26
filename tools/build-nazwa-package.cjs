@@ -6,13 +6,15 @@ fs.mkdirSync(pub,{recursive:true});fs.mkdirSync(path.join(priv,'templates'),{rec
 for(const entry of fs.readdirSync(path.join(root,'docs'),{withFileTypes:true})){
  const from=path.join(root,'docs',entry.name);
  if(entry.name.startsWith('.')||['robots.txt','sitemap.xml'].includes(entry.name))continue;
- if(entry.name.endsWith('.html'))fs.copyFileSync(from,path.join(priv,'templates',entry.name));
+ if(entry.name.endsWith('.html'))continue;
  else fs.cpSync(from,path.join(pub,entry.name),{recursive:true});
 }
+fs.cpSync(path.join(root,'hosting/templates'),path.join(priv,'templates'),{recursive:true});
 fs.cpSync(path.join(root,'hosting/public'),pub,{recursive:true});
 for(const folder of ['app','bin'])fs.cpSync(path.join(root,'hosting',folder),path.join(dest,folder),{recursive:true});
 fs.copyFileSync(path.join(root,'hosting/config.example.php'),path.join(priv,'config.example.php'));
 fs.copyFileSync(path.join(root,'hosting/WDROZENIE.md'),path.join(dest,'WDROZENIE.md'));
+fs.copyFileSync(path.join(root,'hosting/CHMURA.md'),path.join(dest,'CHMURA.md'));
 fs.writeFileSync(path.join(priv,'.htaccess'),'Require all denied\n');
 const files=[];function walk(dir){for(const e of fs.readdirSync(dir,{withFileTypes:true})){const p=path.join(dir,e.name);if(e.isDirectory())walk(p);else files.push({path:path.relative(dest,p).replaceAll('\\','/'),sha256:crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex')});}}walk(dest);
 if(files.some(f=>/config\.php$|\.sqlite|account\.json|\.env|php-runtime|mariadb-runtime/.test(f.path)))throw Error('Private runtime data detected in bundle.');

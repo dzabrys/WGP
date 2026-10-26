@@ -11,7 +11,7 @@ return [
     'data_dir' => __DIR__ . '/data',
     'templates_dir' => __DIR__ . '/templates',
     'assets_dir' => dirname(__DIR__) . '/public',
-    'local_login' => false,
+    'publication_target' => 'server', // nazwa.pl: publish directly to this database.
     'turnstile_sitekey' => '',
     'turnstile_secret' => '',
 ];

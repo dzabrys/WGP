@@ -1,0 +1,9 @@
+{
+  "name": "WGP — panel w chmurze",
+  "build": { "dockerfile": "Dockerfile" },
+  "forwardPorts": [4180],
+  "portsAttributes": { "4180": { "label": "Panel WGP", "onAutoForward": "openBrowser", "protocol": "http" } },
+  "postCreateCommand": "php hosting/bin/cloud.php setup",
+  "postStartCommand": "php hosting/bin/cloud.php start",
+  "remoteUser": "vscode"
+}

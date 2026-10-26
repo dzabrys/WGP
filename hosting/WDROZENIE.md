@@ -2,6 +2,8 @@
 
 Stan przygotowania: 26.10.2026. Rozszerzenie obecnej strony, z zachowaniem jej szablonów. Publiczne GitHub Pages nadal publikuje wersję statyczną z `docs`; nowy panel działa przez PHP i wymaga hostingu obsługującego backend.
 
+Aktualny wariant przejściowy: [panel w Codespaces, publikowanie na GitHub i migracja całych danych](CHMURA.md). Do przeniesienia istniejącej instalacji używać `transfer-import` **przed tworzeniem kont**, zamiast punktu 6 poniżej. Paczka z panelu zachowuje również konta, historię, statystyki i obrazy. Po przeniesieniu ustawić `publication_target=server`; konfiguracji proxy Codespaces ani tokenu GitHub nie przenosimy.
+
 ## Co działa w panelu
 
 - Import 17 produktów i 13 głównych stron z obecnej witryny.

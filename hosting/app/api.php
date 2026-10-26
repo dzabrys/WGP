@@ -5,7 +5,8 @@ function api(string $action): never {
     if (($_SERVER['REQUEST_METHOD']??'GET')==='POST') mutation_guard();
     elseif ($_SERVER['REQUEST_METHOD']!=='GET') fail('Niedozwolona metoda.',405);
     $post=$_SERVER['REQUEST_METHOD']==='POST';
-    if ($action==='boot' && !$post) out(['ok'=>true,'user'=>user(),'csrf'=>$_SESSION['csrf'],'localLogin'=>is_local() && config()['local_login']===true]);
+    if ($action==='local-login') fail('Niedostępne.',404);
+    if ($action==='boot' && !$post) out(['ok'=>true,'user'=>user(),'csrf'=>$_SESSION['csrf'],'siteUrl'=>config()['public_url']??config()['base_url'],'publicationTarget'=>(config()['publication_target']??'server')==='github'?'GitHub':'Hosting']);
     if ($action==='login' && $post) {
         $in=body(); $email=strtolower(trim((string)($in['email']??''))); $password=(string)($in['password']??'');
         if (strlen($email)>190 || strlen($password)>1024) fail('Sprawdź e-mail i hasło.',401);
@@ -19,16 +20,14 @@ function api(string $action): never {
         if (!$u || !$valid || (int)$u['active']!==1) fail('Nieprawidłowy e-mail lub hasło.',401);
         query('DELETE FROM wgp_attempts WHERE id=?',[$key]); login_user($u); audit('Logowanie do panelu',$u); out(['ok'=>true,'csrf'=>$_SESSION['csrf']]);
     }
-    if ($action==='local-login' && $post) {
-        if (!is_local() || config()['local_login']!==true) fail('Niedostępne.',404);
-        $u=query("SELECT * FROM wgp_users WHERE role='admin' AND active=1 ORDER BY email LIMIT 1")->fetch();
-        if (!$u) fail('Nie znaleziono konta administratora.',503);
-        login_user($u); out(['ok'=>true,'csrf'=>$_SESSION['csrf']]);
-    }
     if ($action==='logout' && $post) { start_session(); $_SESSION=[]; session_destroy(); out(['ok'=>true]); }
     $u=require_user();
+    if($action==='transfer' && !$post){
+        require_user('admin');$file=config()['data_dir'].'/transfer-'.bin2hex(random_bytes(16)).'.zip';
+        try{transfer_export($file);header('Content-Type: application/zip');header('Cache-Control: no-store');header('Content-Disposition: attachment; filename="WGP-dane-prywatne-'.gmdate('Y-m-d').'.zip"');header('Content-Length: '.filesize($file));readfile($file);}finally{if(is_file($file))unlink($file);}exit;
+    }
     if ($action==='state' && !$post) {
-        $d=document('draft'); $p=document('published'); out(['ok'=>true]+$d+['hasChanges'=>json_encode_safe($d['state'])!==json_encode_safe($p['state']),'publishedRevision'=>$p['revision']]);
+        $d=document('draft'); $p=document('published'); out(['ok'=>true]+$d+['hasChanges'=>json_encode_safe($d['state'])!==json_encode_safe($p['state']),'deliveryPending'=>github_pending(),'delivery'=>github_delivery(),'publishedRevision'=>$p['revision']]);
     }
     if ($action==='save' && $post) {
         require_user('editor'); $in=body(); $state=validate_state($in['state']??[]); $rev=save_document('draft',$state,(int)($in['revision']??-1)); audit('Zapisanie szkicu',$u); out(['ok'=>true,'revision'=>$rev]);
@@ -38,7 +37,13 @@ function api(string $action): never {
         $d=document('draft'); $p=document('published'); if ($d['revision']!==(int)($in['revision']??-1)) { db()->rollBack(); fail('Szkic się zmienił. Odśwież panel.',409); }
         $rev=save_document('draft',$d['state'],$d['revision']);
         query('INSERT INTO wgp_history (id,created_at,user_name,body) VALUES (?,?,?,?)',[bin2hex(random_bytes(16)),gmdate('c'),$u['name'],json_encode_safe($p['state'])]);
-        save_document('published',$d['state'],$p['revision']); audit('Opublikowanie zmian',$u); db()->commit(); out(['ok'=>true,'revision'=>$rev]);
+        $publishedRev=save_document('published',$d['state'],$p['revision']); audit('Opublikowanie zmian',$u); db()->commit();
+        if(github_mode()){
+            set_time_limit(180);
+            try{$delivery=publish_github($d['state'],$publishedRev);out(['ok'=>true,'revision'=>$rev,'target'=>'github','delivery'=>$delivery]);}
+            catch(Throwable $e){out(['ok'=>true,'revision'=>$rev,'target'=>'github','warning'=>$e->getMessage(),'deliveryPending'=>true]);}
+        }
+        out(['ok'=>true,'revision'=>$rev,'target'=>'server']);
     }
     if ($action==='history' && !$post) out(['ok'=>true,'items'=>query('SELECT id,created_at,user_name FROM wgp_history ORDER BY created_at DESC LIMIT 30')->fetchAll()]);
     if ($action==='restore' && $post) {

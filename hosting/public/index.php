@@ -4,13 +4,16 @@ require_once dirname(__DIR__).'/app/bootstrap.php';
 require_once dirname(__DIR__).'/app/validation.php';
 require_once dirname(__DIR__).'/app/api.php';
 require_once dirname(__DIR__).'/app/render.php';
+require_once dirname(__DIR__).'/app/github.php';
+require_once dirname(__DIR__).'/app/transfer.php';
 require_once dirname(__DIR__).'/app/captcha.php';
 header('X-Content-Type-Options: nosniff'); header('Referrer-Policy: strict-origin-when-cross-origin'); header('X-Frame-Options: SAMEORIGIN');
 try {
     $c=config();
     if (in_array($_SERVER['HTTP_HOST']??'', $c['aliases']??[],true)) { header('Location: '.$c['base_url'].($_SERVER['REQUEST_URI']??'/'),true,301);exit; }
     if (($_SERVER['HTTP_HOST']??'')!==parse_url($c['base_url'],PHP_URL_HOST).(parse_url($c['base_url'],PHP_URL_PORT)?':'.parse_url($c['base_url'],PHP_URL_PORT):'')) { http_response_code(400); exit('Nieprawidłowy adres.'); }
-    if ($c['environment']!=='development' && (($_SERVER['HTTPS']??'')!=='on')) { header('Location: '.$c['base_url'].($_SERVER['REQUEST_URI']??'/'),true,302);exit; }
+    $cloudProxy=($c['codespaces_proxy']??false)===true && in_array($_SERVER['REMOTE_ADDR']??'',['127.0.0.1','::1'],true) && ($_SERVER['HTTP_X_FORWARDED_PROTO']??'')==='https';
+    if ($c['environment']!=='development' && (($_SERVER['HTTPS']??'')!=='on') && !$cloudProxy) { header('Location: '.$c['base_url'].($_SERVER['REQUEST_URI']??'/'),true,302);exit; }
     $path=parse_url($_SERVER['REQUEST_URI']??'/',PHP_URL_PATH); if(!is_string($path)||str_contains($path,'..')||str_contains($path,'\\')||str_contains($path,'%')){http_response_code(400);exit;}
     if (preg_match('~^/panel/api/([a-z-]+)$~D',$path,$m)) api($m[1]);
     if (preg_match('~^/api/captcha/([a-z-]+)$~D',$path,$m)) captcha($m[1]);
