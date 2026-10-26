@@ -90,7 +90,10 @@ if (fs.existsSync(path.join(root,backupFile))) {
     const backup='work/offer-backup/docs/'+product.url;
     if (!fs.existsSync(path.join(root,backup))) continue;
     const before=read(backup),after=read('docs/'+product.url);
-    assert.equal(after.match(/<header\b[\s\S]*?<\/header>/)[0],before.match(/<header\b[\s\S]*?<\/header>/)[0]);
+    // Preserve navigation structure while allowing the custom-games illustration to change.
+    const header = text => text.match(/<header\b[\s\S]*?<\/header>/)[0]
+      .replace(/(<a\b[^>]*href="(?:\/WGP\/)?gry-na-zamowienie\.html"[^>]*>)<svg\b[\s\S]*?<\/svg>/, '$1<svg data-custom-game-icon></svg>');
+    assert.equal(header(after),header(before));
     const footer = text => text.match(/<footer\b[\s\S]*?<\/footer>/)[0]
       .replace('Dokumenty przykładowe · dane firmy do uzupełnienia', 'Wielkie Gry Planszowe · Olsztyn');
     assert.equal(footer(after),footer(before));
