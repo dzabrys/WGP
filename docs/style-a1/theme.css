@@ -1757,3 +1757,10 @@ html::-webkit-scrollbar-button {
 html::-webkit-scrollbar-corner {
   background: var(--site-scroll-track);
 }
+
+/* Close the desktop navigation with the same divider used between links. */
+@media (min-width: 1101px) {
+  body.design-a.design-refined #app > .header nav > a:last-child {
+    border-right: .0625rem solid #bce7fc;
+  }
+}
