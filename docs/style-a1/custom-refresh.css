@@ -57,15 +57,15 @@ body.custom-refresh.page-custom .custom-proposal :is(.proposal-faq,.proposal-con
   box-shadow: 0 6px 14px -10px #10247824, 0 18px 36px -24px #10247840;
   overflow-wrap: anywhere;
 }
-body.custom-refresh.page-custom .custom-proposal .proposal-faq { background: #102478; border: 1px solid #102478; color: #fff; }
-body.custom-refresh.page-custom .custom-proposal .proposal-faq h2 { margin-bottom: 22px; font-size: 32px; color: #fff; }
-body.custom-refresh.page-custom .custom-proposal .proposal-faq h2 em { color: #ffb46a; }
-body.custom-refresh.page-custom .custom-proposal .proposal-faq .proposal-eyebrow { color: #d4e1ff; }
-body.custom-refresh.page-custom .custom-proposal .proposal-faq details { border-color: #ffffff30; }
-body.custom-refresh.page-custom .custom-proposal .proposal-faq summary { min-height: 62px; color: #fff; }
-body.custom-refresh.page-custom .custom-proposal .proposal-faq summary > .proposal-icon { color: #c5d8ff; }
-body.custom-refresh.page-custom .custom-proposal .proposal-faq .details-content > p { color: #e3ebff; }
-body.custom-refresh.page-custom .custom-proposal .proposal-faq summary:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+body.custom-refresh.page-custom .custom-proposal .proposal-faq { background: #edf5ff; border: 1px solid #d7e6ff; color: #102478; }
+body.custom-refresh.page-custom .custom-proposal .proposal-faq h2 { margin-bottom: 22px; font-size: 32px; color: #102478; }
+body.custom-refresh.page-custom .custom-proposal .proposal-faq h2 em { color: #bd5300; }
+body.custom-refresh.page-custom .custom-proposal .proposal-faq .proposal-eyebrow { color: #47618e; }
+body.custom-refresh.page-custom .custom-proposal .proposal-faq details { border-color: #cddcf0; }
+body.custom-refresh.page-custom .custom-proposal .proposal-faq summary { min-height: 62px; color: #102478; }
+body.custom-refresh.page-custom .custom-proposal .proposal-faq summary > .proposal-icon { color: #47618e; }
+body.custom-refresh.page-custom .custom-proposal .proposal-faq .details-content > p { color: #425b7c; }
+body.custom-refresh.page-custom .custom-proposal .proposal-faq summary:focus-visible { outline: 3px solid #102478; outline-offset: 3px; }
 body.custom-refresh.page-custom .custom-proposal .proposal-contact {
   display: flex; flex-direction: column; align-items: start; max-width: none;
   background: #fff0e1; border: 1px solid #ffdbb8; color: #102478;

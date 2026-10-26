@@ -1,4 +1,24 @@
-# Wielkie Gry Planszowe — Staz2
+# WGP — Wielkie Gry Planszowe
+
+Publiczna strona: https://dzabrys.github.io/WGP/
+
+Repozytorium: https://github.com/dzabrys/WGP
+
+GitHub Pages publikuje cały katalog `docs` z gałęzi `main`, zgodnie z wersją lokalną na porcie 4176.
+
+## Potwierdzona oferta klienta — 23.10.2026
+
+Lokalny katalog porównano z `/nasze-gry/`, `/oferta/` i `/realizacje-indywidualne/` na wielkiegryplanszowe.pl. Aktualna lista w `docs/style-a1/product-catalog.js` zawiera 12 gotowych plansz oraz 5 innych formatów/projektów. Formularz i strony szczegółów korzystają z tej samej listy. `npm run check:offer` sprawdza jej spójność, warianty i ceny. Dodatkowy test treści wiadomości: `node work/check-verified-contact.cjs`.
+
+Porównanie zapisano w `work/client-offer-audit.json`; kopia poprzedniej wersji jest w `work/client-offer-backup/`. Jednorazowa migracja `tools/align-client-offer.cjs` odmawia ponownego uruchomienia przy istniejącej kopii. Starszy `work/install-product-offers.cjs` nie stanowi już aktualnego źródła listy produktów i nie należy go używać do odtwarzania katalogu. Bieżąca oferta jest publikowana razem z całym katalogiem `docs` w serwisie WGP.
+
+## Informacje robocze o dokumentach
+
+Dokumenty serwisu znajdują się na `/polityka-prywatnosci.html`, `/polityka-cookies.html`, `/regulamin.html`, `/dane-firmy.html` i `/dostepnosc.html`. Dane kontaktowe zweryfikowano w witrynie klienta. Niepotwierdzone dane rejestrowe oraz proponowane okresy przechowywania i terminy odpowiedzi usunięto z widoku strony; notatki pozostają lokalnie poza publikowanym katalogiem. Strony dokumentów zachowują `noindex` i nie są dodane do mapy witryny.
+
+Serwer lokalny może korzystać ze zmiennych `PORT` (domyślnie 4175) oraz `LOCAL_ENV_FILE` (ścieżka do prywatnego pliku konfiguracji; domyślnie `.env.local`). Podgląd uruchomiono na porcie 4176. Na localhost formularz używa lokalnego API CAPTCHA; poza localhost zachowuje adres backendu z metatagu. Odbiorcę wiadomości w tym podglądzie zmieniono na adres biura.
+
+Nagłówki bezpieczeństwa i obsługa 404 zostały dodane do serwera lokalnego; nie skonfiguruje to nagłówków na GitHub Pages. Przed docelowym wdrożeniem należy przenieść ustawienia do konfiguracji wybranego hostingu, uwzględnić prefiks ścieżki w stronie 404 i wykonać testy przeglądarkowe, w tym CAPTCHA i dostępność. Pełny audyt dostępności oraz weryfikacja mechanizmów cookies w przeglądarce nie zostały wykonane.
 
 Nowa wersja strony, oddzielona od Staz1. Aktualne strony bez numeru 1, obrazy WebP, formularz krok po kroku i wspólna stopka.
 
@@ -17,7 +37,7 @@ Dodaj `dzabrys.github.io` do dozwolonych hostname widgetu Turnstile. Następnie 
 Testy backendu: `node backend/worker.test.mjs`. Limit prób jest lokalny dla instancji Workera; nie stanowi globalnego limitu otrzymanych e-maili. Strona przygotowuje wiadomość w poczcie użytkownika, a użytkownik sam potwierdza wysłanie.
 
 
-Strona: https://dzabrys.github.io/Staz2/
+Strona: https://dzabrys.github.io/WGP/
 Backend CAPTCHA: https://staz2-captcha.dzabrys-staz2.workers.dev/
 Kod i sekret zostały wdrożone do Cloudflare; sekret pozostaje poza repozytorium.
 

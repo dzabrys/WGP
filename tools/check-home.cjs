@@ -7,7 +7,8 @@ const sharp = require(process.env.SHARP_PATH || 'sharp');
 const root = path.resolve(__dirname, '../docs');
 function checkUrl(value, base) {
   if (/^(?:[a-z]+:|\/\/|#)/i.test(value)) return;
-  const target = path.resolve(base, decodeURIComponent(value.split(/[?#]/)[0]));
+  const decoded = decodeURIComponent(value.split(/[?#]/)[0]).replace(/^\/WGP(?=\/)/, '');
+  const target = decoded.startsWith('/') ? path.resolve(root, '.' + decoded) : path.resolve(base, decoded);
   assert(fs.existsSync(target), `Missing asset: ${value} (from ${base})`);
 }
 async function main() {
@@ -17,7 +18,11 @@ async function main() {
   const parsed = css.transform({filename:'inline.css', code:Buffer.from(inline), visitor:{Url(url) {checkUrl(url.url, root);}}});
   assert.equal(parsed.warnings.length, 0);
   assert(html.includes('fetchpriority="high"'));
-  assert(html.includes('hero-768.webp 768w'));
+  assert(html.includes('home-skarb-piratow-960.webp 960w'));
+  assert.equal((html.match(/data-product-slide=/g)||[]).length,3);
+  assert(!html.includes('class="hero-subtitle"'));
+  assert(!html.includes('class="hero-slide-copy"'));
+  assert(!html.includes('assets/hero-1536.webp'));
   assert(!html.includes(' 536w'));
   for (const file of fs.readdirSync(root).filter(name => name.endsWith('.html'))) {
     const page = fs.readFileSync(path.join(root, file), 'utf8');
@@ -26,7 +31,7 @@ async function main() {
       for (const candidate of match[1].split(',')) {
         const [url, descriptor] = candidate.trim().split(/\s+/);
         checkUrl(url, root);
-        if (file === 'index.html' && url.includes('hero-')) {
+        if (file === 'index.html' && /assets\/home-(skarb-piratow|zostan-kierowca|segreguj-smieci)-/.test(url)) {
           const image = await sharp(path.resolve(root, url.split('?')[0])).metadata();
           assert.equal(`${image.width}w`, descriptor, `Wrong srcset descriptor: ${url}`);
         }

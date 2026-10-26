@@ -1,0 +1,72 @@
+{
+  "checked": "2026-10-23",
+  "photos": [
+    {
+      "id": "company",
+      "title": "Firmy · Walls.io",
+      "author": "Walls.io",
+      "source": "https://unsplash.com/photos/a-group-of-women-sitting-around-a-table-playing-a-game-Av35Uxpnsrc",
+      "url": "https://images.unsplash.com/photo-1676277758786-c2ce791b7a85?auto=format&fit=max&w=1600&q=85",
+      "license": "https://unsplash.com/license",
+      "usedAs": "company",
+      "files": [
+        "stock-company-640.webp",
+        "stock-company-768.webp",
+        "stock-company-1536.webp"
+      ]
+    },
+    {
+      "id": "design-colors",
+      "title": "Projektowanie · Michael Burrows",
+      "author": "Michael Burrows",
+      "source": "https://www.pexels.com/photo/faceless-designer-with-colored-pencils-and-sketches-at-table-7147546/",
+      "url": "https://images.pexels.com/photos/7147546/pexels-photo-7147546.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "license": "https://www.pexels.com/legal-pages/license/",
+      "usedAs": "design",
+      "files": [
+        "stock-design-640.webp",
+        "stock-design-768.webp",
+        "stock-design-1536.webp"
+      ]
+    },
+    {
+      "id": 8535567,
+      "prefix": "stock-school-play",
+      "author": "Ksenia Chernaya",
+      "source": "https://www.pexels.com/photo/kids-playing-with-8535567/",
+      "usedAs": "Zdjęcie na podstronie szkół",
+      "alt": "Wspólna gra dzieci z opiekunką",
+      "license": "https://www.pexels.com/legal-pages/license/",
+      "files": [
+        "stock-school-play-768.webp",
+        "stock-school-play-1536.webp"
+      ]
+    },
+    {
+      "id": 7296500,
+      "prefix": "stock-school-girl",
+      "author": "Kaboompics",
+      "source": "https://www.pexels.com/photo/young-girl-playing-board-game-7296500/",
+      "usedAs": "Kafel szkół i pionowa karta gier planszowych",
+      "alt": "Dziewczynka podczas gry planszowej",
+      "license": "https://www.pexels.com/legal-pages/license/",
+      "files": [
+        "stock-school-girl-768.webp",
+        "stock-school-girl-1536.webp"
+      ]
+    },
+    {
+      "id": 9616040,
+      "prefix": "stock-design-sketch",
+      "author": "Ron Lach",
+      "source": "https://www.pexels.com/photo/close-up-on-mans-hands-while-drawing-9616040/",
+      "usedAs": "Pionowa karta gier customowych",
+      "alt": "Dłonie projektanta rysującego szkic",
+      "license": "https://www.pexels.com/legal-pages/license/",
+      "files": [
+        "stock-design-sketch-768.webp",
+        "stock-design-sketch-1536.webp"
+      ]
+    }
+  ]
+}

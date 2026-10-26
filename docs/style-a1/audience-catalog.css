@@ -5,7 +5,7 @@ body.audience-catalog .company-polished .games-grid {
   justify-content: start; align-items: stretch; align-content: start;
   overflow-x: hidden; overflow-y: auto; max-height: var(--catalog-window,480px);
   padding: 0 0 10px; scroll-snap-type: y proximity;
-  scrollbar-width: thin; scrollbar-color: #102478 #dce5f2;
+  scrollbar-width: thin; scrollbar-color: #90a9d0 transparent;
 }
 body.audience-catalog .company-polished .games-grid:focus-visible { outline: 3px solid #102478; outline-offset: 4px; }
 body.audience-catalog .company-polished .games-grid.catalog-overflow {
@@ -13,21 +13,20 @@ body.audience-catalog .company-polished .games-grid.catalog-overflow {
   scrollbar-gutter: stable; overflow-y: scroll;
 }
 /* Keep a quiet fallback in Firefox; Chromium uses the rounded native track below. */
-body.audience-catalog .company-polished .games-grid { scrollbar-color: #102478 #e9eff8; }
+body.audience-catalog .company-polished .games-grid { scrollbar-color: #90a9d0 transparent; }
 @supports selector(::-webkit-scrollbar) {
   body.audience-catalog .company-polished .games-grid { scrollbar-width: auto; scrollbar-color: auto; }
 }
-body.audience-catalog .company-polished .games-grid::-webkit-scrollbar { width: 12px; }
+body.audience-catalog .company-polished .games-grid::-webkit-scrollbar { width: 10px; background: transparent; }
 body.audience-catalog .company-polished .games-grid::-webkit-scrollbar-track {
-  background: #e9eff8; border-radius: 999px; margin-block: 6px;
-  box-shadow: inset 0 0 0 1px #dce5f2;
+  background: transparent; border-radius: 999px; margin-block: 6px;
 }
 body.audience-catalog .company-polished .games-grid::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg,#3553a0,#102478); border: 3px solid #e9eff8;
+  background: #90a9d0; border: 2px solid transparent;
   border-radius: 999px; background-clip: padding-box; min-height: 44px;
 }
-body.audience-catalog .company-polished .games-grid::-webkit-scrollbar-thumb:hover { background: #ff8818; background-clip: padding-box; }
-body.audience-catalog .company-polished .games-grid::-webkit-scrollbar-thumb:active { background: #d85d00; background-clip: padding-box; }
+body.audience-catalog .company-polished .games-grid::-webkit-scrollbar-thumb:hover { background: #6f8fbd; background-clip: padding-box; }
+body.audience-catalog .company-polished .games-grid::-webkit-scrollbar-thumb:active { background: #4d70a3; background-clip: padding-box; }
 body.audience-catalog .company-polished .games-grid::-webkit-scrollbar-button { display: none; height: 0; width: 0; }
 body.audience-catalog .company-polished .games-grid::-webkit-scrollbar-corner { background: transparent; }
 body.audience-catalog .company-polished .game-card { aspect-ratio: auto; scroll-snap-align: start; }
@@ -90,4 +89,41 @@ body.audience-catalog .company-polished .catalog-custom-banner .custom-link { bo
 @media(max-width:360px) {
   body.audience-catalog .company-polished .game-copy { padding: 9px; }
   body.audience-catalog .company-polished .game-copy h3 { font-size: 15px; }
+}
+/* Use the same light blue as the custom-order format section. */
+body.audience-catalog .company-polished .catalog-custom-banner {
+  background:#edf5ff;border:1px solid #d7e6ff;color:#102478;
+  box-shadow:0 6px 16px -10px #10247830;
+}
+body.audience-catalog .company-polished .catalog-custom-banner :is(h3,p,.custom-link) {color:#102478;}
+body.audience-catalog .company-polished .catalog-custom-banner .section-eyebrow {color:#47618e;}
+body.audience-catalog .company-polished .catalog-custom-banner p:not(.section-eyebrow) {color:#425b7c;}
+body.page-company.audience-catalog .company-polished .catalog-custom-banner {background:#fff;}
+/* Shared compact two-column product selection for school and company phones. */
+@media(max-width:620px){
+  body:is(.page-company,.page-school).audience-catalog .company-polished .games-section{padding:16px 12px;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .games-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 10px;align-items:stretch;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .game-card{min-width:0;min-height:0;aspect-ratio:auto;border-radius:12px;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .game-link{height:100%;min-width:0;display:flex;flex-direction:column;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .game-image{width:100%;height:auto;min-height:0;aspect-ratio:1.25;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .game-image img{width:100%;height:100%;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .age{inset:5px auto auto 5px;padding:3px 6px;font-size:10px;line-height:1.2;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .game-copy{min-height:0;padding:10px 9px;gap:0;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .game-category{display:none;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .game-copy h3{font-size:16px;line-height:1.2;min-height:2.4em;margin:0 0 6px;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .game-description{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;min-height:0;font-size:12px;line-height:1.4;margin:0 0 10px;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .price-block{min-width:0;width:100%;padding:0;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .price-block strong{font-size:16px;line-height:1.25;white-space:normal;overflow-wrap:normal;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .price-block span{font-size:10px;line-height:1.35;margin-top:3px;white-space:normal;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .game-copy > .game-action{min-height:32px;margin-top:6px;font-size:12px;line-height:1.3;}
+  body:is(.page-company,.page-school).audience-catalog .catalog-navigation{gap:8px;}
+  body:is(.page-company,.page-school).audience-catalog .catalog-navigation p{font-size:12px;line-height:1.35;}
+  body:is(.page-company,.page-school).audience-catalog .catalog-navigation button{width:36px;height:36px;}
+}
+@media(max-width:360px){
+  body:is(.page-company,.page-school).audience-catalog .company-polished .games-section{padding-inline:8px;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .games-grid{column-gap:8px;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .game-copy{padding:9px 7px;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .game-copy h3{font-size:15px;}
+  body:is(.page-company,.page-school).audience-catalog .company-polished .price-block strong{font-size:15px;}
 }

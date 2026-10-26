@@ -6,7 +6,7 @@ const zlib = require('node:zlib');
 const css = require(process.env.LIGHTNINGCSS_PATH || 'lightningcss');
 const sharp = require(process.env.SHARP_PATH || 'sharp');
 const root = path.resolve(__dirname, '../docs');
-const files = ['base.css', 'theme.css', 'refined.css', 'reference-airy.css', 'ui/vendor/open-props-gradients.css', 'footer.css', 'footer-actions.css'];
+const files = ['base.css', 'theme.css', 'refined.css', 'reference-airy.css', 'ui/vendor/open-props-gradients.css', 'footer.css', 'footer-actions.css', 'responsive.css'];
 const digest = data => crypto.createHash('sha256').update(data).digest('hex').slice(0, 12);
 
 async function main() {
@@ -58,33 +58,16 @@ async function main() {
     });
   }
 
-  const source = path.join(root, 'assets/hero-1536.webp');
+  // The carousel uses verified catalog artwork; never reintroduce the retired AI hero.
   const outputs = [];
-  for (const width of [768, 1536]) {
-    const name = `hero-home-${width}.avif`;
-    await sharp(source).resize({width}).avif({quality: 55, effort: 6}).toFile(path.join(root, 'assets', name));
-    outputs.push(name);
-  }
-  // The mobile hero uses object-position:70% center. Crop at the same anchor;
-  // subsequent cover-cropping preserves the original composition.
-  for (const width of [400, 640, 1075]) {
-    for (const format of ['avif', 'webp']) {
-      const name = `hero-home-mobile-${width}.${format}`;
-      await sharp(source).extract({left:323, top:0, width:1075, height:1024}).resize({width})
-        .toFormat(format, {quality: format === 'avif' ? 55 : 77, effort: 6}).toFile(path.join(root, 'assets', name));
+  for (const slug of ['skarb-piratow', 'zostan-kierowca', 'segreguj-smieci']) {
+    for (const width of [640, 960]) {
+      const name = 'home-' + slug + '-' + width + '.webp';
+      await sharp(path.join(root, 'assets/oferta-' + slug + '.webp')).resize({width})
+        .webp({quality:82, effort:5}).toFile(path.join(root, 'assets', name));
       outputs.push(name);
     }
   }
-  const srcset = (prefix, widths, format) => widths.map(width => {
-    const name = `${prefix}${width}.${format}`;
-    return `assets/${name}?v=${digest(fs.readFileSync(path.join(root, 'assets', name)))} ${width}w`;
-  }).join(', ');
-  const image = html.match(/<img\b[^>]*class="hero-photo"[^>]*>/)[0];
-  const fallback = image.replace(/srcset="[^"]*"/, 'srcset="assets/hero-768.webp 768w, assets/hero-1536.webp 1536w"')
-    .replace(/sizes="[^"]*"/, 'sizes="(max-width:900px) calc(100vw - 48px), (max-width:1100px) 65vw, 900px"');
-  const picture = `<picture class="hero-picture"><source media="(max-width:620px)" type="image/avif" srcset="${srcset('hero-home-mobile-', [400,640,1075], 'avif')}" sizes="(max-width:420px) 540px, 630px"><source media="(max-width:620px)" type="image/webp" srcset="${srcset('hero-home-mobile-', [400,640,1075], 'webp')}" sizes="(max-width:420px) 540px, 630px"><source type="image/avif" srcset="${srcset('hero-home-', [768,1536], 'avif')}" sizes="(max-width:900px) calc(100vw - 48px), (max-width:1100px) 65vw, 900px">${fallback}</picture>`;
-  if (html.includes('<picture class="hero-picture">')) html = html.replace(/<picture class="hero-picture">[\s\S]*?<\/picture>/, picture);
-  else html = html.replace(image, picture);
 
   for (const name of ['schools-47-560-278-142', 'schools-339-560-280-142', 'schools-634-560-269-142']) {
     const target = `${name}-home.webp`;

@@ -2,7 +2,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..', 'docs');
-const types = {'.html':'text/html; charset=utf-8','.css':'text/css','.js':'application/javascript','.webp':'image/webp','.svg':'image/svg+xml','.woff2':'font/woff2'};
+const types = {'.html':'text/html; charset=utf-8','.css':'text/css','.js':'application/javascript','.webp':'image/webp','.avif':'image/avif','.png':'image/png','.jpg':'image/jpeg','.svg':'image/svg+xml','.woff2':'font/woff2','.xml':'application/xml','.txt':'text/plain; charset=utf-8'};
 const TEST_SITEKEY = '1x00000000000000000000AA';
 const TEST_SECRET = '1x0000000000000000000000000000000AA';
 
@@ -13,9 +13,16 @@ function createServer({env = process.env, verifyFetch = globalThis.fetch, now = 
     res.end(JSON.stringify(body));
   };
   const server = http.createServer(async (req, res) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('Referrer-Policy', 'no-referrer');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+    res.setHeader('Cache-Control', 'no-store');
+    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://challenges.cloudflare.com https://staz2-captcha.dzabrys-staz2.workers.dev; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'");
     let url;
     try { url = new URL(req.url, 'http://localhost'); } catch { res.writeHead(400).end(); return; }
-    const pathname = url.pathname.replace(/^\/Staz2(?=\/)/, '');
+    const pathname = url.pathname.replace(/^\/(?:WGP|Staz2)(?=\/)/, '');
     if (pathname.startsWith('/api/captcha/')) {
       let hostname;
       try { hostname = new URL('http://' + req.headers.host).hostname; } catch { json(res, 400, {ok:false}); return; }
@@ -77,16 +84,24 @@ function createServer({env = process.env, verifyFetch = globalThis.fetch, now = 
     if (file !== root && !file.startsWith(root + path.sep)) { res.writeHead(403).end(); return; }
     if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file = path.join(file, 'index.html');
     fs.readFile(file, (error, data) => {
-      res.writeHead(error ? 404 : 200, {'Content-Type':types[path.extname(file)] || 'application/octet-stream'});
-      res.end(req.method === 'HEAD' ? undefined : error ? 'Nie znaleziono strony' : data);
+      if (error) {
+        fs.readFile(path.join(root, '404.html'), (notFoundError, notFound) => {
+          res.writeHead(404, {'Content-Type':'text/html; charset=utf-8'});
+          res.end(req.method === 'HEAD' ? undefined : notFoundError ? 'Nie znaleziono strony' : notFound);
+        });
+        return;
+      }
+      res.writeHead(200, {'Content-Type':types[path.extname(file)] || 'application/octet-stream'});
+      res.end(req.method === 'HEAD' ? undefined : data);
     });
   });
   server.requestTimeout = 15000;
   return server;
 }
 if (require.main === module) {
-  const localEnv = path.resolve(__dirname, '..', '.env.local');
+  const localEnv = process.env.LOCAL_ENV_FILE || path.resolve(__dirname, '..', '.env.local');
   if (fs.existsSync(localEnv)) process.loadEnvFile(localEnv);
-  createServer().listen(4175, '127.0.0.1', () => console.log('http://127.0.0.1:4175/Staz2/'));
+  const port = Number(process.env.PORT || 4175);
+  createServer().listen(port, '127.0.0.1', () => console.log(`http://127.0.0.1:${port}/`));
 }
 module.exports = {createServer};

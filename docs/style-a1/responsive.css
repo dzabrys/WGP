@@ -1,0 +1,477 @@
+/* Final responsive rules for the home, school and company pages.
+   Keep this last in their cascade and in optimize-home.cjs. */
+/* Board artwork fills the carousel; copy and controls sit above the image. */
+body.design-refined.page-home .reference-hero-grid .hero-products {background:#102478;}
+body.design-refined.page-home .reference-hero-grid .hero-products .hero-copy {width:100%;padding:28px 32px;z-index:2;pointer-events:none;}
+body.design-refined.page-home .reference-hero-grid .hero-products .hero-copy h1 {color:#fff;font-size:clamp(36px,3.8vw,58px);margin:0;max-width:none;text-shadow:0 2px 5px #07183d99,0 0 14px #07183d55;}
+body.design-refined.page-home .hero-product-stage {position:absolute;inset:0;z-index:0;}
+body.design-refined.page-home .hero-product-slide {position:absolute;inset:0;margin:0;min-height:0;}
+body.design-refined.page-home .hero-product-slide[hidden] {display:none!important;}
+body.design-refined.page-home .hero-product-slide.is-active {animation:home-product-in .5s ease both;}
+body.design-refined.page-home .hero-product-slide picture {position:absolute;inset:0;display:block;}
+body.design-refined.page-home .hero-product-slide::after {content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 42% 28% at 0 0,#7da1c53b,transparent 72%),radial-gradient(ellipse 28% 20% at 100% 100%,#7da1c52e,transparent 75%);}
+body.design-refined.page-home .hero-product-photo {display:block;width:100%;height:100%;min-height:0;object-fit:cover;object-position:center;}
+body.design-refined.page-home .hero-product-slide figcaption {position:absolute;left:28px;right:28px;bottom:78px;z-index:1;display:flex;align-items:center;justify-content:center;min-height:32px;color:#fff;text-align:center;text-shadow:0 1px 3px #07183d,0 0 9px #07183d99;}
+body.design-refined.page-home .hero-product-slide figcaption strong {font-size:clamp(17px,1.6vw,23px);line-height:1.2;}
+body.design-refined.page-home .hero-products .carousel-toolbar {position:absolute;inset:auto 0 18px;z-index:3;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 12px;}
+body.design-refined.page-home .hero-products :is(.carousel-prev,.carousel-next) {position:static;inset:auto;transform:none;display:grid;place-items:center;flex:0 0 40px;width:40px;height:40px;min-height:40px;padding:9px;border:1px solid #dce5ef;border-radius:50%;background:#fff;color:#102478;box-shadow:none;}
+body.design-refined.page-home .hero-products .carousel-dots {position:static;inset:auto;transform:none;height:40px;flex:0 0 auto;background:#102478;padding:0 5px;box-shadow:none;}
+body.design-refined.page-home .hero-products .carousel-dots::before,body.design-refined.page-home .hero-products .carousel-dots::after {content:none;}
+body.design-refined.page-home .hero-products .carousel-dots button {height:40px;min-height:40px;background:none;}
+body.design-refined.page-home .hero-products .carousel-dots button[aria-pressed="true"] {background:none;}
+body.design-refined.page-home .hero-products :is(.carousel-prev,.carousel-next):focus-visible {outline:2px solid #fff;outline-offset:3px;}
+body.design-refined.page-home .reference-hero-grid .tile-wide-photo img {width:100%;height:100%;object-fit:cover;object-position:65% center;}
+/* The blue sleeve ends about 10.5% before the source photo's right edge. */
+body.design-refined.page-home .reference-hero-grid .audience-company .tile-wide-photo img {transform:translateX(calc(10.5% - 6px));}
+body.design-refined.page-home .reference-hero-grid .audience-school :is(.tile-wide-photo img,.tile-mobile-photo) {object-position:center 33%;}
+@keyframes home-product-in {from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
+@media(max-width:640px) {
+ body.design-refined.page-home .reference-hero-grid .hero-products .hero-copy {padding:24px;}
+ body.design-refined.page-home .reference-hero-grid .hero-products .hero-copy h1 {font-size:clamp(32px,9vw,44px);}
+ body.design-refined.page-home .hero-products .carousel-toolbar {gap:6px;}
+}
+@media(max-width:360px) {
+ body.design-refined.page-home .hero-products .carousel-toolbar {gap:4px;padding-inline:8px;}
+ body.design-refined.page-home .hero-products :is(.carousel-prev,.carousel-next) {flex-basis:36px;width:36px;height:40px;padding:7px;}
+ body.design-refined.page-home .hero-products .carousel-dots {padding-inline:3px;}
+ body.design-refined.page-home .hero-products .carousel-dots button {width:29px;min-width:29px;}
+}
+@media(prefers-reduced-motion:reduce) {body.design-refined.page-home .hero-product-slide.is-active {animation:none;}}
+@media(min-width:1200px) and (max-height:760px) and (orientation:landscape) {
+ body.design-refined.page-home .reference-hero-grid .hero-products .hero-copy {padding:20px 28px;}
+ body.design-refined.page-home .reference-hero-grid .hero-products .hero-copy h1 {font-size:36px;}
+}
+/* Explicit areas prevent the legacy `order:-1` tablet rule from putting
+   the hero in the narrow audience column between 901 and 1000 px. */
+body.design-refined.page-home .reference-hero-grid {
+  grid-template-areas: "audiences hero";
+  grid-template-columns: minmax(340px, .61fr) minmax(0, 1fr);
+  align-items: stretch;
+}
+body.design-refined.page-home .reference-hero-grid .audiences {
+  grid-area: audiences;
+  order: 0;
+  grid-template-rows: repeat(3, minmax(min-content, 1fr));
+}
+body.design-refined.page-home .reference-hero-grid .hero-carousel {
+  grid-area: hero;
+  order: 0;
+  height: auto;
+  min-height: clamp(580px, calc(100svh - 210px), 800px);
+}
+body.design-refined.page-home .reference-hero-grid .card-photo {
+  max-width: none;
+}
+body.design-refined.page-home .reference-hero-grid .audience-copy {
+  gap: 14px;
+}
+body.design-refined.page-home .reference-hero-grid .audience-copy > p {
+  font-size: 16px;
+}
+@media (min-width: 1200px) and (max-height: 900px) {
+  body.design-refined.page-home .reference-hero-grid .audience-copy {
+    padding: 16px 18px;
+    gap: 10px;
+  }
+  body.design-refined.page-home .reference-hero-grid .audience h2 {
+    font-size: clamp(27px, 2vw, 32px);
+  }
+  body.design-refined.page-home .reference-hero-grid .audience-copy > p {
+    font-size: 15px;
+    line-height: 1.35;
+  }
+}
+
+@media (max-width: 1199px), (max-width: 1399px) and (orientation: portrait) {
+  body.design-refined.page-home {
+    --gutter: clamp(20px, 3.3vw, 40px);
+  }
+  body.design-refined.page-home .reference-hero-grid {
+    grid-template-areas: "hero" "audiences";
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+  body.design-refined.page-home .reference-hero-grid .hero-carousel {
+    height: clamp(440px, 55vw, 600px);
+    min-height: 0;
+  }
+  body.design-refined.page-home .reference-hero-grid .hero-copy {
+    width: 75%;
+    padding: 36px;
+  }
+  body.design-refined.page-home .reference-hero-grid .hero-copy h1 {
+    font-size: clamp(48px, 5.8vw, 64px);
+  }
+  body.design-refined.page-home .reference-hero-grid .hero-photo {
+    object-position: 65% top;
+  }
+  body.design-refined.page-home .reference-hero-grid .hero-shade {
+    background: linear-gradient(90deg, #091e45b3, #091e4540 62%, #091e4500);
+  }
+  /* Tablet cards use real, unmasked photos above the copy. The old SVG
+     artwork was designed for a narrow desktop tile, not a full-width row. */
+  body.design-refined.page-home .reference-hero-grid .audiences {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: auto;
+    gap: 16px;
+  }
+  body.design-refined.page-home .reference-hero-grid .audience {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  body.design-refined.page-home .reference-hero-grid .card-photo {
+    position: relative;
+    inset: auto;
+    flex: 0 0 auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1.65;
+    opacity: 1;
+    z-index: 0;
+    border-radius: 0;
+  }
+  body.design-refined.page-home .reference-hero-grid .tile-wide-photo,
+  body.design-refined.page-home .reference-hero-grid .card-photo::after {
+    display: none;
+  }
+  body.design-refined.page-home .reference-hero-grid .tile-mobile-photo {
+    display: block;
+    object-fit: cover;
+    object-position: center top;
+    width: 100%;
+    height: 100%;
+  }
+  body.design-refined.page-home .reference-hero-grid .audience-copy {
+    flex: 1;
+    width: 100%;
+    height: auto;
+    justify-content: start;
+    gap: 14px;
+    padding: 22px;
+  }
+  body.design-refined.page-home .reference-hero-grid .audience h2 {
+    font-size: 28px;
+    min-height: 60px;
+    line-height: 1.07;
+  }
+  body.design-refined.page-home .reference-hero-grid .audience-copy > p {
+    max-width: none;
+    font-size: 16px;
+    line-height: 1.45;
+    margin-bottom: 4px;
+  }
+  body.design-refined.page-home #main.reference-home .audience .button {
+    margin-top: auto;
+    font-size: 14px;
+    gap: 10px;
+    padding-inline: 15px;
+  }
+  body.design-refined.page-home .reference-hero-grid .audience .button-label {
+    white-space: normal;
+  }
+  body.design-refined.page-home .reference-competencies .competencies {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+  body.design-refined.page-home .reference-competencies .feature {
+    border: 0;
+    padding: 0;
+    gap: 12px;
+  }
+  body.design-refined.page-home .reference-competencies .feature span {
+    font-size: 14px;
+  }
+}
+@media (min-width: 641px) and (max-width: 800px) {
+  body.design-refined.page-home .reference-hero-grid .audience-copy {
+    padding: 18px 16px;
+  }
+  body.design-refined.page-home .reference-hero-grid .audience h2 {
+    font-size: 24px;
+    min-height: 52px;
+  }
+  body.design-refined.page-home .reference-hero-grid .audience-copy > p {
+    font-size: 15px;
+  }
+}
+@media (max-width: 640px) {
+  body.design-refined.page-home .reference-hero-grid .hero-carousel {
+    height: clamp(500px, 135vw, 620px);
+  }
+  body.design-refined.page-home .reference-hero-grid .hero-copy {
+    width: 100%;
+    padding: 28px 24px;
+  }
+  body.design-refined.page-home .reference-hero-grid .hero-copy h1 {
+    font-size: clamp(32px, 10.8vw, 52px);
+  }
+  body.design-refined.page-home .reference-hero-grid .hero-slide-copy p {
+    font-size: 18px;
+  }
+  body.design-refined.page-home .reference-hero-grid .audiences {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  body.design-refined.page-home .reference-hero-grid .audience {
+    display: block;
+    min-height: 240px;
+  }
+  body.design-refined.page-home .reference-hero-grid .card-photo {
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: 60%;
+    height: 100%;
+    aspect-ratio: auto;
+  }
+  body.design-refined.page-home .reference-hero-grid .card-photo::after {
+    content: "";
+    display: block;
+    background: linear-gradient(90deg, #fff, #ffffffd9 28%, #ffffff55 65%, transparent);
+  }
+  body.design-refined.page-home .reference-hero-grid .audience-copy {
+    position: relative;
+    width: 78%;
+    min-height: 240px;
+    padding: 24px;
+    gap: 14px;
+  }
+  body.design-refined.page-home .reference-hero-grid .audience h2 {
+    font-size: 30px;
+    min-height: 0;
+  }
+  body.design-refined.page-home .reference-hero-grid .audience-copy > p {
+    max-width: 23ch;
+    font-size: 16px;
+  }
+  body.design-refined.page-home .reference-competencies .competencies {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 16px;
+  }
+  body.design-refined.page-home .reference-competencies .feature span {
+    font-size: 13px;
+  }
+}
+/* The source cards place price and action directly inside game-copy. */
+/* Match the company catalog's compact cards without letting the long
+   school teaser increase the height of every product in the row. */
+body.page-school.audience-catalog .company-polished .game-description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+body.audience-catalog .company-polished .game-copy {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+body.audience-catalog .company-polished .game-copy > .price-block {
+  margin-top: auto;
+}
+body.audience-catalog .company-polished .game-copy > .game-action {
+  margin-top: 8px;
+  min-height: 44px;
+  font-size: 14px;
+  white-space: normal;
+}
+
+body.design-a.design-refined #app > .header .menu-toggle {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 44px;
+  min-height: 44px;
+  gap: 8px;
+  padding: 10px;
+  background: transparent;
+}
+body.design-a.design-refined #app > .header nav.open {
+  max-height: calc(100dvh - 100px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+body.design-a.design-refined #app > .header nav > a {
+  min-width: 0;
+  white-space: normal;
+  text-align: center;
+  padding-inline: 8px;
+}
+body.design-a.design-refined #app > .header .nav-label {
+  max-width: 100%;
+}
+@media (min-width: 1101px) and (max-width: 1280px) {
+  body.design-a.design-refined #app > .header nav {
+    height: 82px;
+  }
+}
+
+/* A flex item's intrinsic price width must never push copy outside its card. */
+body.audience-catalog .company-polished .game-copy,
+body.audience-catalog .company-polished .game-bottom,
+body.audience-catalog .company-polished .price-block {
+  min-width: 0;
+  max-width: 100%;
+}
+body.audience-catalog .company-polished .price-block {
+  flex-shrink: 1;
+}
+body.audience-catalog .company-polished .game-copy h3,
+body.audience-catalog .company-polished .price-block strong {
+  overflow-wrap: anywhere;
+}
+body.audience-catalog .company-polished .game-description {
+  overflow-wrap: anywhere;
+}
+body.audience-catalog .company-polished .catalog-custom-banner > *,
+body.audience-compact .company-polished .company-section-heading > * {
+  min-width: 0;
+}
+
+@media (max-width: 760px) {
+  /* The longer company heading needs a full column before phone widths. */
+  body.audience-compact .company-polished .company-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+  body.audience-compact .company-polished .company-photo {
+    min-height: 0;
+    height: clamp(220px, 46vw, 340px);
+    max-height: none;
+  }
+  body.audience-compact .company-polished .company-section-heading {
+    flex-wrap: wrap;
+    align-items: start;
+  }
+}
+
+@media (max-width: 520px) {
+  /* One readable card on a phone; keep two columns for wider viewports. */
+  body.audience-catalog .company-polished .games-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  body.audience-catalog .company-polished .game-copy {
+    padding: 16px;
+  }
+  body.audience-catalog .company-polished .game-copy h3 {
+    font-size: 21px;
+    line-height: 1.25;
+  }
+  body.audience-catalog .company-polished .game-category {
+    font-size: 12px;
+  }
+  body.audience-catalog .company-polished .game-description {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  body.audience-catalog .company-polished .price-block strong {
+    font-size: 20px;
+  }
+  body.audience-catalog .company-polished .price-block span {
+    font-size: 12px;
+  }
+  body.audience-catalog .company-polished .game-action {
+    min-height: 44px;
+    font-size: 14px;
+    white-space: normal;
+  }
+  body.audience-catalog .company-polished .game-action .company-icon {
+    width: 32px;
+    height: 32px;
+    padding: 7px;
+  }
+  body.audience-catalog .company-polished .age {
+    font-size: 12px;
+    padding: 5px 9px;
+  }
+  body.audience-catalog .company-polished .catalog-custom-banner {
+    padding: 18px;
+  }
+  body.audience-catalog .company-polished .catalog-custom-banner p:not(.section-eyebrow) {
+    font-size: 14px;
+  }
+  body.audience-catalog .company-polished .catalog-custom-banner .custom-link {
+    min-height: 44px;
+    font-size: 14px;
+  }
+  body.audience-catalog .catalog-navigation {
+    gap: 12px;
+  }
+  body.audience-catalog .catalog-navigation > div {
+    flex-shrink: 0;
+  }
+  body.design-a.design-refined .a-brand-footer nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  body.design-a.design-refined .a-site-footer .footer-legal nav {
+    display: flex;
+    gap: 6px 16px;
+  }
+}
+
+@media (max-width: 360px) {
+  body.design-refined.page-home .reference-competencies .feature {
+    gap: 8px;
+  }
+  body.design-refined.page-home .reference-competencies .feature-icon {
+    width: 28px;
+    height: 32px;
+  }
+  body.design-refined.page-home .reference-competencies .feature span {
+    min-width: 0;
+    font-size: 12px;
+  }
+  body.page-home .reference-hero-grid .hero-copy {
+    padding: 26px 20px;
+  }
+  body.page-home .reference-hero-grid .hero-slide-copy p {
+    font-size: 17px;
+  }
+  body.page-home .reference-hero-grid .audience-copy {
+    width: 94%;
+    padding: 20px;
+  }
+  body.page-home .reference-hero-grid .audience .button-label {
+    white-space: normal;
+  }
+}
+
+@media (max-height: 500px) and (max-width: 1100px) {
+  body.design-a.design-refined #app > .header nav.open {
+    max-height: calc(100dvh - 94px);
+  }
+  body.page-home .reference-hero-grid .hero-carousel {
+    height: auto;
+    min-height: 460px;
+  }
+  body.page-home .reference-hero-grid .hero-copy {
+    padding-bottom: 120px;
+  }
+}
+/* Keep the complete desktop landing page within the available viewport. */
+@media(min-width:1200px) and (min-height:600px) and (orientation:landscape){
+  body.design-a.design-refined.page-home #app {display:grid;grid-template-rows:92px minmax(0,1fr);height:100dvh;min-height:0;}
+  body.design-a.design-refined.page-home #app > .header {height:92px;min-height:92px;}
+  body.design-a.design-refined.page-home #main.reference-home {display:grid;grid-template-rows:minmax(0,1fr) auto;gap:16px;height:100%;min-height:0;padding-block:12px 16px;}
+  body.design-refined.page-home .reference-hero-grid {height:100%;min-height:0;margin:0;}
+  body.design-refined.page-home .reference-hero-grid .hero-carousel {height:100%;min-height:0;max-height:none;}
+  body.design-refined.page-home .reference-hero-grid .audiences {height:100%;min-height:0;grid-template-rows:repeat(3,minmax(0,1fr));gap:12px;}
+  body.design-refined.page-home .reference-hero-grid .audience {height:100%;min-height:0;}
+  body.design-refined.page-home .reference-hero-grid .audience-copy {padding:clamp(10px,1.6dvh,18px);gap:6px;}
+  body.design-refined.page-home .reference-hero-grid .audience h2 {min-height:0;margin:0;font-size:clamp(22px,2.8dvh,32px);}
+  body.design-refined.page-home .reference-hero-grid .audience-copy > p {font-size:clamp(12px,1.7dvh,16px);margin:0;line-height:1.35;}
+  body.design-refined.page-home #main.reference-home .audience .button {min-height:40px;padding:8px 14px;font-size:13px;}
+  body.design-refined.page-home .reference-hero-grid .hero-copy {padding:clamp(24px,4dvh,40px);}
+  body.design-refined.page-home .reference-hero-grid .hero-copy h1 {font-size:clamp(38px,6.5dvh,72px);}
+  body.design-refined.page-home .reference-competencies {margin:0;padding:0;}
+  body.design-refined.page-home .reference-competencies .competencies {grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;}
+}
+@media(min-width:1200px) and (min-height:600px) and (max-height:760px) and (orientation:landscape){
+  body.design-refined.page-home .reference-hero-grid .audience-copy {padding:8px 12px;gap:4px;}
+  body.design-refined.page-home .reference-hero-grid .audience h2 {font-size:21px;}
+  body.design-refined.page-home .reference-hero-grid .audience-copy > p {font-size:12px;line-height:1.25;}
+  body.design-refined.page-home #main.reference-home .audience .button {min-height:36px;padding:6px 12px;font-size:12px;}
+  body.design-refined.page-home .reference-hero-grid .hero-copy h1 {margin-bottom:18px;}
+  body.design-refined.page-home .reference-hero-grid .hero-slide-copy p {font-size:18px;margin-bottom:18px;}
+}

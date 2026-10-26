@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dzabrys.github.io/Staz2/sitemap.xml
+Sitemap: https://dzabrys.github.io/WGP/sitemap.xml

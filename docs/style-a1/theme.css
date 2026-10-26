@@ -291,3 +291,21 @@ body.design-a #app>.header{width:calc(100% - 2*var(--gutter));max-width:1240px;m
   .design-a *,.design-a *:before,.design-a *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
   .design-a #main :is(.button,.catalog-card,.selection-card):hover{transform:none!important}
 }
+/* The viewport track follows the white page; nested catalogs keep their own track. */
+html {
+  --site-scroll-track:#fff;
+  --site-scroll-thumb:#90a9d0;
+  scrollbar-width:thin;
+  scrollbar-color:var(--site-scroll-thumb) var(--site-scroll-track);
+  background-color:var(--site-scroll-track);
+}
+@supports selector(::-webkit-scrollbar) {
+  html {scrollbar-width:auto;scrollbar-color:auto;}
+}
+html::-webkit-scrollbar {width:11px;height:11px;background:var(--site-scroll-track);}
+html::-webkit-scrollbar-track {background:var(--site-scroll-track);}
+html::-webkit-scrollbar-thumb {background:var(--site-scroll-thumb);border:3px solid var(--site-scroll-track);border-radius:999px;background-clip:padding-box;min-height:44px;}
+html::-webkit-scrollbar-thumb:hover {background:#6f8fbd;background-clip:padding-box;}
+html::-webkit-scrollbar-thumb:active {background:#4d70a3;background-clip:padding-box;}
+html::-webkit-scrollbar-button {display:none;width:0;height:0;}
+html::-webkit-scrollbar-corner {background:var(--site-scroll-track);}

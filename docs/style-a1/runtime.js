@@ -76,25 +76,36 @@
   }
 
   if($('.hero-carousel')){
-    const slides=[
-      ['Wielkie gry, które angażują,<br>uczą i zostają w pamięci.','Poznaj gry dla szkół','szkoly.html','gry dla szkół'],
-      ['Wspólne wyzwania,<br>silniejsze zespoły.','Poznaj gry dla firm','firmy.html','gry dla firm'],
-      ['Twoja idea,<br>nasza realizacja.','Odkryj gry na zamówienie','gry-na-zamowienie.html','gry na zamówienie']
-    ];
+    const carousel=$('.hero-carousel');
+    const slides=[...carousel.querySelectorAll('[data-product-slide]')];
+    const dots=[...carousel.querySelectorAll('[data-slide]')];
     let active=0;
-    const show = number => {
-      active=(number+slides.length)%slides.length;
-      const [text,label,href,name]=slides[active];
-      $('.hero-slide-copy p').innerHTML=text;
-      $('.hero-slide-copy .button-label').textContent=label;
-      $('.hero-slide-copy .button').href=href;
-      document.querySelectorAll('[data-slide]').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.slide)===active)));
-      $('#carousel-status').textContent=`Oferta ${active+1} z ${slides.length}: ${name}.`;
-      openSurface($('.hero-slide-copy'),280,6);
+    let hovered=false, focused=false, timer;
+    const schedule=()=>{
+      clearTimeout(timer);
+      if(!slides.length || hovered || focused || document.hidden || motionPreference.matches)return;
+      timer=setTimeout(()=>{show(active+1);schedule();},5000);
     };
-    $('.carousel-prev').addEventListener('click',()=>show(active-1));
-    $('.carousel-next').addEventListener('click',()=>show(active+1));
-    document.querySelectorAll('[data-slide]').forEach(button=>button.addEventListener('click',()=>show(Number(button.dataset.slide))));
+    const show = (number, announce=false) => {
+      if(!slides.length)return;
+      active=(number+slides.length)%slides.length;
+      slides.forEach((slide,index)=>{slide.hidden=index!==active;slide.classList.toggle('is-active',index===active);});
+      dots.forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.slide)===active)));
+      const status=carousel.querySelector('#carousel-status');
+      status.setAttribute('aria-live',announce?'polite':'off');
+      status.textContent=`Gra ${active+1} z ${slides.length}: ${slides[active].querySelector('figcaption strong').textContent}.`;
+    };
+    const select=number=>{show(number,true);schedule();};
+    carousel.querySelector('.carousel-prev').addEventListener('click',()=>select(active-1));
+    carousel.querySelector('.carousel-next').addEventListener('click',()=>select(active+1));
+    dots.forEach(button=>button.addEventListener('click',()=>select(Number(button.dataset.slide))));
+    carousel.addEventListener('pointerenter',event=>{if(event.pointerType==='mouse'){hovered=true;schedule();}});
+    carousel.addEventListener('pointerleave',()=>{hovered=false;schedule();});
+    carousel.addEventListener('focusin',()=>{focused=true;schedule();});
+    carousel.addEventListener('focusout',event=>{focused=carousel.contains(event.relatedTarget);schedule();});
+    document.addEventListener('visibilitychange',schedule);
+    motionPreference.addEventListener?.('change',schedule);
+    show(0);schedule();
   }
 
   const imageTrigger=$('.product-image-open'), imageDialog=$('#product-image-dialog');

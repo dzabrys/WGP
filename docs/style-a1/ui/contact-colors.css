@@ -1,0 +1,181 @@
+/* Contact-only colour treatment: existing layout, fields and behaviour stay intact. */
+body.contact-designs {
+  --contact-accent: #ff8818;
+  --contact-peach: #fff0df;
+  --contact-sky: #eaf3ff;
+  background: linear-gradient(180deg, #fff 120px, #f4f8ff 660px, #fff 1250px);
+}
+
+body.contact-designs .contact-ready .contact-form {
+  position: relative;
+  isolation: isolate;
+  border-color: #d4e1f2;
+  background:
+    radial-gradient(ellipse at 100% 0, #ffe6cb80, transparent 43%),
+    linear-gradient(180deg, #eaf3ff 0, #f7fbff 120px, #fff 245px);
+  box-shadow: 0 14px 36px -24px #315eaa40, 0 3px 9px #10247805;
+}
+body.contact-designs .contact-ready .contact-form::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  top: 0;
+  right: 0;
+  width: 42%;
+  height: 52px;
+  border-radius: 0 22px 0 100%;
+  background: linear-gradient(120deg, #fff0df80, #ffd6a8b3);
+}
+body.contact-designs .contact-ready .contact-form-heading h2 {
+  color: var(--contact-ink);
+}
+body.contact-designs .contact-ready .contact-form-info {
+  border: 1px solid #c9dcf7;
+  background: linear-gradient(145deg, #e8f2ff, #d9e8fd 70%, #e7f1ff);
+  box-shadow: 0 8px 22px -18px #315eaa40;
+}
+body.contact-designs .contact-ready .contact-form-info li > .contact-icon {
+  color: #bd5700;
+}
+body.contact-designs .contact-ready .contact-direct {
+  border-color: #f0dcc7;
+  background: linear-gradient(145deg, #fff8f0, #fff0df);
+}
+body.contact-designs .contact-ready .contact-direct .contact-icon {
+  color: #bd5700;
+}
+
+/* Orange indicates the current step; blue indicates completed steps. */
+body.contact-designs .contact-steps {
+  position: relative;
+  border-bottom-color: #dbe6f5;
+}
+body.contact-designs .contact-steps::before {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  top: 18px;
+  left: 12.5%;
+  right: 12.5%;
+  height: 2px;
+  background: #d8e5f7;
+}
+body.contact-designs .contact-step-link { position: relative; }
+body.contact-designs .contact-step-link > span {
+  color: #64748b;
+  background: #f4f7fc;
+  border-color: #cdd9e9;
+}
+body.contact-designs .contact-step-link[data-complete="true"] > span {
+  color: #fff;
+  background: #315eaa;
+  border-color: #315eaa;
+}
+body.contact-designs .contact-step-link[aria-current="step"] > span {
+  color: #102478;
+  background: var(--contact-accent);
+  border-color: #e3780f;
+  box-shadow: 0 0 0 5px #ffead4;
+}
+body.contact-designs .contact-step-caption { color: #9c4800; }
+body.contact-designs .contact-step-panel .contact-section-title h3 {
+  border-left: 3px solid var(--contact-accent);
+  padding-left: 11px;
+}
+
+body.contact-designs .contact-ready .contact-form :where(
+  input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+  select, textarea
+) {
+  background: #fff;
+  border-color: #c4d3e7;
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+body.contact-designs .contact-ready .contact-form :where(
+  input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+  select, textarea
+):focus-visible {
+  border-color: #5b92e5;
+  outline: 2px solid #315eaa;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px #dceaff;
+}
+body.contact-designs .contact-ready .contact-form label > span:first-child > span[aria-hidden="true"] {
+  color: #a94f00;
+}
+body.contact-designs .contact-ready .contact-form .contact-choice {
+  background: #fff;
+  border-color: #c4d3e7;
+  transition: border-color .16s ease, background-color .16s ease, box-shadow .16s ease;
+}
+body.contact-designs .contact-ready .contact-form .contact-choice input {
+  accent-color: #b95500;
+}
+body.contact-designs .contact-ready .contact-form .contact-choice:has(input:checked) {
+  background: var(--contact-peach);
+  border-color: #ed8a29;
+  box-shadow: inset 0 0 0 1px #ed8a29;
+}
+body.contact-designs .contact-ready .contact-form .contact-choice:has(input:focus-visible) {
+  outline: 2px solid #315eaa;
+  outline-offset: 3px;
+}
+body.contact-designs .contact-ready .contact-form [aria-invalid="true"] {
+  border-color: #b32c2c;
+  background: #fff9f8;
+}
+body.contact-designs .contact-ready .contact-form [aria-invalid="true"]:focus-visible {
+  outline-color: #b32c2c;
+  box-shadow: 0 0 0 5px #ffe6e3;
+}
+
+body.contact-designs .contact-ready .contact-privacy {
+  background: #f1f7ff;
+  border-color: #d7e5f7;
+}
+body.contact-designs .contact-ready .contact-summary {
+  border-color: #c5d9f5;
+  background: linear-gradient(145deg, #edf5ff, #dfecff);
+}
+body.contact-designs .contact-ready .contact-summary-eyebrow {
+  color: #315eaa;
+}
+body.contact-designs .contact-ready .contact-step-actions {
+  border-top-color: #eadcca;
+}
+body.contact-designs .contact-ready .contact-step-back {
+  border-color: #bacfe9;
+  background: #f8fbff;
+}
+body.contact-designs .contact-ready .contact-form-submit {
+  color: #102478;
+  background: #ff8818;
+  box-shadow: 0 6px 16px -10px #d46a0080;
+}
+@media (hover: hover) and (pointer: fine) {
+  body.contact-designs .contact-ready .contact-form .contact-choice:hover {
+    border-color: #d88537;
+    background: #fff8f0;
+  }
+  body.contact-designs .contact-ready .contact-form .contact-choice:has(input:checked):hover {
+    background: #ffe8ce;
+  }
+  body.contact-designs .contact-ready .contact-form-submit:not(:disabled):hover {
+    background: #ffa13d;
+  }
+  body.contact-designs .contact-ready .contact-step-back:hover {
+    background: #eaf3ff;
+  }
+}
+@media (max-width: 620px) {
+  body.contact-designs .contact-ready .contact-form::before {
+    width: 50%;
+    height: 38px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.contact-designs .contact-ready .contact-form :is(input, select, textarea, .contact-choice) {
+    transition: none;
+  }
+}

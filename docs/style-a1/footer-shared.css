@@ -15,3 +15,29 @@ body.design-a:not(.page-home) .a-brand-footer::after { display: none; }
 @media (max-width: 700px) {
   body.design-a:not(.page-home) .a-brand-footer address { border-top-color: #10247830; }
 }
+/* Compact shared footer, including legal links. */
+body.design-a:not(.page-home) .a-site-footer.a-brand-footer {
+  min-height:0;padding:26px 34px;gap:18px 38px;align-items:start;
+}
+body.design-a:not(.page-home) .a-brand-footer > .footer-logo {width:100%;max-width:320px;padding:8px;align-self:center;}
+body.design-a:not(.page-home) .a-brand-footer .footer-logo img {transform:none;}
+body.design-a:not(.page-home) .a-brand-footer .footer-links nav {flex:none;align-content:start;gap:2px 20px;}
+body.design-a:not(.page-home) .a-brand-footer address {gap:2px;}
+body.design-a:not(.page-home) .a-brand-footer .footer-legal {
+  display:flex;align-items:center;flex-wrap:wrap;gap:6px 26px;margin:0;padding-top:12px;
+}
+body.design-a:not(.page-home) .a-brand-footer .footer-legal p {margin:0;flex:1 1 260px;}
+body.design-a:not(.page-home) .a-brand-footer .footer-legal nav {display:flex;flex-wrap:wrap;gap:4px 22px;align-content:start;}
+body.design-a:not(.page-home) .a-brand-footer .footer-legal nav a {min-height:32px;padding:4px 0;}
+@media(max-width:1050px){
+  body.design-a:not(.page-home) .a-site-footer.a-brand-footer {padding:24px;gap:16px 28px;}
+  body.design-a:not(.page-home) .a-brand-footer > .footer-logo {max-width:260px;padding:0;justify-self:start;}
+}
+@media(max-width:700px){
+  body.design-a:not(.page-home) .a-site-footer.a-brand-footer {padding:18px;gap:12px;}
+  body.design-a:not(.page-home) .a-brand-footer > .footer-logo {max-width:230px;justify-self:center;}
+  body.design-a:not(.page-home) .a-brand-footer .footer-links nav {gap:2px 12px;}
+  body.design-a:not(.page-home) .a-brand-footer .footer-legal {gap:8px;padding-top:10px;}
+  body.design-a:not(.page-home) .a-brand-footer .footer-legal nav {gap:2px 16px;}
+  body.design-a:not(.page-home) .a-brand-footer .footer-legal nav a {font-size:12px;min-height:36px;}
+}

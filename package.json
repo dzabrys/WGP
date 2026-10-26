@@ -1,10 +1,11 @@
 {
-  "name": "wielkie-gry-planszowe-staz2",
+  "name": "wgp",
   "private": true,
   "scripts": {
     "start": "node server/serve.cjs",
     "optimize:home": "node tools/optimize-home.cjs",
-    "check:home": "node tools/check-home.cjs"
+    "check:home": "node tools/check-home.cjs",
+    "check:offer": "node tools/check-client-offer.cjs"
   },
   "devDependencies": {
     "lightningcss": "1.33.0",
