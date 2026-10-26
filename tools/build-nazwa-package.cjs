@@ -5,7 +5,7 @@ const dest=fs.mkdtempSync(path.join(work,'wgp-nazwa-')),pub=path.join(dest,'publ
 fs.mkdirSync(pub,{recursive:true});fs.mkdirSync(path.join(priv,'templates'),{recursive:true});fs.mkdirSync(path.join(priv,'data'),{recursive:true});
 for(const entry of fs.readdirSync(path.join(root,'docs'),{withFileTypes:true})){
  const from=path.join(root,'docs',entry.name);
- if(entry.name.startsWith('.')||['robots.txt','sitemap.xml','cms-catalog.js','panel','media'].includes(entry.name))continue;
+ if(entry.name.startsWith('.')||['robots.txt','sitemap.xml','cms-catalog.js','wgp-publication.json','panel','media'].includes(entry.name))continue;
  if(entry.name.endsWith('.html'))continue;
  else fs.cpSync(from,path.join(pub,entry.name),{recursive:true});
 }
