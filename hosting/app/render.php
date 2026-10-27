@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__.'/visual.php';
 function esc(string $s): string { return htmlspecialchars($s,ENT_QUOTES|ENT_SUBSTITUTE,'UTF-8'); }
 function css_class(string $name): string { return "contains(concat(' ',normalize-space(@class),' '),' $name ')"; }
 function nodes(DOMDocument $d,string $path): array { return iterator_to_array((new DOMXPath($d))->query($path)); }
@@ -21,8 +22,8 @@ function price_html(array $p): string {
 }
 function card_html(array $p,bool $audience=false): string {
     $name=esc($p['name']); $href=esc($p['url']); $img=esc($p['image']); $desc=esc($p['shortDescription']??mb_strimwidth($p['description'],0,200,'…'));
-    if ($audience) return '<article class="game-card"><a class="game-link" href="'.$href.'"><div class="game-image"><img class="crop" src="'.$img.'" width="800" height="800" alt="'.$name.'" style="object-fit:contain;background:#f3f7fc" loading="lazy"></div><div class="game-copy"><p class="game-category">'.esc($p['format']).'</p><h3>'.$name.'</h3><p class="game-description">'.$desc.'</p>'.price_html($p).'<span class="game-action">Zobacz grę →</span></div></a></article>';
-    return '<article class="catalog-card"><a href="'.$href.'"><div class="catalog-image '.($p['kind']==='board'?'catalog-board':'catalog-custom').'"><img src="'.$img.'" width="800" height="800" alt="'.$name.'" loading="lazy"></div><div class="catalog-copy"><h3>'.$name.'</h3><p>'.$desc.'</p>'.price_html($p).'<span class="catalog-link"><span>Poznaj grę</span><span aria-hidden="true">→</span></span></div></a></article>';
+    if ($audience) return '<article data-wgp-key="product-'.esc($p['id']).'" class="game-card"><a class="game-link" href="'.$href.'"><div class="game-image"><img class="crop" src="'.$img.'" width="800" height="800" alt="'.$name.'" style="object-fit:contain;background:#f3f7fc" loading="lazy"></div><div class="game-copy"><p class="game-category">'.esc($p['format']).'</p><h3>'.$name.'</h3><p class="game-description">'.$desc.'</p>'.price_html($p).'<span class="game-action">Zobacz grę →</span></div></a></article>';
+    return '<article data-wgp-key="product-'.esc($p['id']).'" class="catalog-card"><a href="'.$href.'"><div class="catalog-image '.($p['kind']==='board'?'catalog-board':'catalog-custom').'"><img src="'.$img.'" width="800" height="800" alt="'.$name.'" loading="lazy"></div><div class="catalog-copy"><h3>'.$name.'</h3><p>'.$desc.'</p>'.price_html($p).'<span class="catalog-link"><span>Poznaj grę</span><span aria-hidden="true">→</span></span></div></a></article>';
 }
 function catalog_js(array $state): string {
     $products=array_values(array_filter($state['products'],fn($p)=>$p['visible'])); $data=json_encode($products,JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR);
@@ -37,7 +38,7 @@ function render_carousel(DOMDocument $d,array $state,array $visible): void {
     while($stage->firstChild)$stage->removeChild($stage->firstChild);$dots='';
     foreach($featured as$i=>$id){
         $p=$byId[$id];$originalIndex=array_search($id,$original,true);$optimized=$originalIndex!==false&&$p['image']===($seed[$id]['image']??'');
-        $figure=$templates[$optimized?$originalIndex:0]->cloneNode(true);$figure->setAttribute('data-product-slide',(string)$i);$figure->setAttribute('aria-label',($i+1).' z '.$total.': '.$p['name']);
+        $figure=$templates[$optimized?$originalIndex:0]->cloneNode(true);$figure->setAttribute('data-wgp-key','slide-'.$p['id']);$figure->setAttribute('data-product-slide',(string)$i);$figure->setAttribute('aria-label',($i+1).' z '.$total.': '.$p['name']);
         $figure->setAttribute('class','hero-product-slide'.($i===0?' is-active':''));if($i===0)$figure->removeAttribute('hidden');else$figure->setAttribute('hidden','');
         foreach(iterator_to_array($figure->getElementsByTagName('strong'))as$e)set_text($e,$p['name']);
         foreach(iterator_to_array($figure->getElementsByTagName('img'))as$img){if(!$optimized)set_image($img,$p['image']);$img->setAttribute('alt','Plansza gry: '.$p['name']);$img->setAttribute('loading',$i===0?'eager':'lazy');$img->setAttribute('fetchpriority',$i===0?'high':'low');}
@@ -63,7 +64,7 @@ function render_categories(DOMDocument $d,array $state,array $visible,string $ca
     if($nav=first($d,'//*['.css_class('catalog-topics').']'))replace_children($nav,$links);
     $parent->removeChild($marker);
 }
-function render_site(string $file,array $state,bool $preview=false): ?string {
+function render_site(string $file,array $state,bool $preview=false,bool $canvas=false): ?string {
     $all=array_column($state['products'],null,'url'); $product=$all[$file]??null;
     $seedIds=array_column(json_decode(file_get_contents(__DIR__.'/seed.json'),true)['products'],'id');
     $deleted=array_unique(array_merge($state['deletedProducts']??[],array_values(array_diff($seedIds,array_column($state['products'],'id')))));
@@ -147,7 +148,8 @@ function render_site(string $file,array $state,bool $preview=false): ?string {
     foreach(nodes($d,'//meta[@property="og:description"]')as$e)$e->setAttribute('content',$description);
     foreach(nodes($d,'//meta[@property="og:url"]')as$e)$e->setAttribute('content',config()['base_url'].'/'.($file==='index.html'?'':$file));
     if($product)foreach(nodes($d,'//meta[@property="og:image"]')as$e)$e->setAttribute('content',config()['base_url'].'/'.$product['image']);
-    if($preview){
+    apply_visual($d,$file,$state,$canvas);
+    if($preview&&!$canvas){
         foreach(nodes($d,'//a[@href]')as$e){$href=$e->getAttribute('href');if(preg_match('~^[a-z0-9-]+\.html(?:\?[^#]*)?(?:#.*)?$~',$href)){[$base,$hash]=array_pad(explode('#',$href,2),2,'');$e->setAttribute('href',$base.(str_contains($base,'?')?'&':'?').'preview=1'.($hash?'#'.$hash:''));}}
         $banner=$d->createElement('a','Podgląd szkicu · Wróć do panelu');$banner->setAttribute('href','/panel/');$banner->setAttribute('style','position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:99999;background:#14257d;color:white;padding:10px 18px;border-radius:100px;font:14px system-ui;text-decoration:none;box-shadow:0 3px 20px #0003');$d->getElementsByTagName('body')->item(0)->appendChild($banner);
     }

@@ -1,6 +1,6 @@
 # WGP: panel, baza i przeniesienie do nazwa.pl
 
-Stan przygotowania: 26.10.2026. Rozszerzenie obecnej strony, z zachowaniem jej szablonów. Publiczne GitHub Pages nadal publikuje wersję statyczną z `docs`; nowy panel działa przez PHP i wymaga hostingu obsługującego backend.
+Stan przygotowania: 27.10.2026. Rozszerzenie obecnej strony, z zachowaniem jej szablonów. Publiczne GitHub Pages nadal publikuje wersję statyczną z `docs`; nowy panel działa przez PHP i wymaga hostingu obsługującego backend.
 
 Aktualny wariant przejściowy: [panel w Codespaces, publikowanie na GitHub i migracja całych danych](CHMURA.md). Do przeniesienia istniejącej instalacji używać `transfer-import` **przed tworzeniem kont**, zamiast punktu 6 poniżej. Paczka z panelu zachowuje również konta, historię, statystyki i obrazy. Po przeniesieniu ustawić `publication_target=server`; konfiguracji proxy Codespaces ani tokenu GitHub nie przenosimy.
 
@@ -10,8 +10,8 @@ Aktualny wariant przejściowy: [panel w Codespaces, publikowanie na GitHub i mig
 - Dodawanie i powielanie produktów, zmiana nazwy, opisów, zdjęcia, parametrów i wariantów cenowych.
 - Wybór działu katalogu i list „Szkoły” / „Firmy”, ukrywanie produktu.
 - Automatyczna strona nowego produktu i przekazywanie jego wariantów do formularza kontaktowego.
-- Edycja tekstów i zdjęć głównych stron, tytułów i opisów wyszukiwarki, wspólnych danych kontaktowych.
-- Zmiana głównych kolorów, tła, kroju pisma, zaokrągleń i trzech produktów w karuzeli. To edycja określonych ustawień, nie dowolny kreator układu „przeciągnij i upuść”.
+- Wizualny edytor stron: kliknięcie tekstu i zdjęcia, przeciąganie całych bloków, nowe sekcje, przyciski i obrazy, osobny wygląd telefonu, cofanie zmian. Zobacz [EDYTOR.md](EDYTOR.md).
+- Zmiana głównych kolorów, tła, kroju pisma, zaokrągleń i od 0 do 20 produktów w karuzeli. Edycja układu odbywa się w Treści strony.
 - Biblioteka istniejących obrazów, przesyłanie JPG/PNG/WebP, przygotowanie pliku WebP do 2000 px.
 - Szkic → podgląd → publikacja. Wersja sprzed każdej publikacji zapisywana w historii; przywracanie trafia najpierw do szkicu.
 - Eksport/import kopii treści; osobne konta administratora, redaktora i osoby z samym podglądem.

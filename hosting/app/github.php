@@ -36,6 +36,7 @@ function public_files(array $state): array {
     foreach(['contact.js','contact-designs.js'] as $name)$files['docs/style-a1/ui/'.$name]=str_replace('biuro@wielkiegryplanszowe.pl',$state['contact']['email'],file_get_contents(config()['assets_dir'].'/style-a1/ui/'.$name));
     $media=[];foreach($state['products']as$p)if($p['visible'])$media[]=$p['image'];
     foreach($state['pages']as$page)foreach($page['fields']as$field)if($field['type']==='image')$media[]=$field['value'];
+    foreach($state['visual']['pages']??[]as$model){foreach($model['changes']??[]as$change)if(isset($change['image']))$media[]=$change['image'];foreach($model['added']??[]as$node)if(isset($node['content']['image']))$media[]=$node['content']['image'];}
     foreach(array_unique($media)as$ref)if(preg_match('~^media/[a-f0-9]{32}\.webp$~D',$ref))$files['docs/'.$ref]=file_get_contents(config()['data_dir'].'/'.$ref);
     $xml='<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
     $indexed=array_merge(['index.html','oferta.html','szkoly.html','firmy.html','gry-na-zamowienie.html','wielkie-gry-planszowe.html','inne.html','kontakt.html'],array_column(array_filter($state['products'],fn($p)=>$p['visible']),'url'));

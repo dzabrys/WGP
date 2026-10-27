@@ -18,6 +18,16 @@ try {
     if (($_SERVER['HTTP_HOST']??'')!==parse_url($c['base_url'],PHP_URL_HOST).(parse_url($c['base_url'],PHP_URL_PORT)?':'.parse_url($c['base_url'],PHP_URL_PORT):'')) { http_response_code(400); exit('Nieprawidłowy adres.'); }
     if ($c['environment']!=='development' && (($_SERVER['HTTPS']??'')!=='on') && !$cloudProxy) { header('Location: '.$c['base_url'].($_SERVER['REQUEST_URI']??'/'),true,302);exit; }
     $path=parse_url($_SERVER['REQUEST_URI']??'/',PHP_URL_PATH); if(!is_string($path)||str_contains($path,'..')||str_contains($path,'\\')||str_contains($path,'%')){http_response_code(400);exit;}
+    if($path==='/panel/canvas'){
+        if($_SERVER['REQUEST_METHOD']!=='GET'){http_response_code(405);exit;}
+        require_user('editor');$draft=document('draft')['state'];$file=$_GET['file']??'index.html';
+        if(!is_string($file)||!in_array($file,array_merge(array_column($draft['pages'],'file'),array_column($draft['products'],'url')),true))fail('Nie znaleziono strony do edycji.',404);
+        unset($draft['visual']);header('Cache-Control: no-store');header('X-Robots-Tag: noindex, nofollow');
+        header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; frame-ancestors 'self'; base-uri 'self'; form-action 'none'");
+        header('Content-Type: text/html; charset=utf-8');$html=render_site($file,$draft,true,true);
+        if($html===null)fail('Nie znaleziono strony.',404);
+        echo str_replace('<head>','<head><base href="'.esc(config()['base_url'].'/').'">',$html);exit;
+    }
     if (preg_match('~^/panel/api/([a-z-]+)$~D',$path,$m)) api($m[1]);
     if (preg_match('~^/api/captcha/([a-z-]+)$~D',$path,$m)) captcha($m[1]);
     if (!in_array($_SERVER['REQUEST_METHOD'],['GET','HEAD'],true)) { http_response_code(405);exit; }

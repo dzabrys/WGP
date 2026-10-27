@@ -54,3 +54,7 @@ Adres prywatnego portu nie uruchamia uśpionego Codespace. Najpierw otworzyć ś
 Nie ma osobnego przycisku Zapisz szkic. Opublikuj zmiany zapisuje bieżącą edycję i wysyła ją na stronę; przycisk działa także dla zmian jeszcze niezapisanych. Podgląd zapisuje wersję roboczą automatycznie i otwiera ją w nowej karcie. Te zapisy nie publikują strony. Wariant można wybrać z gotowych rozmiarów lub wpisać własny; ceny pozostają do świadomego ustawienia. Kolejność w edytorze pokazuje miniaturę, nazwę i numer każdej gry w danej kategorii.
 
 Serwer Codespaces uruchamia cztery procesy obsługi żądań, bez Xdebug, z limitami upload_max_filesize=5M i post_max_size=6M. Po aktualizacji cloud.php trzeba ponownie uruchomić istniejący proces PHP, aby zastosować limity. Plik public/.user.ini ustawia te same limity na hostingu PHP, który obsługuje ten plik.
+
+## Wizualna edycja stron
+
+Treści strony pokazują teraz witrynę w edytorze, z klikaniem tekstu i zdjęć, przeciąganiem całych bloków, dodawaniem sekcji, zmianą układu i osobnym widokiem telefonu. Instrukcja: [EDYTOR.md](EDYTOR.md). Dane `visual.pages` są częścią dotychczasowych dokumentów, historii, kopii i eksportu GitHub. Prywatna paczka migracyjna zachowuje je w MariaDB; nie jest wymagana dodatkowa usługa ani nowa tabela. Aktualizacja kodu nie przebudowuje ani nie nadpisuje istniejących dokumentów.

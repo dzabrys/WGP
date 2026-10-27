@@ -15,6 +15,7 @@ for(const folder of ['app','bin'])fs.cpSync(path.join(root,'hosting',folder),pat
 fs.copyFileSync(path.join(root,'hosting/config.example.php'),path.join(priv,'config.example.php'));
 fs.copyFileSync(path.join(root,'hosting/WDROZENIE.md'),path.join(dest,'WDROZENIE.md'));
 fs.copyFileSync(path.join(root,'hosting/CHMURA.md'),path.join(dest,'CHMURA.md'));
+fs.copyFileSync(path.join(root,'hosting/EDYTOR.md'),path.join(dest,'EDYTOR.md'));
 fs.writeFileSync(path.join(priv,'.htaccess'),'Require all denied\n');
 const files=[];function walk(dir){for(const e of fs.readdirSync(dir,{withFileTypes:true})){const p=path.join(dir,e.name);if(e.isDirectory())walk(p);else files.push({path:path.relative(dest,p).replaceAll('\\','/'),sha256:crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex')});}}walk(dest);
 if(files.some(f=>/config\.php$|\.sqlite|account\.json|\.env|php-runtime|mariadb-runtime/.test(f.path)))throw Error('Private runtime data detected in bundle.');

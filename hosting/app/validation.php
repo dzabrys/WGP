@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__.'/visual.php';
 function text_value(mixed $v, int $max, string $label, bool $required=false): string {
     if (!is_string($v) || mb_strlen($v)>$max || ($required && trim($v)==='')) fail('Sprawdź pole: '.$label.'.');
     return trim($v);
@@ -70,5 +71,7 @@ function validate_state(array $s): array {
     $out['appearance']['featured']=array_values($featured);
     $c=$s['contact']; $email=text_value($c['email']??null,190,'e-mail',true); if (!filter_var($email,FILTER_VALIDATE_EMAIL)||!preg_match('/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+$/D',$email)) fail('Wpisz poprawny adres e-mail.');
     $out['contact']=['email'=>$email,'phone'=>text_value($c['phone']??'',50,'telefon'),'address'=>text_value($c['address']??'',250,'adres')];
+    $visual=$s['visual']??['pages'=>[]];if(is_array($visual)&&is_array($visual['pages']??null))foreach($out['deletedProducts']as$id)unset($visual['pages'][$id.'.html']);
+    $out['visual']=validate_visual($visual,array_merge(array_column($out['pages'],'file'),array_column($out['products'],'url')));
     return $out;
 }
