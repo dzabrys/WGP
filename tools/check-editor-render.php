@@ -22,6 +22,17 @@ foreach($files as$file){
     $state['visual']=validate_visual(['pages'=>[$file=>$model]],$files);$edited=document_of(render_site($file,$state,true,true));$editedMap=[];foreach((new DOMXPath($edited))->query('//*[@data-wgp-node]')as$n)$editedMap[$n->getAttribute('data-wgp-node')]=$n;
     ensure(!array_diff($ids,array_keys($editedMap)),$file.': moving/editing deleted another editable object');$actual=[];foreach($editedMap[$parentId]->childNodes as$n)if($n instanceof DOMElement&&$n->hasAttribute('data-wgp-node'))$actual[]=$n->getAttribute('data-wgp-node');ensure($actual===$order,$file.': saved order differs from canvas order');
     if($heading&&visual_text($heading))ensure(visual_read_text($editedMap[$heading->getAttribute('data-wgp-node')])==="Test:\n".visual_read_text($heading),$file.': heading text did not survive');
+    $state['visual']['pages'][$file]['added']=[
+        ['id'=>'new-aaaa0001','parent'=>$main->getAttribute('data-wgp-node'),'tag'=>'section','content'=>['style'=>['padding'=>24,'backgroundColor'=>'#eef4ff']]],
+        ['id'=>'new-aaaa0002','parent'=>'new-aaaa0001','tag'=>'h2','content'=>['text'=>"New\nsection",'textFormat'=>'lines','style'=>['fontWeight'=>'900']]],
+        ['id'=>'new-aaaa0003','parent'=>'new-aaaa0001','tag'=>'img','content'=>['image'=>'assets/oferta-farmer.webp']],
+        ['id'=>'new-aaaa0004','parent'=>'new-aaaa0001','tag'=>'a','content'=>['text'=>'Contact','link'=>'kontakt.html']]
+    ];
+    $state['visual']['pages'][$file]['changes']['new-aaaa0002']=['style'=>['fontSize'=>24]];
+    $state['visual']=validate_visual($state['visual'],$files);$withAdded=document_of(render_site($file,$state,true,true));$axp=new DOMXPath($withAdded);
+    ensure($axp->query('//*[@data-wgp-node="new-aaaa0001"]/*[@data-wgp-node]')->length===3,$file.': newly added section lost one of its objects');
+    ensure(visual_read_text($axp->query('//*[@data-wgp-node="new-aaaa0002"]')->item(0))==="New\nsection",$file.': new heading lost its intentional line break');
+    ensure(str_contains($withAdded->saveHTML(),'font-weight:900!important')&&str_contains($withAdded->saveHTML(),'font-size:24px!important'),$file.': changing one new-object style removed its preset');
     $public=render_site($file,$state,false);ensure(!str_contains($public,'/panel/canvas.js')&&str_contains($public,'visual-layout.js'),$file.': published output has missing layout support or editor code');
     echo 'PASS page render/edit/order/export: '.$file.PHP_EOL;
 }

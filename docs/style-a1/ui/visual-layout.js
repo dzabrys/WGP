@@ -50,6 +50,11 @@ function refresh(){
   rules.push(`[data-wgp-node="${n.dataset.wgpNode}"]{color:rgb(${color.join(',')})!important}`);
  }
  sheet.textContent=transferred+rules.join('\n');
+ // A user-edited paragraph must not silently retain a catalog teaser's line clamp.
+ for(const n of document.querySelectorAll('[data-wgp-edited]'))if(n.matches('h1,h2,h3,h4,p,span,strong,em,small,a,dt,dd')&&n.clientHeight>0&&n.scrollHeight>n.clientHeight+3){
+  const style=getComputedStyle(n);if(/hidden|clip/.test(style.overflowY)||parseInt(style.webkitLineClamp)>0)rules.push(`[data-wgp-node="${n.dataset.wgpNode}"]{height:auto!important;max-height:none!important;overflow:visible!important;-webkit-line-clamp:unset!important;line-clamp:unset!important}`);
+ }
+ sheet.textContent=transferred+rules.join('\n');
  // Release a constrained ancestor only when newly transferred content actually overflows it.
  const changed=[...document.querySelectorAll('[data-wgp-transferred="1"],[data-wgp-edited]'),...flowParents],texts=new Set();for(const root of changed)for(const text of [root,...root.querySelectorAll('h1,h2,h3,h4,p,span,strong,em,small,a,dt,dd')])if(text.textContent.trim()&&!text.closest('.card-photo,.hero-product-stage,.carousel-toolbar,.visually-hidden,[aria-hidden="true"]')&&getComputedStyle(text).display!=='none'&&text.getClientRects().length)texts.add(text);
  const expanded=new Set();for(const root of texts){

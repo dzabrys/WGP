@@ -16,3 +16,6 @@ body.wgp-dragging #wgp-tools,body.wgp-dragging #wgp-selection-box{visibility:hid
 /* Editing hit targets remain selectable even when the public design passes clicks through text. */
 body [data-wgp-node]{pointer-events:auto!important}
 body [data-wgp-drag-source],body [data-wgp-drag-source] *,#wgp-drag-copy,#wgp-drag-copy *{pointer-events:none!important}
+
+/* Keep visibility controls self-contained even when a canvas starts without saved changes. */
+[data-wgp-hidden="1"]{display:none!important}
