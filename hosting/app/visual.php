@@ -100,7 +100,14 @@ function apply_visual(DOMDocument $d,string $file,array $state,bool $canvas=fals
             if(!visual_compatible($node,$parent))continue;$map[$added['id']]=$node;$parent->appendChild($node);
         }$remaining=$next;
     }
-    foreach($model['order']??[]as$parentId=>$children){$parent=$map[$parentId]??null;if(!$parent)continue;$parent->setAttribute('data-wgp-arranged','1');foreach($children as$id){$node=$map[$id]??null;if($node&&$node->getAttribute('data-wgp-movable')==='1'&&visual_compatible($node,$parent))$parent->appendChild($node);}}
+    foreach($model['order']??[]as$parentId=>$children){
+        $parent=$map[$parentId]??null;if(!$parent)continue;$parent->setAttribute('data-wgp-arranged','1');$anchor=null;
+        // Fixed siblings remain in their own container; movable blocks can sit on either side.
+        foreach(array_reverse($children)as$id){$node=$map[$id]??null;if(!$node)continue;
+            if($node->getAttribute('data-wgp-movable')==='1'&&visual_compatible($node,$parent)){$parent->insertBefore($node,$anchor);$anchor=$node;}
+            elseif($node->parentNode===$parent)$anchor=$node;
+        }
+    }
     $changes=[];foreach($model['added']??[]as$node)$changes[$node['id']]=$node['content'];
     foreach($model['changes']??[]as$id=>$change)$changes[$id]=array_replace_recursive($changes[$id]??[],$change);
     $css='';

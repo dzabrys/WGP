@@ -18,7 +18,11 @@ function sync(next){
  if(landing){const active=landing;active.notify=false;active.animation.cancel();active.done();}
  const oldScroll=[scrollX,scrollY];model=next||{changes:{},added:[],order:{}};document.body.innerHTML=baseline;
  let remaining=[...(model.added||[])];for(let i=0;remaining.length&&i<30;i++){const later=[];for(const node of remaining){const p=q(node.parent);if(!p){later.push(node);continue;}const n=document.createElement(node.tag);n.dataset.wgpNode=node.id;n.dataset.wgpRoot=p.dataset.wgpRoot;n.dataset.wgpContainer=['section','div','a'].includes(node.tag)?'1':'0';n.dataset.wgpMovable='1';if(node.tag==='img'){n.alt='';n.style.maxWidth='100%';}p.append(n);applyChange(n,node.content||{});}remaining=later;}
- for(const [p,list]of Object.entries(model.order||{}))for(const key of list){const n=q(key),target=q(p);if(n?.dataset.wgpMovable==='1'&&compatible(n,target)){target.dataset.wgpArranged='1';target.append(n);}}
+ for(const [p,list]of Object.entries(model.order||{})){
+  const target=q(p);if(!target)continue;let anchor=null;
+  // Replay around fixed siblings (for example a form) without relocating those siblings.
+  for(const key of [...list].reverse()){const n=q(key);if(!n)continue;if(n.dataset.wgpMovable==='1'&&compatible(n,target)){target.dataset.wgpArranged='1';target.insertBefore(n,anchor);anchor=n;}else if(n.parentElement===target)anchor=n;}
+ }
  let styles='';const changes={};for(const node of model.added||[])changes[node.id]=node.content||{};for(const [key,c]of Object.entries(model.changes||{}))changes[key]={...changes[key],...c};
  for(const [key,c]of Object.entries(changes)){const n=q(key);if(!n)continue;applyChange(n,c);const selector='[data-wgp-node="'+key+'"]';if(c.style)styles+=selector+'{'+css(c.style)+'}';if(c.mobile)styles+='@media(max-width:760px){'+selector+'{'+css(c.mobile)+'}}';}
  const style=document.createElement('style');style.id='wgp-live-model';style.textContent=styles;document.head.querySelector('#wgp-live-model')?.remove();document.head.append(style);

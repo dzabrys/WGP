@@ -3,8 +3,8 @@ const assert=require('node:assert/strict'),fs=require('node:fs');
 const {JSDOM}=require(process.env.JSDOM_PATH||'jsdom');
 const runtime=fs.readFileSync('hosting/public/panel/canvas.js','utf8');
 let checks=0;const check=(condition,label)=>{assert(condition,label);checks++;console.log('PASS '+label);};
-function fixture({grid=false,reduced=false}={}){
- const node=(key,h=100)=>`<article data-wgp-node="${key}" data-wgp-root="main" data-wgp-container="1" data-wgp-movable="1" data-height="${h}"><h2>${key}</h2><p>Content of ${key}</p></article>`;
+function fixture({grid=false,reduced=false,fixed=false}={}){
+ const node=(key,h=100)=>`<article data-wgp-node="${key}" data-wgp-root="main" data-wgp-container="1" data-wgp-movable="${fixed&&key==='b'?'0':'1'}" data-height="${h}"><h2>${key}</h2><p>Content of ${key}</p></article>`;
  const dom=new JSDOM(`<body data-wgp-canvas="test.html"><main data-wgp-node="main" data-wgp-root="main" data-wgp-container="1" data-wgp-movable="0"><div id="list" style="display:${grid?'grid':'block'};grid-template-columns:${grid?'1fr 1fr':'none'}" data-wgp-node="list" data-wgp-root="main" data-wgp-container="1" data-wgp-movable="1">${node('a',100)}${node('b',140)}${node('c',80)}${grid?node('e',100):''}</div><div id="other" data-wgp-node="other" data-wgp-root="main" data-wgp-container="1" data-wgp-movable="1">${node('d',120)}</div></main></body>`,{url:'http://localhost/panel/canvas',runScripts:'outside-only',pretendToBeVisual:true});
  const w=dom.window,d=w.document,sent=[],animations=[];let time=1000,frames=new Map(),seq=0,scroll=0;
  w.matchMedia=()=>({matches:reduced});w.scrollTo=()=>{};w.scrollBy=(x,y)=>{scroll+=y;};Object.defineProperty(w,'scrollY',{get:()=>scroll});Object.defineProperty(w,'innerWidth',{value:900});Object.defineProperty(w,'innerHeight',{value:700});
@@ -27,7 +27,7 @@ function fixture({grid=false,reduced=false}={}){
  function frame(){const old=[...frames.values()];frames.clear();time+=16;old.forEach(f=>f(time));}
  function move(x,y,pointerId=1){event('pointermove',x,y,pointerId);frame();}
  const cancel=()=>d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true}));
- const sync=()=>w.dispatchEvent(new w.MessageEvent('message',{source:w,origin:w.location.origin,data:{kind:'wgp:sync',file:'test.html',model:{changes:{},added:[],order:{}}}}));
+ const sync=(model={changes:{},added:[],order:{}})=>w.dispatchEvent(new w.MessageEvent('message',{source:w,origin:w.location.origin,data:{kind:'wgp:sync',file:'test.html',model}}));
  return{w,d,q,sent,animations,event,start,move,frame,order,cancel,sync,scroll:()=>scroll,close:()=>w.close()};
 }
 const tick=()=>new Promise(resolve=>setTimeout(resolve,10));
@@ -44,6 +44,7 @@ const tick=()=>new Promise(resolve=>setTimeout(resolve,10));
  f=fixture();f.start();f.move(100,320);f.move(100,120);f.event('pointerup',100,120);await tick();check(f.order('list')==='a,b,c'&&!f.sent.some(m=>m.kind==='wgp:move'),'returning to original position records no change');f.close();
  f=fixture();f.start();f.move(100,320);f.sync();await tick();check(f.order('list')==='a,b,c'&&!f.d.querySelector('#wgp-drag-copy'),'incoming model update safely cancels an active drag');f.close();
  f=fixture();f.start();f.move(100,320);f.event('pointerup',100,320);f.sync();await tick();check(f.order('list')==='a,b,c'&&!f.sent.some(m=>m.kind==='wgp:move')&&!f.d.querySelector('#wgp-drag-copy'),'incoming model update cannot be overwritten by a pending landing animation');f.close();
+ f=fixture({fixed:true});f.sync({changes:{},added:[],order:{list:['c','a','b']}});check(f.order('list')==='c,a,b'&&f.q('b').dataset.wgpMovable==='0','model replay restores the same order around fixed siblings');f.close();
  // Exercise the actual parent editor history, not a second implementation of its model.
  const parent=new JSDOM('<body></body>',{url:'http://localhost/panel',runScripts:'outside-only',pretendToBeVisual:true}),pw=parent.window;
  pw.structuredClone=structuredClone;pw.ResizeObserver=class{observe(){}disconnect(){}};
