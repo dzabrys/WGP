@@ -1,4 +1,7 @@
 (() => {
+  const isValidPhone = text => /^[+]?[0-9\s().-]+$/.test(text.trim()) && /^[0-9]{7,15}$/.test(text.replace(/\D/g, ''));
+  const mailtoUrl = (recipient, message) => 'mailto:' + recipient + '?subject=' + encodeURIComponent(message.subject) + '&body=' + encodeURIComponent(message.body);
+  window.WGPContactMail = {isValidPhone, mailtoUrl};
   const init = () => {
     const form = document.querySelector('form[data-contact-design]');
     if (!form) return;
@@ -11,6 +14,7 @@
     const status = form.querySelector('.contact-form-status');
     const context = form.querySelector('.contact-context');
     const guide = document.querySelector('.contact-guide-disclosure');
+    const recipient = 'biuro@wielkiegryplanszowe.pl';
     let step = 0;
 
     const products = [...form.querySelectorAll('input[name="gra"][data-format]')];
@@ -51,6 +55,9 @@
           form.querySelector('[data-contact-description]').textContent = product.description;
           form.querySelector('[data-contact-included]').textContent = product.included;
           form.querySelector('[data-contact-material]').textContent = product.material;
+          form.querySelector('[data-review-description]').textContent = product.description;
+          form.querySelector('[data-review-included]').textContent = product.included;
+          form.querySelector('[data-review-material]').textContent = product.material;
           const facts = form.querySelector('[data-contact-facts]');
           facts.replaceChildren();
           for (const [key, text] of product.facts) {
@@ -58,8 +65,10 @@
             term.textContent = key; description.textContent = text;
             facts.append(term, description);
           }
+          form.querySelector('[data-review-facts]').replaceChildren(...[...facts.children].map(node => node.cloneNode(true)));
         }
       }
+      form.querySelector('[data-review-spec]').hidden = !product;
       if (product) {
         const choice = selectedVariant();
         form.querySelector('[data-contact-spec] summary').textContent = choice.id === 'other' ? 'Opis standardowej wersji gry — wariant indywidualny do ustalenia' : 'Opis i zawartość wybranej gry';
@@ -134,14 +143,17 @@
       if (field.required && !['radio', 'checkbox'].includes(field.type) && field.value && !field.value.trim()) {
         field.setCustomValidity('Wpisz treść, nie tylko spacje.');
       }
+      if (field.name === 'telefon' && field.value && !isValidPhone(field.value)) {
+        field.setCustomValidity('Podaj numer telefonu zawierający od 7 do 15 cyfr, np. +48 600 894 644.');
+      }
       const valid = field.validity.valid;
       const error = errorFor(field);
       if (valid) clearError(field);
       else {
         field.setAttribute('aria-invalid', 'true');
         if (error) {
-          error.textContent = field.validity.customError ? 'Wpisz treść, nie tylko spacje.'
-            : field.validity.valueMissing ? ({ name: 'Wpisz swoje imię.', nazwisko: 'Wpisz swoje nazwisko.', organizacja: 'Podaj nazwę firmy, szkoły lub instytucji.', email: 'Podaj adres e-mail.', message: 'Napisz kilka słów o swoim zapytaniu.' }[field.name] || 'Uzupełnij to pole.')
+          error.textContent = field.validity.customError ? field.validationMessage
+            : field.validity.valueMissing ? ({ name: 'Wpisz swoje imię.', nazwisko: 'Wpisz swoje nazwisko.', organizacja: 'Podaj nazwę firmy, szkoły lub instytucji.', email: 'Podaj adres e-mail.', telefon: 'Podaj numer telefonu.', message: 'Napisz kilka słów o swoim zapytaniu.' }[field.name] || 'Uzupełnij to pole.')
               : field.type === 'email' ? 'Wpisz poprawny adres e-mail, np. imie@firma.pl.' : 'Sprawdź wpisaną wartość.';
           error.hidden = false;
         }
@@ -171,6 +183,7 @@
         context.textContent = selected ? `Zapytanie o: ${selected}` : '';
       }
       const data = {
+        recipient,
         person: [value('name'), value('nazwisko')].filter(Boolean).join(' ') || 'Uzupełnij dane kontaktowe',
         organization: value('organizacja') || 'Nie podano',
         contact: [value('email'), value('telefon')].filter(Boolean).join('\n') || 'Podaj adres e-mail',
@@ -227,6 +240,9 @@
       });
       field.addEventListener('change', updateSummary);
     }
+    form.elements.namedItem('telefon').addEventListener('beforeinput', event => {
+      if (event.data && /[^0-9+\s().-]/.test(event.data)) event.preventDefault();
+    });
     if (panels.length) {
       form.querySelector('.contact-steps').hidden = false;
       form.querySelector('.contact-step-actions').hidden = false;
@@ -244,7 +260,6 @@
       form.querySelector('[data-edit-details]').addEventListener('click', () => showStep(0));
     }
     updateSummary();
-    const recipient = 'biuro@wielkiegryplanszowe.pl';
     const provider = form.querySelector('[data-mail-provider]');
     const help = form.querySelector('[data-mail-help]');
     const manual = form.querySelector('[data-mail-manual]');
@@ -428,16 +443,18 @@
       }
     };
     const updateProvider = () => {
-      const labels = {gmail: 'Otwórz Gmail z wiadomością', outlook: 'Otwórz Outlook z wiadomością', wp: 'Kopiuj wiadomość', other: 'Kopiuj wiadomość'};
-      const copyOnly = ['wp', 'other'].includes(provider.value);
+      const labels = {gmail: 'Otwórz Gmail z wiadomością', outlook: 'Otwórz Outlook z wiadomością', app: 'Otwórz aplikację pocztową z wiadomością', other: 'Skopiuj wiadomość do wysłania'};
+      const copyOnly = provider.value === 'other';
       submit.querySelector('span').textContent = labels[provider.value];
-      copyButton.hidden = copyOnly;
+      copyButton.hidden = false;
       manual.hidden = true;
       status.textContent = '';
       hideToast();
-      help.textContent = !copyOnly
+      help.textContent = provider.value === 'app'
+        ? 'Otworzymy domyślną aplikację pocztową urządzenia, np. Thunderbird, Outlook lub Apple Mail. Ustaw wybraną aplikację jako domyślną do obsługi poczty. Sprawdź wiadomość w aplikacji i kliknij „Wyślij”.'
+        : !copyOnly
         ? 'Otworzymy pocztę w przeglądarce z gotową wiadomością. W poczcie kliknij „Wyślij”. Jeśli nie jesteś zalogowany, zaloguj się, wróć tutaj i kliknij ponownie.'
-        : 'Kliknij „Kopiuj wiadomość”. Adres odbiorcy, temat i treść trafią do schowka — wklej je w swojej poczcie.';
+        : 'Skopiuj wiadomość do wysłania. Adres odbiorcy, temat i treść trafią do schowka — wklej je w swojej poczcie.';
     };
     provider.addEventListener('change', updateProvider);
     form.querySelector('[data-copy-mail]').addEventListener('click', () => { if (validate(form) && canUseMail()) copyMessage(); });
@@ -454,8 +471,13 @@
       }
       if (!validate(form)) return;
       if (!canUseMail()) return;
-      if (['wp', 'other'].includes(provider.value)) { copyMessage(); return; }
+      if (provider.value === 'other') { copyMessage(); return; }
       const message = compose();
+      if (provider.value === 'app') {
+        window.location.assign(mailtoUrl(recipient, message));
+        status.textContent = 'Sprawdź wiadomość w swojej aplikacji pocztowej i kliknij „Wyślij”. Jeśli aplikacja się nie otworzyła, skopiuj wiadomość do wysłania.';
+        return;
+      }
       const url = new URL(provider.value === 'gmail' ? 'https://mail.google.com/mail/' : 'https://outlook.live.com/mail/0/deeplink/compose');
       if (provider.value === 'gmail') {
         url.searchParams.set('view', 'cm');
