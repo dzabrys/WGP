@@ -16,4 +16,11 @@ setText(heading,'Duże gryplanszowe i więcej');check(heading.textContent==='Du�
 setText(heading,'🎲 Nowy tytuł');check(heading.textContent==='🎲 Nowy tytuł'&&heading.querySelector('[data-wgp-node="accent"]')===accent,'replacing a whole heading preserves structure and Unicode');
 setText(heading,'');check(heading.textContent===''&&heading.querySelector('br')===br,'clearing text preserves the structural line break');
 check(contrast([255,255,255],[255,255,255])===1&&contrast([20,37,125],[255,255,255])>8,'readability checks distinguish invisible white text from navy text');
+const d=dom.window.document;
+d.body.innerHTML='<main data-wgp-node="main"><div data-wgp-node="grid" data-wgp-hide-flow="1" style="display:grid;grid-template-columns:200px 200px"><article data-wgp-node="hidden" style="display:none"></article><article data-wgp-node="remaining">Visible card</article></div><div data-wgp-node="limited" style="height:40px;overflow-y:hidden"><p data-wgp-node="long" data-wgp-edited="1">A longer edited paragraph</p></div></main>';
+const limited=d.querySelector('[data-wgp-node="limited"]'),long=d.querySelector('p');
+Object.defineProperty(limited,'clientHeight',{value:40});limited.getBoundingClientRect=()=>({top:0,bottom:40});long.getBoundingClientRect=()=>({top:0,bottom:120});long.getClientRects=()=>[long.getBoundingClientRect()];
+dom.window.WGPVisualLayout.refresh();const rules=d.querySelector('#wgp-grid-flow').textContent;
+check(rules.includes('[data-wgp-node="remaining"]{grid-column:1 / -1'),'hiding one structural grid cell lets the remaining card fill the row');
+check(rules.includes('[data-wgp-node="limited"]{height:auto'),'long edited text releases a clipping height even without any drag');
 console.log(count+' visual layout checks passed.');dom.window.close();

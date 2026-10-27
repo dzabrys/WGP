@@ -151,7 +151,8 @@ function apply_visual(DOMDocument $d,string $file,array $state,bool $canvas=fals
         if(isset($change['text'])&&visual_text($node))visual_set_text($node,$change['text']);
         if(isset($change['image'])&&strtolower($node->tagName)==='img')set_image($node,$change['image']);
         if(isset($change['link'])&&strtolower($node->tagName)==='a'){$node->setAttribute('href',$change['link']);if(str_starts_with($change['link'],'https://'))$node->setAttribute('rel','noopener');}
-        if(isset($change['hidden'])&&$change['hidden'])$node->setAttribute('data-wgp-hidden','1');
+        if(isset($change['hidden'])&&$change['hidden']){$node->setAttribute('data-wgp-hidden','1');if($node->parentNode instanceof DOMElement&&visual_container($node->parentNode))$node->parentNode->setAttribute('data-wgp-hide-flow','1');$needsFlow=true;}
+        if(isset($change['text'])||!empty($change['style'])||!empty($change['mobile'])){$node->setAttribute('data-wgp-edited','1');$needsFlow=true;}
         $selector='[data-wgp-node="'.$id.'"]';
         if(isset($change['style']['fontSize']))$node->setAttribute('data-wgp-font-custom','1');
         if(isset($change['mobile']['fontSize']))$node->setAttribute('data-wgp-mobile-font-custom','1');

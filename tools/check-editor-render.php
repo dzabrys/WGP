@@ -10,7 +10,7 @@ $seed=json_decode(file_get_contents($root.'/hosting/app/seed.json'),true,512,JSO
 function document_of(string $html): DOMDocument {$d=new DOMDocument('1.0','UTF-8');@$d->loadHTML($html,LIBXML_NONET|LIBXML_NOERROR|LIBXML_NOWARNING);return $d;}
 function ensure(bool $ok,string $message): void {global $checks;if(!$ok)throw new RuntimeException($message);$checks++;}
 foreach($files as$file){
-    $html=render_site($file,$seed,true);ensure(is_string($html),$file.': canvas did not render');$d=document_of($html);$xp=new DOMXPath($d);$all=iterator_to_array($xp->query('//*[@data-wgp-node]'));$ids=array_map(fn($n)=>$n->getAttribute('data-wgp-node'),$all);
+    $html=render_site($file,$seed,true,true);ensure(is_string($html),$file.': canvas did not render');$d=document_of($html);$xp=new DOMXPath($d);$all=iterator_to_array($xp->query('//*[@data-wgp-node]'));$ids=array_map(fn($n)=>$n->getAttribute('data-wgp-node'),$all);
     ensure(count($ids)===count(array_unique($ids))&&count($ids)>5,$file.': duplicate or missing editor identities');
     $map=[];foreach($all as$n)$map[$n->getAttribute('data-wgp-node')]=$n;$main=first($d,'//main');$parent=null;$candidates=[];
     foreach($xp->query('//main | //main//*[@data-wgp-container="1"]')as$p){$list=[];foreach($p->childNodes as$n)if($n instanceof DOMElement&&$n->hasAttribute('data-wgp-node'))$list[]=$n;
@@ -19,7 +19,7 @@ foreach($files as$file){
     usort($candidates,fn($a,$b)=>$b['score']<=>$a['score']);$chosen=$candidates[0]??null;ensure($chosen!==null,$file.': no sortable content group');$parent=$chosen['node'];$list=$chosen['list'];$movable=array_keys(array_filter($list,fn($n)=>$n->getAttribute('data-wgp-movable')==='1'));[$a,$b]=array_slice($movable,0,2);[$list[$a],$list[$b]]=[$list[$b],$list[$a]];
     $parentId=$parent->getAttribute('data-wgp-node');$order=array_map(fn($n)=>$n->getAttribute('data-wgp-node'),$list);$state=$seed;$model=['changes'=>[],'added'=>[],'order'=>[$parentId=>$order],'flow'=>[$parentId]];
     $heading=first($d,'//main//h1');if($heading&&visual_text($heading))$model['changes'][$heading->getAttribute('data-wgp-node')]=['text'=>'Test: '.$heading->textContent];
-    $state['visual']=validate_visual(['pages'=>[$file=>$model]],$files);$edited=document_of(render_site($file,$state,true));$editedMap=[];foreach((new DOMXPath($edited))->query('//*[@data-wgp-node]')as$n)$editedMap[$n->getAttribute('data-wgp-node')]=$n;
+    $state['visual']=validate_visual(['pages'=>[$file=>$model]],$files);$edited=document_of(render_site($file,$state,true,true));$editedMap=[];foreach((new DOMXPath($edited))->query('//*[@data-wgp-node]')as$n)$editedMap[$n->getAttribute('data-wgp-node')]=$n;
     ensure(!array_diff($ids,array_keys($editedMap)),$file.': moving/editing deleted another editable object');$actual=[];foreach($editedMap[$parentId]->childNodes as$n)if($n instanceof DOMElement&&$n->hasAttribute('data-wgp-node'))$actual[]=$n->getAttribute('data-wgp-node');ensure($actual===$order,$file.': saved order differs from canvas order');
     if($heading&&visual_text($heading))ensure($editedMap[$heading->getAttribute('data-wgp-node')]->textContent==='Test: '.$heading->textContent,$file.': heading text did not survive');
     $public=render_site($file,$state,false);ensure(!str_contains($public,'/panel/canvas.js')&&str_contains($public,'visual-layout.js'),$file.': published output has missing layout support or editor code');
