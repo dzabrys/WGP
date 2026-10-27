@@ -127,7 +127,14 @@ function render_site(string $file,array $state,bool $preview=false,bool $canvas=
     foreach(nodes($d,'//*[@data-footer-copy-email]')as$e){$e->setAttribute('data-footer-copy-email',$state['contact']['email']);$e->setAttribute('aria-label','Skopiuj adres e-mail: '.$state['contact']['email']);set_text($e,$state['contact']['email']);}
     foreach(nodes($d,'//*['.css_class('footer-phone').']')as$e)set_text($e,$state['contact']['phone']);
     foreach(nodes($d,'//*['.css_class('footer-map-link').']')as$e){if($state['contact']['address']!=='ul. Lubelska 37D, 10-408 Olsztyn')set_text($e,$state['contact']['address']);$e->setAttribute('href','https://www.google.com/maps/search/?api=1&query='.rawurlencode($state['contact']['address']));}
-    foreach(nodes($d,'//a[starts-with(@href,"mailto:")]')as$e){$e->setAttribute('href','mailto:'.$state['contact']['email']);if(str_contains($e->textContent,'@'))set_text($e,$state['contact']['email']);}
+    foreach(nodes($d,'//a[starts-with(@href,"mailto:")]')as$e){
+        $e->setAttribute('href','mailto:'.$state['contact']['email']);
+        if(str_contains($e->textContent,'@')){
+            // Keep the label and typographic emphasis in structured contact links.
+            $value=$e->getElementsByTagName('strong')->item(0);
+            set_text($value??$e,$state['contact']['email']);
+        }
+    }
     foreach(nodes($d,'//a[starts-with(@href,"tel:")]')as$e)$e->setAttribute('href','tel:'.preg_replace('/[^+0-9]/','',$state['contact']['phone']));
     foreach(iterator_to_array($xp->query('//text()[normalize-space(.)="+48 600 894 644"]'))as$e)$e->nodeValue=$state['contact']['phone'];
     foreach(nodes($d,'//main//p')as$e)if($state['contact']['address']!=='ul. Lubelska 37D, 10-408 Olsztyn'&&str_contains($e->textContent,'ul. Lubelska 37D')&&str_contains($e->textContent,'10-408 Olsztyn'))set_text($e,$state['contact']['address']);
