@@ -53,6 +53,9 @@
         if (product && initialVariant) variantField.value = catalog.variant(product, initialVariant).id;
         initialVariant = '';
         if (product) {
+          const thumbnail = form.querySelector('[data-order-image]');
+          thumbnail.src = product.image;
+          thumbnail.alt = product.name;
           form.querySelector('[data-contact-description]').textContent = product.description;
           form.querySelector('[data-contact-included]').textContent = product.included;
           form.querySelector('[data-contact-material]').textContent = product.material;
@@ -457,8 +460,7 @@
       }
     };
     const updateProvider = () => {
-      const labels = {gmail: 'Otwórz Gmail z wiadomością', outlook: 'Otwórz Outlook z wiadomością', app: 'Otwórz aplikację pocztową z wiadomością', other: 'Skopiuj wiadomość do wysłania'};
-      const copyOnly = provider.value === 'other';
+      const labels = {gmail: 'Otwórz Gmail z wiadomością', outlook: 'Otwórz Outlook z wiadomością', app: 'Otwórz aplikację pocztową z wiadomością'};
       submit.querySelector('span').textContent = labels[provider.value];
       copyButton.hidden = false;
       manual.hidden = true;
@@ -466,9 +468,7 @@
       hideToast();
       help.textContent = provider.value === 'app'
         ? 'Otworzymy domyślną aplikację pocztową urządzenia, np. Thunderbird, Outlook lub Apple Mail. Ustaw wybraną aplikację jako domyślną do obsługi poczty. Sprawdź wiadomość w aplikacji i kliknij „Wyślij”.'
-        : !copyOnly
-        ? 'Otworzymy pocztę w przeglądarce z gotową wiadomością. W poczcie kliknij „Wyślij”. Jeśli nie jesteś zalogowany, zaloguj się, wróć tutaj i kliknij ponownie.'
-        : 'Skopiuj wiadomość do wysłania. Adres odbiorcy, temat i treść trafią do schowka — wklej je w swojej poczcie.';
+        : 'Otworzymy pocztę w przeglądarce z gotową wiadomością. W poczcie kliknij „Wyślij”. Jeśli nie jesteś zalogowany, zaloguj się, wróć tutaj i kliknij ponownie.';
     };
     provider.addEventListener('change', updateProvider);
     form.querySelector('[data-copy-mail]').addEventListener('click', () => { if (validate(form) && canUseMail()) copyMessage(); });
@@ -485,7 +485,6 @@
       }
       if (!validate(form)) return;
       if (!canUseMail()) return;
-      if (provider.value === 'other') { copyMessage(); return; }
       const message = compose();
       if (provider.value === 'app') {
         window.location.assign(mailtoUrl(recipient, message));

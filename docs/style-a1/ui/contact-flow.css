@@ -10,10 +10,20 @@ body.contact-designs #main.contact-ready .contact-step-actions {
 
 body.contact-designs #main.contact-ready .contact-order-context:not([hidden]) {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: 6.5rem minmax(0, 1fr) auto;
   align-items: center;
   gap: 1.25rem;
   margin: 0 0 1.25rem;
+}
+
+body.contact-designs #main.contact-ready .contact-order-thumbnail {
+  width: 6.5rem;
+  height: 6.5rem;
+  padding: .375rem;
+  object-fit: contain;
+  background: #f3f7fd;
+  border: .0625rem solid #e1e9f5;
+  border-radius: .75rem;
 }
 
 body.contact-designs #main.contact-ready .contact-order-context-copy > span {
@@ -107,8 +117,8 @@ body.contact-designs #main.contact-ready .contact-copy-action {
   min-height: 3.5rem;
   padding: .75rem 1rem;
   color: #102478;
-  background: #f1f6ff;
-  border: .0625rem solid #bccfe9;
+  background: #ff8818;
+  border: .0625rem solid #ff8818;
   border-radius: .75rem;
   font-size: 1rem;
   font-weight: 900;
@@ -208,9 +218,23 @@ body.contact-designs #main.contact-ready [data-mail-manual] label {
 
 @media (width <= 620px) {
   body.contact-designs #main.contact-ready .contact-mail-choices,
-  body.contact-designs #main.contact-ready .contact-order-context:not([hidden]),
   body.contact-designs #main.contact-ready .contact-spec-layout {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  body.contact-designs #main.contact-ready .contact-order-context:not([hidden]) {
+    grid-template-columns: 5rem minmax(0, 1fr);
+    gap: .875rem;
+  }
+
+  body.contact-designs #main.contact-ready .contact-order-thumbnail {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  body.contact-designs #main.contact-ready .contact-return-products {
+    grid-column: 1 / -1;
+    justify-self: start;
   }
 
   body.contact-designs #main.contact-ready .contact-mail-divider {
