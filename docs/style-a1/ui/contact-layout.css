@@ -1,0 +1,58 @@
+body.contact-designs #main.contact-ready .contact-form-card {
+  grid-template: "form direct" / minmax(0, 1fr) minmax(18rem, 22rem);
+  align-items: start;
+  gap: 2rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.contact-designs #main.contact-ready .contact-direct {
+  align-self: start;
+  height: auto;
+  padding: 2rem;
+  background: #fff;
+  border: .0625rem solid #dbe3ef;
+  border-radius: 1.375rem;
+  box-shadow: 0 .625rem 1.875rem -1.5rem #10247840;
+}
+
+body.contact-designs #main.contact-ready .contact-direct h2 {
+  margin: 0 0 1.75rem;
+  padding: 0;
+  border: 0;
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
+body.contact-designs #main.contact-ready .contact-direct address {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.75rem;
+}
+
+body.contact-designs #main.contact-ready .contact-direct .contact-method {
+  grid-column: auto;
+  gap: .875rem;
+}
+
+body.contact-designs #main.contact-ready .contact-direct strong {
+  font-size: 1.125rem;
+}
+
+body.contact-designs #main.contact-ready .contact-direct :is(p, a) {
+  font-size: 1rem;
+}
+
+@media (width <= 960px) {
+  body.contact-designs #main.contact-ready .contact-form-card {
+    grid-template: "form" "direct" / minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (width <= 620px) {
+  body.contact-designs #main.contact-ready .contact-direct {
+    padding: 1.5rem 1.25rem;
+  }
+}

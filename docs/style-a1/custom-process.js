@@ -9,7 +9,7 @@
   const updateViewport = () => {
     controls.forEach(button => {
       button.hidden = !phone.matches;
-      setExpanded(button, !phone.matches);
+      setExpanded(button, true);
     });
   };
   controls.forEach(button => {
