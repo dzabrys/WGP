@@ -3,7 +3,7 @@ declare(strict_types=1);
 // Pure in-memory rendering checks; no CMS database or private configuration is loaded.
 require dirname(__DIR__).'/hosting/app/visual.php';
 function fixture(): DOMDocument {
-    $d=new DOMDocument();$d->loadHTML('<html><head></head><body><main><section id="group"><article id="a">A</article><form id="fixed"><input name="phone" required></form><article id="b">B</article><article id="c">C</article></section><section id="other"></section></main></body></html>');
+    $d=new DOMDocument();$d->loadHTML('<html><head></head><body><main><section id="group"><article id="a">A</article><form id="fixed"><input name="phone" required></form><article id="b">B</article><article id="c">C</article></section><section id="other"></section></main></body></html>',LIBXML_NOERROR|LIBXML_NOWARNING);
     visual_nodes($d);return $d;
 }
 function key_of(DOMDocument $d,string $id): string {return $d->getElementById($id)->getAttribute('data-wgp-node');}
@@ -18,3 +18,9 @@ function check_order(DOMDocument $d,array $orders): void {
 }
 foreach([['c','a','fixed','b'],['fixed','b','c','a'],['b','c','a','fixed']] as $expected){check_order(fixture(),['group'=>$expected]);echo 'PASS fixed-sibling rendering: '.implode(',',$expected).PHP_EOL;}
 $d=fixture();check_order($d,['group'=>['fixed','b','c'],'other'=>['a']]);echo 'PASS cross-container rendering preserves the form'.PHP_EOL;
+$d=fixture();check_order($d,['group'=>['a','fixed','b','c']]);if($d->getElementById('group')->hasAttribute('data-wgp-arranged'))throw new RuntimeException('No-op order changes responsive layout');echo 'PASS unchanged order retains the original responsive grid'.PHP_EOL;
+$d=new DOMDocument();$d->loadHTML('<html><head></head><body><main><h1 id="title">Great games<br><span id="accent">for everyone</span></h1><article id="card"><div class="card-photo" id="photo"><img id="image" src="test.webp"></div><div id="copy"><h2 id="copy-title">A card</h2></div></article><ol><li id="step"><div id="step-copy"><h3>Step title</h3><p>Description</p></div></li></ol></main></body></html>',LIBXML_NOERROR|LIBXML_NOWARNING);visual_nodes($d);
+if($d->getElementById('photo')->getAttribute('data-wgp-container')!=='0'||$d->getElementById('image')->getAttribute('data-wgp-movable')!=='0'||$d->getElementById('accent')->getAttribute('data-wgp-movable')!=='0')throw new RuntimeException('Structural media or inline fragments can detach');echo 'PASS media layers and inline text fragments stay with their component'.PHP_EOL;
+$accent=key_of($d,'accent');apply_visual($d,'test.html',['visual'=>['pages'=>['test.html'=>['changes'=>[key_of($d,'title')=>['text'=>'Wonderful gamesfor everyone'],key_of($d,'step')=>['text'=>'Must not replace a card']],'added'=>[],'order'=>[key_of($d,'photo')=>[key_of($d,'copy-title')]]]]]]);
+if($d->getElementById('title')->textContent!=='Wonderful gamesfor everyone'||$d->getElementById('accent')->getAttribute('data-wgp-node')!==$accent||!$d->getElementById('title')->getElementsByTagName('br')->length)throw new RuntimeException('Rich heading lost text or editable structure');echo 'PASS edited headings retain the accent and line break'.PHP_EOL;
+if(!$d->getElementById('step-copy')||$d->getElementById('copy-title')->parentNode!==$d->getElementById('copy'))throw new RuntimeException('Structural card or media drop corrupted text');echo 'PASS complex cards cannot be flattened or receive text inside their photo'.PHP_EOL;
