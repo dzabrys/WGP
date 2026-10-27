@@ -72,6 +72,7 @@ function visual_media(DOMElement $node): bool {
 function visual_container(DOMElement $node): bool {return !visual_media($node)&&in_array(strtolower($node->tagName),['main','div','section','article','aside','figure','header','footer','nav','ul','ol','li','a'],true);}
 function visual_movable(DOMElement $node,DOMElement $root): bool {
     if($node===$root||visual_media($node)||$node->getAttribute('aria-hidden')==='true'||preg_match('/(?:^|\s)visually-hidden(?:\s|$)/',$node->getAttribute('class'))||in_array(strtolower($node->tagName),['br','form','table','tbody','tr','td','th'],true))return false;
+    if(strtolower($node->tagName)==='label'&&($node->getElementsByTagName('input')->length||$node->getElementsByTagName('select')->length||$node->getElementsByTagName('textarea')->length))return false;
     $insideForm=false;for($p=$node->parentNode;$p instanceof DOMElement;$p=$p->parentNode)if(strtolower($p->tagName)==='form'){$insideForm=true;break;}
     if($insideForm&&(strtolower($node->tagName)==='button'||$node->getElementsByTagName('input')->length||$node->getElementsByTagName('select')->length||$node->getElementsByTagName('textarea')->length))return false;
     // Inline emphasis, button labels and line breaks travel with their complete text block.

@@ -7,7 +7,7 @@ const id=n=>n?.dataset?.wgpNode;
 const send=(kind,data={})=>parent.postMessage({kind:'wgp:'+kind,file,...data},origin);
 const children=n=>Array.from(n?.children||[]).filter(x=>id(x));
 const componentSelector='.product-media-column,.product-purchase-column,.product-visual,.product-heading,.product-copy,.audience,.game-card,.catalog-card,.hero-carousel,.steps>li,.feature,.brand,.game-facts>div';
-function moveUnit(n){if(n?.matches('a.button,button'))return n;const unit=n?.closest(componentSelector);if(unit&&(n.dataset.wgpContainer==='1'||n.tagName==='IMG'))return unit.closest('.product-media-column,.product-purchase-column')||unit;return n;}
+function moveUnit(n){if(n?.matches('a.button,button')&&!n.querySelector('img,picture'))return n;const unit=n?.closest(componentSelector);if(unit&&(n.dataset.wgpContainer==='1'||n.tagName==='IMG'||n.matches('button')&&n.querySelector('img,picture')))return unit.closest('.product-media-column,.product-purchase-column')||unit;return n;}
 function visualChildren(p){
  const layout=getComputedStyle(p),items=children(p).map(node=>{const box=node.getBoundingClientRect(),style=getComputedStyle(node),shift=moves.has(node)?(style.translate||'0 0').split(/\s+/).map(parseFloat):[0,0];return{node,rect:{left:box.left-(shift[0]||0),top:box.top-(shift[1]||0),width:box.width,height:box.height},style};}).filter(item=>item.style.display!=='none'&&!['absolute','fixed'].includes(item.style.position)&&item.rect.width>0&&item.rect.height>0);
  const horizontal=layout.display.includes('flex')&&layout.flexDirection.startsWith('row')&&layout.flexWrap!=='wrap',rtl=layout.direction==='rtl';
