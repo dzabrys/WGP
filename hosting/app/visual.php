@@ -23,8 +23,9 @@ function visual_style(mixed $input): array {
     return $out;
 }
 function visual_change(mixed $change): array {
-    if(!is_array($change)||array_diff(array_keys($change),['text','image','link','style','mobile','hidden']))fail('Nieprawidłowa zmiana strony.');
+    if(!is_array($change)||array_diff(array_keys($change),['text','textFormat','image','link','style','mobile','hidden']))fail('Nieprawidłowa zmiana strony.');
     $out=[];
+    if(isset($change['textFormat'])){if($change['textFormat']!=='lines')fail('Nieprawidłowy format tekstu.');$out['textFormat']='lines';}
     if(isset($change['text']))$out['text']=text_value($change['text'],6000,'tekst na stronie');
     if(isset($change['image']))$out['image']=valid_image($change['image']);
     if(isset($change['link']))$out['link']=visual_link($change['link']);
@@ -95,6 +96,25 @@ function visual_set_text(DOMElement $node,string $value): void {
         $leaf->nodeValue=$before.(!$inserted?$insert:'').$after;$inserted=true;
     }
 }
+function visual_read_text(DOMNode $node): string {
+    if($node instanceof DOMText)return $node->data;
+    if($node instanceof DOMElement&&strtolower($node->tagName)==='br')return $node->hasAttribute('data-wgp-break-hidden')?'':"\n";
+    $out='';foreach($node->childNodes as$child)$out.=visual_read_text($child);return $out;
+}
+function visual_set_lines(DOMElement $node,string $value): void {
+    $old=preg_split('//u',visual_read_text($node),-1,PREG_SPLIT_NO_EMPTY);$next=preg_split('//u',$value,-1,PREG_SPLIT_NO_EMPTY);if(implode('',$old)===$value)return;
+    $prefix=0;$suffix=0;while($prefix<count($old)&&$prefix<count($next)&&$old[$prefix]===$next[$prefix])$prefix++;
+    while($suffix<count($old)-$prefix&&$suffix<count($next)-$prefix&&$old[count($old)-1-$suffix]===$next[count($next)-1-$suffix])$suffix++;
+    $leaves=[];$walk=function(DOMNode $p)use(&$walk,&$leaves){foreach($p->childNodes as$n)if($n instanceof DOMText)$leaves[]=$n;elseif($n instanceof DOMElement){if(strtolower($n->tagName)==='br'){if(!$n->hasAttribute('data-wgp-break-hidden'))$leaves[]=$n;}else$walk($n);}};$walk($node);
+    $fragment=function(string $text)use($node): DOMDocumentFragment {$f=$node->ownerDocument->createDocumentFragment();foreach(explode("\n",$text)as$i=>$line){if($i)$f->appendChild($node->ownerDocument->createElement('br'));$f->appendChild($node->ownerDocument->createTextNode($line));}return $f;};
+    $end=count($old)-$suffix;$insertion=implode('',array_slice($next,$prefix,count($next)-$suffix-$prefix));$offset=0;$inserted=false;
+    foreach($leaves as$leaf){$br=$leaf instanceof DOMElement;$chars=$br?["\n"]:preg_split('//u',$leaf->data,-1,PREG_SPLIT_NO_EMPTY);$start=$offset;$offset+=count($chars);if($offset<$prefix||$start>$end)continue;
+        $before=implode('',array_slice($chars,0,max(0,min(count($chars),$prefix-$start))));$after=implode('',array_slice($chars,max(0,min(count($chars),$end-$start))));
+        if($br){if(!$inserted){$leaf->parentNode->insertBefore($fragment($insertion),$before!==''?$leaf->nextSibling:$leaf);$inserted=true;}if($prefix<=$start&&$end>$start){$leaf->setAttribute('data-wgp-break-hidden','1');$leaf->setAttribute('style','display:none');}}
+        else{$text=$before.(!$inserted?$insertion:'').$after;$inserted=true;if(str_contains($text,"\n")){$leaf->parentNode->insertBefore($fragment($text),$leaf);$leaf->parentNode->removeChild($leaf);}else$leaf->data=$text;}
+    }
+    if(!$leaves)$node->insertBefore($fragment($value),$node->firstChild);
+}
 function visual_compatible(DOMElement $node,DOMElement $parent): bool {
     if(!visual_container($parent)||strtolower($parent->tagName)==='a'||$node===$parent)return false;
     for($p=$parent;$p instanceof DOMElement;$p=$p->parentNode)if($p===$node)return false;
@@ -148,7 +168,7 @@ function apply_visual(DOMDocument $d,string $file,array $state,bool $canvas=fals
     $css='';$needsFlow=!empty($model['order'])||!empty($model['flow']);
     foreach($changes as$id=>$change){$node=$map[$id]??null;if(!$node)continue;
         // Text editing never replaces a container's interactive controls or child blocks.
-        if(isset($change['text'])&&visual_text($node))visual_set_text($node,$change['text']);
+        if(isset($change['text'])&&visual_text($node))(($change['textFormat']??'')==='lines'?visual_set_lines($node,$change['text']):visual_set_text($node,$change['text']));
         if(isset($change['image'])&&strtolower($node->tagName)==='img')set_image($node,$change['image']);
         if(isset($change['link'])&&strtolower($node->tagName)==='a'){$node->setAttribute('href',$change['link']);if(str_starts_with($change['link'],'https://'))$node->setAttribute('rel','noopener');}
         if(isset($change['hidden'])&&$change['hidden']){$node->setAttribute('data-wgp-hidden','1');if($node->parentNode instanceof DOMElement&&visual_container($node->parentNode))$node->parentNode->setAttribute('data-wgp-hide-flow','1');$needsFlow=true;}

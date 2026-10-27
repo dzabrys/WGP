@@ -18,10 +18,10 @@ foreach($files as$file){
     }
     usort($candidates,fn($a,$b)=>$b['score']<=>$a['score']);$chosen=$candidates[0]??null;ensure($chosen!==null,$file.': no sortable content group');$parent=$chosen['node'];$list=$chosen['list'];$movable=array_keys(array_filter($list,fn($n)=>$n->getAttribute('data-wgp-movable')==='1'));[$a,$b]=array_slice($movable,0,2);[$list[$a],$list[$b]]=[$list[$b],$list[$a]];
     $parentId=$parent->getAttribute('data-wgp-node');$order=array_map(fn($n)=>$n->getAttribute('data-wgp-node'),$list);$state=$seed;$model=['changes'=>[],'added'=>[],'order'=>[$parentId=>$order],'flow'=>[$parentId]];
-    $heading=first($d,'//main//h1');if($heading&&visual_text($heading))$model['changes'][$heading->getAttribute('data-wgp-node')]=['text'=>'Test: '.$heading->textContent];
+    $heading=first($d,'//main//h1');if($heading&&visual_text($heading))$model['changes'][$heading->getAttribute('data-wgp-node')]=['text'=>"Test:\n".visual_read_text($heading),'textFormat'=>'lines'];
     $state['visual']=validate_visual(['pages'=>[$file=>$model]],$files);$edited=document_of(render_site($file,$state,true,true));$editedMap=[];foreach((new DOMXPath($edited))->query('//*[@data-wgp-node]')as$n)$editedMap[$n->getAttribute('data-wgp-node')]=$n;
     ensure(!array_diff($ids,array_keys($editedMap)),$file.': moving/editing deleted another editable object');$actual=[];foreach($editedMap[$parentId]->childNodes as$n)if($n instanceof DOMElement&&$n->hasAttribute('data-wgp-node'))$actual[]=$n->getAttribute('data-wgp-node');ensure($actual===$order,$file.': saved order differs from canvas order');
-    if($heading&&visual_text($heading))ensure($editedMap[$heading->getAttribute('data-wgp-node')]->textContent==='Test: '.$heading->textContent,$file.': heading text did not survive');
+    if($heading&&visual_text($heading))ensure(visual_read_text($editedMap[$heading->getAttribute('data-wgp-node')])==="Test:\n".visual_read_text($heading),$file.': heading text did not survive');
     $public=render_site($file,$state,false);ensure(!str_contains($public,'/panel/canvas.js')&&str_contains($public,'visual-layout.js'),$file.': published output has missing layout support or editor code');
     echo 'PASS page render/edit/order/export: '.$file.PHP_EOL;
 }

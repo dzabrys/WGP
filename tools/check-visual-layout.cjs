@@ -16,6 +16,9 @@ setText(heading,'Duże gryplanszowe i więcej');check(heading.textContent==='Du�
 setText(heading,'🎲 Nowy tytuł');check(heading.textContent==='🎲 Nowy tytuł'&&heading.querySelector('[data-wgp-node="accent"]')===accent,'replacing a whole heading preserves structure and Unicode');
 setText(heading,'');check(heading.textContent===''&&heading.querySelector('br')===br,'clearing text preserves the structural line break');
 check(contrast([255,255,255],[255,255,255])===1&&contrast([20,37,125],[255,255,255])>8,'readability checks distinguish invisible white text from navy text');
+heading.innerHTML='Wielkie gry<br data-wgp-node="break"><span data-wgp-node="accent">planszowe</span>';const originalBreak=heading.querySelector('br'),originalAccent=heading.querySelector('span'),{readText,setLines}=dom.window.WGPVisualLayout;
+check(readText(heading)==='Wielkie gry\nplanszowe','text inspector represents existing line breaks as separate lines');
+for(const value of ['Duże gry\nplanszowe','Duże gry\ndla każdego\n🎲','Jeden wiersz','','\nNowy\n','A\n\nB','A\n🎲 B\n']){setLines(heading,value);check(readText(heading)===value&&heading.querySelector('[data-wgp-node="break"]')===originalBreak&&heading.querySelector('span')===originalAccent,'multiline rich text survives replacement: '+JSON.stringify(value));}
 const d=dom.window.document;
 d.body.innerHTML='<main data-wgp-node="main"><div data-wgp-node="grid" data-wgp-hide-flow="1" style="display:grid;grid-template-columns:200px 200px"><article data-wgp-node="hidden" style="display:none"></article><article data-wgp-node="remaining">Visible card</article></div><div data-wgp-node="limited" style="height:40px;overflow-y:hidden"><p data-wgp-node="long" data-wgp-edited="1">A longer edited paragraph</p></div></main>';
 const limited=d.querySelector('[data-wgp-node="limited"]'),long=d.querySelector('p');

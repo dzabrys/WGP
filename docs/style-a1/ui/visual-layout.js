@@ -74,7 +74,22 @@ function setText(node,value){
   leaf.data=before+(!inserted?insertion:'')+after;inserted=true;
  }
 }
-window.WGPVisualLayout={refresh,placement,setText,contrast};
+function readText(node){return [...node.childNodes].map(n=>n.nodeType===3?n.data:n.nodeType===1?(n.tagName==='BR'?(n.hasAttribute('data-wgp-break-hidden')?'':'\n'):readText(n)):'').join('');}
+function setLines(node,value){
+ const old=Array.from(readText(node)),next=Array.from(value);if(old.join('')===value)return;
+ let prefix=0,suffix=0;while(prefix<old.length&&prefix<next.length&&old[prefix]===next[prefix])prefix++;
+ while(suffix<old.length-prefix&&suffix<next.length-prefix&&old[old.length-1-suffix]===next[next.length-1-suffix])suffix++;
+ const leaves=[];function walk(p){for(const n of p.childNodes)if(n.nodeType===3)leaves.push(n);else if(n.nodeType===1){if(n.tagName==='BR'){if(!n.hasAttribute('data-wgp-break-hidden'))leaves.push(n);}else walk(n);}}walk(node);
+ const end=old.length-suffix,insertion=next.slice(prefix,next.length-suffix).join('');let offset=0,inserted=false;
+ function fragment(text){const f=document.createDocumentFragment();text.split('\n').forEach((line,i)=>{if(i)f.append(document.createElement('br'));f.append(document.createTextNode(line));});return f;}
+ for(const leaf of leaves){const br=leaf.nodeType===1,chars=br?['\n']:Array.from(leaf.data),start=offset;offset+=chars.length;if(offset<prefix||start>end)continue;
+  const before=chars.slice(0,Math.max(0,Math.min(chars.length,prefix-start))).join(''),after=chars.slice(Math.max(0,Math.min(chars.length,end-start))).join('');
+  if(br){if(!inserted){if(before)leaf.after(fragment(insertion));else leaf.before(fragment(insertion));inserted=true;}if(prefix<=start&&end>start){leaf.dataset.wgpBreakHidden='1';leaf.style.display='none';}}
+  else {const text=before+(!inserted?insertion:'')+after;inserted=true;if(text.includes('\n'))leaf.replaceWith(fragment(text));else leaf.data=text;}
+ }
+ if(!leaves.length)node.prepend(fragment(value));
+}
+window.WGPVisualLayout={refresh,placement,setText,setLines,readText,contrast};
 let pending=0;addEventListener('resize',()=>{cancelAnimationFrame(pending);pending=requestAnimationFrame(refresh);});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh,{once:true});else refresh();
 document.fonts?.ready.then(refresh);
