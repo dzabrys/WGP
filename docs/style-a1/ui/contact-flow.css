@@ -8,6 +8,42 @@ body.contact-designs #main.contact-ready .contact-step-actions {
   padding-top: 0;
 }
 
+body.contact-designs #main.contact-ready .contact-order-context:not([hidden]) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 0 0 1.25rem;
+}
+
+body.contact-designs #main.contact-ready .contact-order-context-copy > span {
+  display: block;
+  margin-bottom: .375rem;
+  color: #596a87;
+  font-size: .75rem;
+}
+
+body.contact-designs #main.contact-ready .contact-order-context-copy > strong {
+  font-size: 1.125rem;
+  font-weight: 900;
+}
+
+body.contact-designs #main.contact-ready .contact-return-products {
+  min-height: 2.75rem;
+  padding: .75rem 1rem;
+  background: #f1f6ff;
+  color: #102478;
+  border: .0625rem solid #bccfe9;
+  border-radius: .75rem;
+  font-size: .9375rem;
+  font-weight: 900;
+  line-height: 1.4;
+}
+
+body.contact-designs #main.contact-ready .contact-form > .contact-captcha {
+  margin-top: 1.5rem;
+}
+
 body.contact-designs #main.contact-ready #contact-section-4 {
   font-size: clamp(1.75rem, 2.5vw, 2.125rem);
 }
@@ -172,6 +208,7 @@ body.contact-designs #main.contact-ready [data-mail-manual] label {
 
 @media (width <= 620px) {
   body.contact-designs #main.contact-ready .contact-mail-choices,
+  body.contact-designs #main.contact-ready .contact-order-context:not([hidden]),
   body.contact-designs #main.contact-ready .contact-spec-layout {
     grid-template-columns: minmax(0, 1fr);
   }

@@ -17,9 +17,7 @@
     };
     const products = [...form.querySelectorAll('.contact-product input[name="gra"]')];
     const catalog = window.WGPCatalog;
-    let chosen = products.find(input => input.checked);
     const updatePrices = () => {
-      chosen = products.find(input => input.checked);
       if (!catalog) return;
       for (const input of products) {
         const card = input.closest('.contact-product');
@@ -31,13 +29,9 @@
           card.querySelector(':scope > span').append(price);
         }
         const options = catalog.options(product);
-        const selected = chosen === input;
-        const choice = selected ? catalog.variant(product, form.elements.namedItem('wariant')?.value) : null;
         const priced = options.filter(option => option.gross != null);
         const minimum = priced.length ? Math.min(...priced.map(option => option.gross)) : null;
-        const amount = selected ? choice?.gross : minimum;
-        const lead = !selected && amount != null && options.length > 1 ? 'od ' : '';
-        const label = amount == null ? 'Wycena indywidualna' : lead + catalog.money(amount) + ' brutto';
+        const label = minimum == null ? 'Wycena indywidualna' : 'od ' + catalog.money(minimum) + ' brutto';
         price.textContent = label;
       }
     };
@@ -49,16 +43,19 @@
         const top = card.getBoundingClientRect().top;
         const listTop = grid?.scrollTop;
         const listLeft = grid?.scrollLeft;
-        // Radios are already checked during native click preactivation. Use
-        // the committed selection and apply after canceled activation restores it.
-        const uncheck = chosen === input;
         event.preventDefault();
         queueMicrotask(() => {
-          input.checked = !uncheck;
+          input.checked = true;
           emit(input);
+          form.dispatchEvent(new Event('contact-product-chosen'));
           updatePrices();
-          // Keep the clicked card in place when the order summary above it
-          // appears, changes height or disappears. Preserve the list position too.
+          const menu = card.closest('[data-product-menu]');
+          if (menu?.hidden) {
+            const summary = form.querySelector('[data-order-context]');
+            summary.querySelector('[data-return-products]').focus({preventScroll: true});
+            summary.scrollIntoView({block: 'nearest'});
+            return;
+          }
           if (grid) { grid.scrollTop = listTop; grid.scrollLeft = listLeft; }
           const offset = card.getBoundingClientRect().top - top;
           if (offset) window.scrollBy({top: offset, left: 0, behavior: 'instant'});

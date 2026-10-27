@@ -24,6 +24,7 @@
     const productData = () => catalog?.get(selectedProduct()?.value || '');
     const selectedVariant = () => catalog?.variant(productData(), variantField?.value);
     let variantProductId = '';
+    let choosingProduct = false;
     let initialVariant = '';
     const quantity = () => Math.max(1, Number(value('liczba_egzemplarzy')) || 1);
     const priceText = total => total?.gross == null ? 'Wycena indywidualna' : catalog.money(total.net) + ' netto / ' + catalog.money(total.gross) + ' brutto';
@@ -38,9 +39,9 @@
       variantField.closest('label').hidden = !product;
       form.querySelector('[data-contact-spec]').hidden = !product;
       form.querySelector('[data-order-prices]').hidden = !product;
-      form.querySelector('[data-order-context]').hidden = !product;
       form.elements.namedItem('liczba_egzemplarzy').disabled = !product;
       if ((product?.id || '') !== variantProductId) {
+        choosingProduct = false;
         variantProductId = product?.id || '';
         variantField.replaceChildren();
         for (const variant of catalog.options(product)) {
@@ -68,6 +69,9 @@
           form.querySelector('[data-review-facts]').replaceChildren(...[...facts.children].map(node => node.cloneNode(true)));
         }
       }
+      form.querySelector('[data-product-menu]').hidden = Boolean(product) && !choosingProduct;
+      form.querySelector('[data-order-context]').hidden = !product || choosingProduct;
+      form.querySelector('[data-return-products]').setAttribute('aria-expanded', String(choosingProduct));
       form.querySelector('[data-review-spec]').hidden = !product;
       if (product) {
         const choice = selectedVariant();
@@ -85,6 +89,15 @@
     const search = form.querySelector('[data-product-search]');
     const category = form.querySelector('[data-product-category]');
     const clearProduct = form.querySelector('[data-product-clear]');
+    form.querySelector('[data-return-products]').addEventListener('click', () => {
+      choosingProduct = true;
+      syncVariant();
+      search.focus();
+    });
+    form.addEventListener('contact-product-chosen', () => {
+      choosingProduct = false;
+      syncVariant();
+    });
     const normalize = text => text.toLocaleLowerCase('pl').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ł/g, 'l');
     const filterProducts = () => {
       const term = normalize(search.value.trim());
@@ -128,6 +141,7 @@
       back.hidden = step === 0;
       next.hidden = step === panels.length - 1;
       submit.hidden = step !== panels.length - 1;
+      form.querySelector('.contact-captcha').hidden = step !== panels.length - 1;
       form.querySelector('[data-step-caption]').textContent = `Krok ${step + 1} z ${panels.length}`;
       if (focus) panels[step].querySelector('h3').focus();
       if (step === panels.length - 1) initCaptcha();
