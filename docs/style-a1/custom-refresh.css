@@ -361,3 +361,24 @@ body.custom-refresh.page-custom .custom-proposal .proposal-contact a:focus-visib
     margin-bottom: 1.25rem;
   }
 }
+
+/* Full descriptions on desktop; optional disclosure on phones. */
+body.custom-refresh.page-custom .custom-proposal .process-description-toggle {
+  display: none;
+}
+
+@media (width <= 760px) {
+  body.custom-refresh.page-custom .custom-proposal .process-description-toggle:not([hidden]) {
+    display: block;
+    color: #102478;
+    background: transparent;
+    border-top: .0625rem solid #e5eaf3;
+    min-height: 2.75rem;
+    width: 100%;
+    margin-top: .75rem;
+    padding: .625rem 0 0;
+    text-align: left;
+    font-size: .75rem;
+    font-weight: 700;
+  }
+}
