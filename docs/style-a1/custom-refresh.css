@@ -1,17 +1,55 @@
+body.custom-refresh.page-custom #main.custom-proposal > .breadcrumb {
+  margin-bottom: .75rem;
+  padding-top: .375rem;
+}
+
 body.custom-refresh.page-custom .custom-proposal .proposal-hero {
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
-  align-items: center;
-  gap: 3rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  align-items: stretch;
+  gap: 2rem;
+  margin-bottom: 1.25rem;
+}
+
+body.custom-refresh.page-custom .custom-proposal .proposal-intro {
+  padding-block: .375rem;
+}
+
+body.custom-refresh.page-custom .custom-proposal .proposal-intro h1 {
+  font-size: clamp(2.75rem, 4.6vw, 4rem);
+}
+
+body.custom-refresh.page-custom .custom-proposal .proposal-lead {
+  max-width: 50ch;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+body.custom-refresh.page-custom .custom-proposal .proposal-hero .proposal-eyebrow,
+body.custom-refresh.page-custom .custom-proposal .proposal-note {
+  font-size: 1rem;
+}
+
+body.custom-refresh.page-custom .custom-proposal .proposal-actions .button {
+  font-size: 1.125rem;
+}
+
+body.custom-refresh.page-custom .custom-proposal .proposal-text-link {
+  font-size: 1rem;
+}
+
+body.custom-refresh.page-custom .custom-proposal .proposal-section-heading h2 {
+  font-size: clamp(1.875rem, 2.5vw, 2.25rem);
 }
 
 body.custom-refresh.page-custom .custom-proposal .proposal-hero-visual {
   aspect-ratio: auto;
   border-radius: 1.375rem;
-  place-self: center end;
+  place-self: stretch;
   width: 100%;
-  max-width: 35rem;
-  height: 21.25rem;
-  min-height: 0;
+  max-width: none;
+  height: 100%;
+  min-height: 26.875rem;
+  margin: 0;
 }
 
 body.custom-refresh.page-custom .custom-proposal .proposal-formats {
@@ -34,7 +72,7 @@ body.custom-refresh.page-custom .custom-proposal .proposal-process {
   background: #fff;
   border: .0625rem solid #e6ebf3;
   border-radius: 1.625rem;
-  margin-top: 2.25rem;
+  margin-top: 1.25rem;
   padding: 2rem 1.75rem;
   box-shadow: 0 .375rem .875rem -.625rem #10247826, 0 1.375rem 2.875rem -1.5rem #1024784a;
 }
@@ -86,13 +124,13 @@ body.custom-refresh.page-custom .custom-proposal .proposal-step-copy {
 body.custom-refresh.page-custom .custom-proposal .steps h3 {
   min-height: 2.5em;
   margin-bottom: .625rem;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
 }
 
 body.custom-refresh.page-custom .custom-proposal .proposal-step-copy > p {
   color: #102478;
   min-height: 4.5em;
-  font-size: .875rem;
+  font-size: 1rem;
   line-height: 1.5;
 }
 
@@ -286,7 +324,16 @@ body.custom-refresh.page-custom .custom-proposal .proposal-contact a:focus-visib
 
   body.custom-refresh.page-custom .custom-proposal .proposal-hero-visual {
     max-width: none;
-    height: clamp(11.875rem, 45vw, 18.75rem);
+    min-height: 0;
+    height: clamp(15rem, 65vw, 24rem);
+  }
+
+  body.custom-refresh.page-custom .custom-proposal .proposal-lead {
+    font-size: 1.125rem;
+  }
+
+  body.custom-refresh.page-custom .custom-proposal .proposal-intro h1 {
+    font-size: clamp(2.5rem, 10vw, 3.5rem);
   }
 }
 
@@ -299,7 +346,7 @@ body.custom-refresh.page-custom .custom-proposal .proposal-contact a:focus-visib
 
   body.custom-refresh.page-custom .custom-proposal .proposal-process {
     border-radius: 1.375rem;
-    margin-top: 1.75rem;
+    margin-top: 1.25rem;
     padding: 1.5rem 1.125rem;
   }
 
@@ -378,7 +425,7 @@ body.custom-refresh.page-custom .custom-proposal .process-description-toggle {
     margin-top: .75rem;
     padding: .625rem 0 0;
     text-align: left;
-    font-size: .75rem;
+    font-size: .9375rem;
     font-weight: 700;
   }
 }
