@@ -16,14 +16,15 @@ function placement(style,parent){
  const wide=named?.columns||span(style.gridColumnStart,style.gridColumnEnd,columns),tall=named?.rows||span(style.gridRowStart,style.gridRowEnd,rows);
  return{column:wide===columns&&wide>1?'1 / -1':`auto / span ${wide}`,row:`auto / span ${tall}`};
 }
-const transferred='[data-wgp-transferred="1"]{position:relative!important;inset:auto!important;width:auto!important;height:auto!important;max-height:none!important;min-width:0;max-width:100%;overflow:visible!important}';
+const transferred='[data-wgp-transferred="1"]{position:relative!important;inset:auto!important;height:auto!important;max-height:none!important;min-width:0;max-width:100%;overflow:visible!important}[data-wgp-flow] :is(h1,h2,h3,h4,p){overflow-wrap:anywhere}';
 const rgb=value=>{const numbers=(value||'').match(/[\d.]+/g);return numbers?.length>=3?numbers.slice(0,3).map(Number):[255,255,255];};
 function contrast(a,b){const light=color=>color.map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;}).reduce((sum,v,i)=>sum+v*[.2126,.7152,.0722][i],0),x=light(a),y=light(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05);}
 function background(node){for(let p=node;p;p=p.parentElement){const color=getComputedStyle(p).backgroundColor;if(color&&color!=='transparent'&&!/rgba\([^)]*,\s*0\s*\)/.test(color))return rgb(color);}return[255,255,255];}
 function refresh(){
  let sheet=document.querySelector('#wgp-grid-flow');if(!sheet){sheet=document.createElement('style');sheet.id='wgp-grid-flow';document.head.append(sheet);}sheet.textContent=transferred;
  const rules=[];
- const flowParents=[...document.querySelectorAll('[data-wgp-arranged="1"],[data-wgp-layout-desktop],[data-wgp-layout-mobile]')].filter(n=>n.dataset.wgpArranged==='1'||n.hasAttribute('data-wgp-layout-desktop')||innerWidth<=760&&n.hasAttribute('data-wgp-layout-mobile'));
+ for(const n of document.querySelectorAll('[data-wgp-transferred="1"]'))if(!n.hasAttribute('data-wgp-width-custom')&&!(innerWidth<=760&&n.hasAttribute('data-wgp-mobile-width-custom')))rules.push(`[data-wgp-node="${n.dataset.wgpNode}"]{width:auto!important}`);
+ const flowParents=[...document.querySelectorAll('[data-wgp-arranged="1"],[data-wgp-flow],[data-wgp-layout-desktop],[data-wgp-layout-mobile]')].filter(n=>n.dataset.wgpArranged==='1'||n.hasAttribute('data-wgp-flow')||n.hasAttribute('data-wgp-layout-desktop')||innerWidth<=760&&n.hasAttribute('data-wgp-layout-mobile'));
  for(const parent of flowParents){
   const key=parent.dataset.wgpNode;if(!key)continue;const selector=`[data-wgp-node="${key}"]`,layout=getComputedStyle(parent);
   if(layout.display==='grid'||layout.display==='inline-grid'){
@@ -33,7 +34,7 @@ function refresh(){
    for(const {node,style}of cells){if(style.display==='none'||['absolute','fixed'].includes(style.position))continue;const cell=placement(style,layout);
     rules.push(`${selector}>[data-wgp-node="${node.dataset.wgpNode}"]{grid-column:${cell.column}!important;grid-row:${cell.row}!important;order:0!important;min-width:0}`);
    }
-  }else if(layout.display==='flex'||layout.display==='inline-flex')rules.push(`${selector}>[data-wgp-node]{order:0!important;min-width:0}`);
+  }else if(layout.display==='flex'||layout.display==='inline-flex'){rules.push(`${selector}>[data-wgp-node]{order:0!important;min-width:0}`);if(layout.flexDirection.endsWith('-reverse'))rules.push(`${selector}{flex-direction:${layout.flexDirection.startsWith('row')?'row':'column'}!important}`);}
  }
  for(const root of document.querySelectorAll('[data-wgp-transferred="1"]'))if(/^H[1-6]$/.test(root.tagName)&&!root.hasAttribute('data-wgp-font-custom')&&!(innerWidth<=760&&root.hasAttribute('data-wgp-mobile-font-custom'))){
   const peer=[...root.parentElement.children].find(n=>n!==root&&/^H[1-6]$/.test(n.tagName)&&getComputedStyle(n).display!=='none');
@@ -42,7 +43,7 @@ function refresh(){
  sheet.textContent=transferred+rules.join('\n');
  // Text moved out of a dark hero must remain readable on a white content card.
  for(const root of document.querySelectorAll('[data-wgp-transferred="1"]'))for(const n of [root,...root.querySelectorAll('h1,h2,h3,h4,p,span,strong,em,small,a')]){
-  if(!n.dataset.wgpNode||!n.textContent.trim())continue;const style=getComputedStyle(n),bg=background(n);
+  if(!n.dataset.wgpNode||!n.textContent.trim()||n.closest('[data-wgp-color-custom]')||innerWidth<=760&&n.closest('[data-wgp-mobile-color-custom]'))continue;const style=getComputedStyle(n),bg=background(n);
   if(contrast(rgb(style.color),bg)>=3)continue;let color=rgb(getComputedStyle(n.parentElement).color);
   if(contrast(color,bg)<3)color=contrast([20,37,125],bg)>=3?[20,37,125]:[255,255,255];
   rules.push(`[data-wgp-node="${n.dataset.wgpNode}"]{color:rgb(${color.join(',')})!important}`);
