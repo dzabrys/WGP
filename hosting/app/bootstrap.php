@@ -46,7 +46,7 @@ function document(string $key): array {
     $state=json_decode($row['body'],true,64,JSON_THROW_ON_ERROR);
     $state['categories']??=default_categories();$state['deletedProducts']??=[];
     $seed=array_column(json_decode(file_get_contents(__DIR__.'/seed.json'),true)['products'],null,'id');
-    foreach($state['products'] as &$p){$p['summary']??=$seed[$p['id']]['summary']??$p['format'];$p['shortDescription']??=$seed[$p['id']]['shortDescription']??mb_substr($p['description'],0,200);}unset($p);
+    foreach($state['products'] as &$p){$p['summary']??=$seed[$p['id']]['summary']??$p['format'];$p['shortDescription']??=$seed[$p['id']]['shortDescription']??mb_substr($p['description'],0,160);}unset($p);
     return ['state'=>$state,'revision'=>(int)$row['revision']];
 }
 function save_document(string $key, array $state, int $expected): int {

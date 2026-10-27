@@ -45,7 +45,7 @@ function validate_state(array $s): array {
         $out['products'][]=$q;
         $last=count($out['products'])-1;
         $out['products'][$last]['summary']=text_value($p['summary']??$p['format']??'',200,'podtytuł produktu');
-        $out['products'][$last]['shortDescription']=text_value($p['shortDescription']??mb_substr($p['description']??'',0,200),400,'krótki opis w katalogu');
+        $out['products'][$last]['shortDescription']=text_value($p['shortDescription']??mb_substr($p['description']??'',0,160),400,'krótki opis w katalogu');
     }
     $deleted=$s['deletedProducts']??[];if(!is_array($deleted)||count($deleted)>2000)fail('Nieprawidłowa lista usuniętych produktów.');
     foreach($seed['products']as$original)if(!isset($ids[$original['id']]))$deleted[]=$original['id'];

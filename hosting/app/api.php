@@ -32,6 +32,14 @@ function api(string $action): never {
     if ($action==='save' && $post) {
         require_user('editor'); $in=body(); $candidate=$in['state']??[];
         if(!is_array($candidate)||!is_array($candidate['products']??null)||!is_array($candidate['deletedProducts']??[]))fail('Nieprawidłowe dane katalogu.');
+        // Preserve older descriptions unchanged; new or edited copy is limited to 160 characters.
+        $previous=array_column(document('draft')['state']['products'],null,'id');
+        foreach($candidate['products'] as $product){
+            if(!is_array($product))continue;
+            $description=$product['shortDescription']??null;
+            $id=$product['id']??null;
+            if(is_string($description)&&mb_strlen($description)>160&&(!is_string($id)||$description!==($previous[$id]['shortDescription']??null)))fail('Krótki opis na liście produktów może mieć maksymalnie 160 znaków.');
+        }
         $candidate['deletedProducts']=array_values(array_unique(array_merge($candidate['deletedProducts']??[],array_values(array_diff(array_column(document('draft')['state']['products'],'id'),array_column($candidate['products']??[],'id'))))));
         $state=validate_state($candidate); $rev=save_document('draft',$state,(int)($in['revision']??-1)); audit('Zapisanie szkicu',$u); out(['ok'=>true,'revision'=>$rev]);
     }
