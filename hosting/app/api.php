@@ -75,6 +75,7 @@ function api(string $action): never {
     }
     if ($action==='upload' && $post) {
         require_user('editor'); $f=$_FILES['image']??null;
+        if ($f && in_array($f['error'],[UPLOAD_ERR_INI_SIZE,UPLOAD_ERR_FORM_SIZE],true)) fail('Zdjęcie przekracza limit serwera. Wybierz mniejszy plik lub zwiększ limit przesyłania w ustawieniach hostingu.',413);
         if (!$f || $f['error']!==UPLOAD_ERR_OK || $f['size']>5*1024*1024 || !is_uploaded_file($f['tmp_name'])) fail('Wybierz zdjęcie JPG, PNG lub WebP do 5 MB.');
         $mime=(new finfo(FILEINFO_MIME_TYPE))->file($f['tmp_name']);
         $info=@getimagesize($f['tmp_name']);

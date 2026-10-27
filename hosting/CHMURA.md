@@ -5,7 +5,7 @@
 - Publiczna strona: https://dzabrys.github.io/WGP/.
 - Wejście do panelu: https://dzabrys.github.io/WGP/panel/.
 - Prywatny panel: https://spindly-sorcery-9vqqppvg765c7wx7-4180.app.github.dev/panel/.
-- Środowisko do uruchomienia po uśpieniu: `spindly-sorcery-9vqqppvg765c7wx7` na https://github.com/codespaces.
+- Środowisko do uruchomienia po uśpieniu: https://spindly-sorcery-9vqqppvg765c7wx7.github.dev/. Najpierw otworzyć ten adres, poczekać na uruchomienie i pozostawić kartę otwartą podczas pracy. Następnie otworzyć panel w tej samej przeglądarce zalogowanej na konto GitHub dzabrys.
 
 GitHub Pages nie wykonuje PHP. Panel uruchamiamy tymczasowo w Codespaces, a jego przycisk „Opublikuj” wysyła wyrenderowane HTML, katalog i przesłane zdjęcia do `docs` w repozytorium `dzabrys/WGP`. GitHub Pages następnie aktualizuje stronę. Szkic i podgląd nie zmieniają publicznej witryny. Link „Otwórz stronę WGP” prowadzi do publicznej wersji.
 
@@ -44,3 +44,13 @@ Szczegóły ustawień konta: [WDROZENIE.md](WDROZENIE.md).
 6. Przełączyć domenę dopiero po sprawdzeniu kopii i możliwości powrotu. Rekordów poczty nie zmieniać przy podmianie samej strony. Po potwierdzeniu działania zatrzymać stary panel w Codespaces, aby nie prowadzić edycji dwóch niezależnych baz.
 
 Kod i dane przenosi się osobno: aktualizacja kodu nie nadpisuje bazy. Prywatna paczka danych nie może trafić do publicznego GitHuba ani publicznego katalogu domeny. Oryginalne szablony CMS są w `hosting/templates`; `docs` jest publikowaną wersją statyczną, nie źródłem szablonów edytora.
+
+## Gdy panel zwraca 404
+
+Adres prywatnego portu nie uruchamia uśpionego Codespace. Najpierw otworzyć środowisko powyżej. Jeśli po jego uruchomieniu port nadal zwraca 404, w widoku Porty zatrzymać przekierowanie 4180 i przekierować ponownie numer 4180 (localhost), zachowując widoczność Private i protokół HTTP. Nie zmieniać portu na publiczny. Następnie otworzyć panel ponownie. Jeżeli brak procesu PHP, w terminalu uruchomić `php hosting/bin/cloud.php start`. Nie inicjalizować ani importować ponownie bazy.
+
+## Edycja i publikowanie
+
+Nie ma osobnego przycisku Zapisz szkic. Opublikuj zmiany zapisuje bieżącą edycję i wysyła ją na stronę; przycisk działa także dla zmian jeszcze niezapisanych. Podgląd zapisuje wersję roboczą automatycznie i otwiera ją w nowej karcie. Te zapisy nie publikują strony. Wariant można wybrać z gotowych rozmiarów lub wpisać własny; ceny pozostają do świadomego ustawienia. Kolejność w edytorze pokazuje miniaturę, nazwę i numer każdej gry w danej kategorii.
+
+Serwer Codespaces uruchamia cztery procesy obsługi żądań, bez Xdebug, z limitami upload_max_filesize=5M i post_max_size=6M. Po aktualizacji cloud.php trzeba ponownie uruchomić istniejący proces PHP, aby zastosować limity. Plik public/.user.ini ustawia te same limity na hostingu PHP, który obsługuje ten plik.

@@ -49,6 +49,9 @@ function check(condition,message){assert(condition,message);checks++;console.log
  const uploaded=await fetch(base+'/panel/api/upload',{method:'POST',headers:{Origin:base,Cookie:cookies,'X-CSRF-Token':csrf},body:imageForm});
  const uploadData=await uploaded.json();check(uploaded.status===200&&/^media\/[a-f0-9]{32}\.webp$/.test(uploadData.url),'uploaded image is validated and re-encoded as WebP');
  const image=await request('/'+uploadData.url);check(image.status===200&&image.headers.get('content-type')==='image/webp','uploaded image is served as an image');
+ const largeForm=new FormData();largeForm.append('image',new Blob([fs.readFileSync('docs/assets/hero.png')],{type:'image/png'}),'photo-over-2mb.png');
+ const largeUpload=await fetch(base+'/panel/api/upload',{method:'POST',headers:{Origin:base,Cookie:cookies,'X-CSRF-Token':csrf},body:largeForm});
+ check(largeUpload.status===200&&/^media\/[a-f0-9]{32}\.webp$/.test((await largeUpload.json()).url),'image larger than the old PHP 2 MB limit uploads successfully');
  const invalidForm=new FormData();invalidForm.append('image',new Blob(['<svg onload="alert(1)"></svg>'],{type:'image/svg+xml'}),'script.svg');
  check((await fetch(base+'/panel/api/upload',{method:'POST',headers:{Origin:base,Cookie:cookies,'X-CSRF-Token':csrf},body:invalidForm})).status===400,'active SVG uploads rejected');
  const member={email:'viewer-'+crypto.randomBytes(4).toString('hex')+'@wgp.local',name:'Test podglądu',role:'viewer',password:crypto.randomBytes(20).toString('hex')};check((await api('user-save',member)).status===200,'administrator can create scoped employee account');

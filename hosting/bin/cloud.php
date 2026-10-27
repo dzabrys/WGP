@@ -17,6 +17,6 @@ if($command==='setup'){
 }elseif($command==='start'){
  $pidFile=$private.'/server.pid';$pid=is_file($pidFile)?(int)file_get_contents($pidFile):0;
  if($pid&&is_dir('/proc/'.$pid)&&str_contains(file_get_contents('/proc/'.$pid.'/cmdline'),'hosting/router.php')){echo "Panel już działa: $url/panel/\n";exit;}
- $script='cd '.escapeshellarg($root).' && nohup php -S 0.0.0.0:4180 -t hosting/public hosting/router.php >'.escapeshellarg($private.'/server.log').' 2>&1 & echo $!';
+ $script='cd '.escapeshellarg($root).' && PHP_CLI_SERVER_WORKERS=4 XDEBUG_MODE=off nohup php -d display_errors=0 -d log_errors=1 -d upload_max_filesize=5M -d post_max_size=6M -d memory_limit=256M -S 0.0.0.0:4180 -t hosting/public hosting/router.php >'.escapeshellarg($private.'/server.log').' 2>&1 & echo $!';
  $pid=(int)shell_exec($script);file_put_contents($pidFile,(string)$pid);echo "Panel WGP: $url/panel/\nPort pozostaw jako Private. Publiczną stronę otworzysz na https://dzabrys.github.io/WGP/\n";
 }else echo "Polecenia: setup, start. Dane do konta przenieś prywatną paczką lub użyj instalatora console.php init.\n";
