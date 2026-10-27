@@ -3,17 +3,25 @@
 W panelu wybierz **Treści strony**. Zamiast listy pól zobaczysz stronę i narzędzia po prawej.
 
 1. Wybierz stronę z listy u góry (także stronę dowolnego produktu).
-2. Kliknij nagłówek lub tekst, aby zmienić go w narzędziach. Dwuklik pozwala pisać bezpośrednio na stronie. Enter kończy edycję, Escape ją anuluje.
+2. Kliknij nagłówek lub tekst, aby zmienić go w narzędziach. Dwuklik pozwala pisać bezpośrednio na stronie. Enter kończy edycję, Shift+Enter dodaje wiersz, Escape ją anuluje. W polu tekstowym można również rozdzielać napis na wiersze.
 3. Kliknij zdjęcie i wybierz inne z biblioteki albo prześlij własne.
-4. Kliknij **Cały blok**, aby zaznaczyć większy fragment. Złap uchwyt **⠿**, przeciągnij i upuść przy pomarańczowej linii. Możesz też użyć strzałek lub opcji **Przenieś do innego bloku**.
+4. Kliknij **Cały blok**, aby zaznaczyć większy fragment. Złap uchwyt **⠿**, przeciągnij i upuść w miejscu widocznym w podglądzie. Sąsiednie elementy robią miejsce już podczas ruchu; Escape anuluje przeciąganie. Możesz też użyć strzałek lub opcji **Przenieś do innego bloku**.
 5. W **Wygląd i odstępy** zmienisz szerokość, wyrównanie, kolory, rozmiary i układ kolumn. **Telefon** pozwala ustawić osobne wartości dla małych ekranów; **Tablet** i **Komputer** pokazują pozostałe widoki.
 6. **Dodaj element** dodaje sekcję, nagłówek, tekst, zdjęcie albo przycisk do zaznaczonego bloku. Bez zaznaczenia dodaje go na końcu treści strony.
-7. **Cofnij / Ponów** działają podczas edycji bieżącej strony. Ukryte elementy znajdziesz w **Bloki strony i ukryte elementy**. Możesz ponownie zaznaczyć taki blok i wyłączyć ukrycie.
+7. **Cofnij / Ponów** działają podczas edycji bieżącej strony. Ukryte elementy znajdziesz w **Wszystkie elementy strony**. Możesz ponownie zaznaczyć taki blok i wyłączyć ukrycie.
 8. **Podgląd** automatycznie zapisze edycję do podglądu. **Opublikuj zmiany** zapisuje i publikuje na dotychczasowej stronie. W historii zachowuje się wersja sprzed publikacji.
 
 Nagłówek witryny i stopka też są widoczne i możliwe do edycji. Tytuł i opis w wyszukiwarce oraz wspólne dane kontaktowe są w zwijanych ustawieniach. Dane produktu (w tym ceny) nadal zmieniamy w **Produkty**; zaznaczenie jego karty daje skrót do edycji.
 
 Przesuwanie używa normalnego układu strony, nie stałych współrzędnych ekranu. Blok może zmienić kolejność lub trafić do innego zgodnego kontenera. Główne obszary nagłówka, treści i stopki pozostają oddzielne. Kontrole formularza nie są swobodnie przebudowywane. Strona w edytorze ma wyłączone linki i skrypty publiczne, aby kliknięcie wybierało element. Gotową nawigację, karuzelę i formularz sprawdzamy w zwykłym podglądzie.
+
+## Wybieranie i układ
+
+- W **Wszystkie elementy strony** wpisz fragment tekstu, aby znaleźć go także wewnątrz zwiniętego pytania lub ukrytej sekcji. Edytor pokazuje taki element na czas edycji. Zaznaczenie innej części strony przywraca jego docelową widoczność.
+- Zdjęcia w kartach oraz kolumny strony produktu przenoszą się ze swoim blokiem. Przyciski i krótkie fragmenty tekstu można nadal edytować osobno.
+- Kolejność bloków jest wspólna dla urządzeń. Rozmiary i odstępy ustawione w widoku **Telefon** dotyczą tylko telefonu. Zmiana kolejności zachowuje rozpiętość kart i zdjęć w siatce.
+- Strzałka przy pojedynczym ustawieniu usuwa tylko tę zmianę. Przywrócenie ustawień telefonu zachowuje wygląd komputera.
+- **Większy podgląd** daje więcej miejsca na pracę; Escape zamyka go. Przełączenie urządzenia zachowuje zaznaczony element w widoku.
 
 ## Zapis i migracja
 
