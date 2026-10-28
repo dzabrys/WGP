@@ -1,0 +1,141 @@
+/* Match the school/company interaction timing without changing the layout. */
+body.custom-refresh #main.custom-proposal {
+  --custom-ease: cubic-bezier(.22, .61, .36, 1);
+}
+
+body.custom-refresh #main.custom-proposal .proposal-format {
+  transition: transform .65s var(--custom-ease), box-shadow .65s var(--custom-ease), border-color .65s ease !important;
+}
+
+body.custom-refresh #main.custom-proposal .proposal-format-grid {
+  padding-top: .375rem;
+  margin-top: -.375rem;
+}
+
+body.custom-refresh #main.custom-proposal .proposal-format img {
+  transition: transform .85s var(--custom-ease) !important;
+}
+
+body.custom-refresh #main.custom-proposal .proposal-format-arrow {
+  transition: background-color .65s ease, color .65s ease !important;
+}
+
+body.custom-refresh #main.custom-proposal .proposal-format-arrow path {
+  transition: transform .65s var(--custom-ease) !important;
+}
+
+body.custom-refresh #main.custom-proposal :is(.proposal-text-link, .proposal-all-formats) {
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: left calc(100% - .25rem);
+  background-size: 0 .0625rem;
+  transition: background-size .65s var(--custom-ease), color .65s ease !important;
+}
+
+body.custom-refresh #main.custom-proposal :is(.proposal-text-link, .proposal-all-formats) svg {
+  transition: transform .65s var(--custom-ease) !important;
+}
+
+body.custom-refresh #main.custom-proposal .steps > li {
+  transition: box-shadow .65s var(--custom-ease) !important;
+}
+
+body.custom-refresh #main.custom-proposal .proposal-faq summary {
+  border-radius: .5rem;
+  transition: background-color .55s ease, padding-inline .55s var(--custom-ease) !important;
+}
+
+body.custom-refresh #main.custom-proposal .proposal-faq summary > svg {
+  transform: rotate(0) !important;
+  flex-shrink: 0;
+  transition: transform .55s var(--custom-ease), color .55s ease !important;
+}
+
+body.custom-refresh #main.custom-proposal .proposal-faq details[data-expanded="true"] summary > svg {
+  color: #102478;
+  transform: rotate(180deg) !important;
+}
+
+body.custom-refresh #main.custom-proposal .proposal-faq .audience-faq-content {
+  display: flow-root;
+  overflow: hidden;
+}
+
+body.custom-refresh #main.custom-proposal .proposal-faq .details-content > p {
+  margin: 0;
+  padding: .25rem 1.5rem 1.25rem .125rem;
+}
+
+body.custom-refresh #main.custom-proposal .process-description-toggle {
+  transition: color .55s ease !important;
+}
+
+body.custom-refresh #main.custom-proposal .proposal-faq summary:is(:hover, :focus-visible) {
+  background: #dfeafb;
+  padding-inline: .625rem;
+}
+
+body.custom-refresh #main.custom-proposal :is(.proposal-text-link, .proposal-all-formats):focus-visible {
+  background-size: calc(100% - 2.25rem) .0625rem;
+}
+
+body.custom-refresh #main.custom-proposal :is(.proposal-text-link, .proposal-all-formats):focus-visible svg {
+  transform: translateX(.25rem) !important;
+}
+
+body.custom-refresh #main.custom-proposal .proposal-format:focus-within {
+  border-color: #99aed1;
+  box-shadow: 0 .625rem 1rem -.625rem #10247850;
+  transform: translateY(-.25rem) !important;
+}
+
+body.custom-refresh #main.custom-proposal .proposal-format:focus-within img {
+  transform: scale(1.035) !important;
+}
+
+body.custom-refresh #main.custom-proposal .proposal-format:focus-within .proposal-format-arrow {
+  color: #fff;
+  background: #102478;
+}
+
+body.custom-refresh #main.custom-proposal .proposal-format:focus-within .proposal-format-arrow path {
+  transform: translateX(1.5px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.custom-refresh #main.custom-proposal .proposal-format:hover {
+    border-color: #99aed1;
+    box-shadow: 0 .625rem 1rem -.625rem #10247850;
+    transform: translateY(-.25rem) !important;
+  }
+
+  body.custom-refresh #main.custom-proposal .proposal-format:hover img {
+    transform: scale(1.035) !important;
+  }
+
+  body.custom-refresh #main.custom-proposal .proposal-format:hover .proposal-format-arrow {
+    color: #fff;
+    background: #102478;
+  }
+
+  body.custom-refresh #main.custom-proposal .proposal-format:hover .proposal-format-arrow path {
+    transform: translateX(1.5px);
+  }
+
+  body.custom-refresh #main.custom-proposal :is(.proposal-text-link, .proposal-all-formats):hover {
+    background-size: calc(100% - 2.25rem) .0625rem;
+  }
+
+  body.custom-refresh #main.custom-proposal :is(.proposal-text-link, .proposal-all-formats):hover svg {
+    transform: translateX(.25rem) !important;
+  }
+
+  body.custom-refresh #main.custom-proposal .steps > li:hover {
+    box-shadow: 0 .25rem .625rem #1024780c, 0 1.0625rem 1.75rem -.75rem #10247838, inset 0 0 0 .0625rem #10247818;
+  }
+
+  body.custom-refresh #main.custom-proposal .process-description-toggle:hover {
+    color: #bd5300;
+  }
+}

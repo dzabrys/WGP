@@ -544,9 +544,7 @@
       "sort": 8,
       "visible": true,
       "category": "dla-szkol",
-      "audiences": [
-        "school"
-      ],
+      "audiences": [],
       "variants": [
         {
           "id": "3x3",
@@ -742,9 +740,7 @@
       "sort": 11,
       "visible": true,
       "category": "przygodowe",
-      "audiences": [
-        "company"
-      ],
+      "audiences": [],
       "variants": [
         {
           "id": "3x3",
@@ -1074,14 +1070,6 @@
       "description": "Poznaj wielkie gry planszowe dla szkół: ekologia, cyberbezpieczeństwo i krytyczne myślenie. Nauka przez działanie, współpracę i wspólną zabawę.",
       "fields": [
         {
-          "key": "f1",
-          "label": "Tekst: Nauka · Współpraca · Zabawa",
-          "type": "text",
-          "xpath": "/html[1]/body[1]/div[1]/main[1]/section[1]/div[1]/p[1]",
-          "value": "Nauka · Współpraca · Zabawa",
-          "original": "Nauka · Współpraca · Zabawa"
-        },
-        {
           "key": "f2",
           "label": "Nagłówek: Wielkie gry dla szkół.",
           "type": "text",
@@ -1178,14 +1166,6 @@
       "title": "Gry dla firm i instytucji: integracja i szkolenia | Wielkie Gry Planszowe",
       "description": "Wielkoformatowe gry dla firm i instytucji na szkolenia, eventy i działania społeczne. Integracja zespołu, komunikacja i rozwijanie kompetencji.",
       "fields": [
-        {
-          "key": "f1",
-          "label": "Tekst: Integracja · Szkolenia · Wydarzenia",
-          "type": "text",
-          "xpath": "/html[1]/body[1]/div[1]/main[1]/section[1]/div[1]/p[1]",
-          "value": "Integracja · Szkolenia · Wydarzenia",
-          "original": "Integracja · Szkolenia · Wydarzenia"
-        },
         {
           "key": "f2",
           "label": "Nagłówek: Wielkie gry dla firm i instytucji.",

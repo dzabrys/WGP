@@ -1,5 +1,17 @@
 body.design-refined.page-home .reference-hero-grid .hero-products {
   background: #102478;
+  overflow: clip;
+}
+
+/* A static navy fade keeps the heading readable without an animated filter. */
+body.design-refined.page-home .reference-hero-grid .hero-products:before {
+  content: "";
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, #0b205e99, #0b205e38 56%, #0b205e00);
+  height: clamp(13rem, 42%, 21rem);
+  position: absolute;
+  inset: 0 0 auto;
 }
 
 body.design-refined.page-home .reference-hero-grid .hero-products .hero-copy {
@@ -35,7 +47,7 @@ body.design-refined.page-home .hero-product-slide[hidden] {
 }
 
 body.design-refined.page-home .hero-product-slide.is-active {
-  animation: .5s both home-product-in;
+  z-index: 1;
 }
 
 body.design-refined.page-home .hero-product-slide picture {
@@ -108,11 +120,18 @@ body.design-refined.page-home .hero-products :is(.carousel-prev, .carousel-next)
   border-radius: 50%;
   flex: 0 0 2.5rem;
   place-items: center;
-  padding: .5625rem;
+  padding: 0;
   display: grid;
   position: static;
   inset: auto;
   transform: none;
+}
+
+body.design-refined.page-home .hero-products :is(.carousel-prev, .carousel-next) svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  display: block;
+  transition: transform .3s cubic-bezier(.22, .61, .36, 1);
 }
 
 body.design-refined.page-home .hero-products .carousel-dots {
@@ -160,18 +179,6 @@ body.design-refined.page-home .reference-hero-grid .audience-school :is(.tile-wi
   object-position: center 33%;
 }
 
-@keyframes home-product-in {
-  from {
-    opacity: 0;
-    transform: translateX(.875rem);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 @media (width <= 640px) {
   body.design-refined.page-home .reference-hero-grid .hero-products .hero-copy {
     padding: 1.5rem;
@@ -193,10 +200,10 @@ body.design-refined.page-home .reference-hero-grid .audience-school :is(.tile-wi
   }
 
   body.design-refined.page-home .hero-products :is(.carousel-prev, .carousel-next) {
-    flex-basis: 2.25rem;
-    width: 2.25rem;
+    flex-basis: 2.5rem;
+    width: 2.5rem;
     height: 2.5rem;
-    padding: .4375rem;
+    padding: 0;
   }
 
   body.design-refined.page-home .hero-products .carousel-dots {
@@ -286,6 +293,7 @@ body.design-refined.page-home .reference-hero-grid .audience-copy > p {
   }
 
   body.design-refined.page-home .reference-hero-grid .hero-carousel {
+    grid-area: hero !important;
     height: clamp(27.5rem, 55vw, 37.5rem);
     min-height: 0;
   }
@@ -308,6 +316,7 @@ body.design-refined.page-home .reference-hero-grid .audience-copy > p {
   }
 
   body.design-refined.page-home .reference-hero-grid .audiences {
+    grid-area: audiences !important;
     grid-template-rows: auto;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
@@ -408,62 +417,171 @@ body.design-refined.page-home .reference-hero-grid .audience-copy > p {
 }
 
 @media (width <= 640px) {
-  body.design-refined.page-home .reference-hero-grid .hero-carousel {
-    height: clamp(31.25rem, 135vw, 38.75rem);
+  body.design-refined.page-home {
+    --mobile-tile-height: clamp(8.5rem, 18svh, 10rem);
   }
 
-  body.design-refined.page-home .reference-hero-grid .hero-copy {
+  body.design-a.design-refined.page-home #app > .header {
+    height: 4rem;
+    min-height: 4rem;
+    padding-block: .5rem;
+  }
+
+  body.design-a.design-refined.page-home #app > .header .brand {
+    flex: 0 1 12rem;
+    max-width: calc(100% - 3.5rem);
+  }
+
+  body.design-a.design-refined.page-home #app > .header .brand img {
+    max-height: 3rem;
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  body.design-a.design-refined.page-home #main.reference-home {
+    padding-top: .5rem;
+    padding-bottom: 0;
+  }
+
+  body.design-refined.page-home .reference-hero-grid {
+    gap: .625rem;
+    margin-bottom: 0;
+  }
+
+  body.design-refined.page-home .reference-hero-grid > .hero-carousel {
+    grid-area: hero !important;
+    height: clamp(8rem, calc(100svh - 35rem), 17rem);
+    min-height: 0;
+  }
+
+  body.design-refined.page-home .reference-hero-grid .hero-products:before {
+    height: 100%;
+    background: linear-gradient(90deg, #0b205e8c, #0b205e2b 60%, #0b205e0d);
+  }
+
+  body.design-refined.page-home .reference-hero-grid .hero-products .hero-copy {
     width: 100%;
-    padding: 1.75rem 1.5rem;
+    padding: 1rem;
   }
 
-  body.design-refined.page-home .reference-hero-grid .hero-copy h1 {
-    font-size: clamp(2rem, 10.8vw, 3.25rem);
+  body.design-refined.page-home .reference-hero-grid .hero-products .hero-copy h1 {
+    font-size: clamp(1.5rem, 6.5vw, 1.875rem);
+    line-height: 1.04;
   }
 
-  body.design-refined.page-home .reference-hero-grid .hero-slide-copy p {
-    font-size: 1.125rem;
+  body.design-refined.page-home .hero-product-slide figcaption {
+    min-height: 2rem;
+    max-width: 40%;
+    justify-content: end;
+    text-align: right;
+    inset: auto .75rem .5rem auto;
+  }
+
+  body.design-refined.page-home .hero-product-slide figcaption strong {
+    font-size: .75rem;
+  }
+
+  body.design-refined.page-home .hero-products .carousel-toolbar {
+    gap: .125rem;
+    padding: 0;
+    inset: auto auto .5rem .75rem;
+  }
+
+  body.design-refined.page-home .hero-products :is(.carousel-prev, .carousel-next) {
+    flex-basis: 2rem;
+    width: 2rem;
+    height: 2rem;
+    min-height: 2rem;
+  }
+
+  body.design-refined.page-home .hero-products .carousel-dots {
+    height: 2rem;
+    gap: 0;
+    padding: 0;
+  }
+
+  body.design-refined.page-home .hero-products .carousel-dots button {
+    width: 1.5rem;
+    min-width: 1.5rem;
+    height: 2rem;
+    min-height: 2rem;
   }
 
   body.design-refined.page-home .reference-hero-grid .audiences {
+    grid-area: audiences !important;
     grid-template-columns: minmax(0, 1fr);
+    gap: .625rem;
   }
 
   body.design-refined.page-home .reference-hero-grid .audience {
-    min-height: 15rem;
+    min-height: var(--mobile-tile-height);
     display: block;
   }
 
   body.design-refined.page-home .reference-hero-grid .card-photo {
     aspect-ratio: auto;
-    width: 60%;
+    width: 100%;
     height: 100%;
     position: absolute;
-    inset: 0 0 0 auto;
+    inset: 0;
+    -webkit-mask-image: linear-gradient(90deg, #0000 40%, #0000004d 54%, #000000d9 76%, #000 91%);
+    mask-image: linear-gradient(90deg, #0000 40%, #0000004d 54%, #000000d9 76%, #000 91%);
   }
 
   body.design-refined.page-home .reference-hero-grid .card-photo:after {
-    content: "";
-    background: linear-gradient(90deg, #fff, #ffffffd9 28%, #fff5 65%, #0000);
-    display: block;
+    content: none;
+    display: none;
+  }
+
+  body.design-refined.page-home .reference-hero-grid .audience-school .card-photo .tile-mobile-photo {
+    object-position: center 65%;
+  }
+
+  body.design-refined.page-home .reference-hero-grid .audience-company .card-photo .tile-mobile-photo {
+    object-position: center 35%;
+  }
+
+  body.design-refined.page-home .reference-hero-grid .audience-custom .card-photo .tile-mobile-photo {
+    object-position: center 62%;
+    transform: translateX(14%);
   }
 
   body.design-refined.page-home .reference-hero-grid .audience-copy {
-    gap: .875rem;
-    width: 78%;
-    min-height: 15rem;
-    padding: 1.5rem;
+    justify-content: space-between;
+    gap: .25rem;
+    width: 84%;
+    min-height: var(--mobile-tile-height);
+    padding: .75rem;
     position: relative;
   }
 
   body.design-refined.page-home .reference-hero-grid .audience h2 {
     min-height: 0;
-    font-size: 1.875rem;
+    font-size: 1.375rem;
   }
 
   body.design-refined.page-home .reference-hero-grid .audience-copy > p {
     max-width: 23ch;
-    font-size: 1rem;
+    min-height: 0;
+    margin: 0;
+    font-size: .84375rem;
+    line-height: 1.3;
+  }
+
+  body.design-refined.page-home #main.reference-home .audience .button {
+    flex: none;
+    width: fit-content;
+    min-width: 0;
+    min-height: 2rem;
+    padding: .375rem .75rem;
+    gap: .5rem;
+    font-size: .8125rem;
+  }
+
+  body.design-refined.page-home #main.reference-home .audience .button .button-arrow {
+    flex-basis: 1rem;
+    width: 1rem;
+    height: 1rem;
   }
 
   body.design-refined.page-home .reference-competencies .competencies {
@@ -473,6 +591,101 @@ body.design-refined.page-home .reference-hero-grid .audience-copy > p {
 
   body.design-refined.page-home .reference-competencies .feature span {
     font-size: .8125rem;
+  }
+}
+
+@media (width <= 640px) and (height <= 640px) {
+  body.design-refined.page-home {
+    --mobile-tile-height: 7.5rem;
+  }
+
+  body.design-a.design-refined.page-home #app > .header {
+    height: 3.5rem;
+    min-height: 3.5rem;
+    padding-block: .25rem;
+  }
+
+  body.design-refined.page-home .reference-hero-grid > .hero-carousel {
+    height: clamp(7.25rem, calc(100svh - 28.5rem), 10rem);
+  }
+
+  body.design-a.design-refined.page-home #main.reference-home {
+    padding-top: .375rem;
+  }
+
+  body.design-refined.page-home .reference-hero-grid,
+  body.design-refined.page-home .reference-hero-grid .audiences {
+    gap: .375rem;
+  }
+
+  body.design-refined.page-home .reference-hero-grid .hero-products .hero-copy {
+    padding: .625rem .875rem;
+  }
+
+  body.design-refined.page-home .reference-hero-grid .hero-products .hero-copy h1 {
+    font-size: 1.25rem;
+  }
+
+  body.design-refined.page-home .reference-hero-grid .audience-copy {
+    width: 88%;
+    padding: .5rem;
+    gap: .1875rem;
+  }
+
+  body.design-refined.page-home .reference-hero-grid .audience h2 {
+    font-size: 1.125rem;
+  }
+
+  body.design-refined.page-home .reference-hero-grid .audience-copy > p {
+    font-size: .78125rem;
+    line-height: 1.25;
+  }
+
+  body.design-refined.page-home #main.reference-home .audience .button {
+    min-height: 1.75rem;
+    padding-block: .25rem;
+    font-size: .75rem;
+  }
+}
+
+@media (width <= 767px) {
+  html:has(body.design-refined.page-home) {
+    overscroll-behavior-y: none;
+  }
+
+  body.design-refined.page-home .reference-competencies {
+    display: none;
+  }
+
+  body.design-refined.page-home .hero-product-slide[data-product-slide="0"] .hero-product-photo {
+    object-position: center 70%;
+  }
+
+  body.design-refined.page-home .hero-product-slide[data-product-slide="1"] .hero-product-photo {
+    object-position: center 78%;
+    transform: scale(1.04);
+  }
+
+  body.design-refined.page-home .hero-product-slide[data-product-slide="2"] .hero-product-photo {
+    object-position: center bottom;
+  }
+
+  body.design-a.design-refined.page-home .reference-hero-grid .audience {
+    transition: transform .18s cubic-bezier(.22, .61, .36, 1), opacity .12s ease !important;
+  }
+
+  body.design-a.design-refined.page-home .reference-hero-grid .audience:active {
+    transform: scale(.985);
+    opacity: .96;
+    transition-duration: .07s !important;
+  }
+}
+
+@media (width <= 767px) and (prefers-reduced-motion: reduce) {
+  body.design-a.design-refined.page-home .reference-hero-grid .audience,
+  body.design-a.design-refined.page-home .reference-hero-grid .audience:active {
+    transform: none !important;
+    transition: none !important;
   }
 }
 
@@ -705,11 +918,6 @@ body.audience-catalog .company-polished .catalog-custom-banner > *, body.audienc
     display: grid;
   }
 
-  body.design-a.design-refined.page-home #app > .header {
-    height: 5.75rem;
-    min-height: 5.75rem;
-  }
-
   body.design-a.design-refined.page-home #main.reference-home {
     grid-template-rows: minmax(0, 1fr) auto;
     gap: 1rem;
@@ -813,5 +1021,98 @@ body.audience-catalog .company-polished .catalog-custom-banner > *, body.audienc
   body.design-refined.page-home .reference-hero-grid .hero-slide-copy p {
     margin-bottom: 1.125rem;
     font-size: 1.125rem;
+  }
+}
+
+/* Match the offer's soft lift: transform the tile and fade a prepainted shadow. */
+body.design-refined.page-home .reference-hero-grid .audience {
+  cursor: pointer;
+  overflow: hidden;
+  transform-origin: center;
+  transition: transform .7s cubic-bezier(.22, .61, .36, 1) !important;
+}
+
+body.design-refined.page-home .reference-hero-grid .audience:before {
+  content: "";
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  box-shadow: 0 .5rem 1.125rem #1024780c, 0 1.375rem 2.5rem #10247822;
+  transition: opacity .7s cubic-bezier(.22, .61, .36, 1) !important;
+}
+
+body.design-refined.page-home .reference-hero-grid .audience:focus-visible {
+  outline: .1875rem solid var(--navy);
+  outline-offset: .25rem;
+}
+
+body.design-refined.page-home .hero-products :is(.carousel-prev, .carousel-next) {
+  transition: transform .3s cubic-bezier(.22, .61, .36, 1) !important;
+}
+
+body.design-refined.page-home .hero-products .carousel-dots button:before {
+  transition: transform .3s cubic-bezier(.22, .61, .36, 1) !important;
+}
+
+body.design-refined.page-home .hero-products .carousel-dots button[aria-pressed="true"]:before {
+  transform: scale(1.18);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.design-refined.page-home .reference-hero-grid .audience:is(:hover, :focus-visible) {
+    z-index: 2;
+    transform: scale(1.02);
+    box-shadow: 0 .75rem 1.75rem -1.0625rem #10247845;
+  }
+
+  body.design-refined.page-home .reference-hero-grid .audience:is(:hover, :focus-visible):before {
+    opacity: 1;
+  }
+
+  body.design-refined.page-home .hero-products :is(.carousel-prev, .carousel-next):hover {
+    background: #fff;
+    transform: scale(1.06);
+  }
+
+  body.design-refined.page-home .hero-products .carousel-prev:hover svg {
+    transform: translateX(-.125rem);
+  }
+
+  body.design-refined.page-home .hero-products .carousel-next:hover svg {
+    transform: translateX(.125rem);
+  }
+
+  body.design-refined.page-home .hero-products .carousel-dots button:hover:before {
+    transform: scale(1.3);
+  }
+}
+
+body.design-refined.page-home .reference-hero-grid .audience:active {
+  transform: scale(.995);
+}
+
+/* The old base right border doubled the newer left-hand separators. */
+body.design-refined.page-home .reference-competencies .feature {
+  border-right: 0;
+}
+
+body.design-refined.page-home .hero-products :is(.carousel-prev, .carousel-next):active {
+  transform: scale(.95);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.design-refined.page-home .hero-products :is(.carousel-prev, .carousel-next),
+  body.design-refined.page-home .hero-products :is(.carousel-prev, .carousel-next) svg,
+  body.design-refined.page-home .hero-products .carousel-dots button:before {
+    transition: none !important;
+  }
+
+  body.design-refined.page-home .hero-products :is(.carousel-prev, .carousel-next):is(:hover, :active),
+  body.design-refined.page-home .hero-products :is(.carousel-prev, .carousel-next):hover svg,
+  body.design-refined.page-home .hero-products .carousel-dots button:is(:hover, [aria-pressed="true"]):before {
+    transform: none;
   }
 }

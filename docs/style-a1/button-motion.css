@@ -1,0 +1,75 @@
+/* Slow fill with one continuous arrow movement, including on pointer exit. */
+body.design-a.design-refined #main .button {
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+  color: var(--navy);
+  background: var(--a-orange);
+  transform: none !important;
+  transform-origin: center;
+  box-shadow: none;
+  transition: color .85s cubic-bezier(.4, 0, .2, 1), transform .85s cubic-bezier(.4, 0, .2, 1) !important;
+}
+
+body.design-a.design-refined #main .button:before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--navy);
+  transform: translateX(-101%);
+  transition: transform .85s cubic-bezier(.4, 0, .2, 1) !important;
+}
+
+body.design-a.design-refined #main .button .button-label {
+  transform: none;
+  transition: none !important;
+}
+
+body.design-a.design-refined #main .button .button-arrow {
+  flex: 0 0 1.375rem;
+  width: 1.375rem;
+  height: 1.375rem;
+  position: relative;
+  overflow: visible;
+  color: inherit;
+}
+
+body.design-a.design-refined #main .button .button-arrow > svg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  transform: translateX(0) !important;
+  transition: transform .85s cubic-bezier(.4, 0, .2, 1) !important;
+}
+
+body.design-a.design-refined #main .button .button-arrow > svg + svg {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.design-a.design-refined #main .button:hover,
+  body.design-a.design-refined #main .button:focus-visible,
+  body.design-a.design-refined #main .audience:focus-visible .button {
+    color: #fff;
+    transform: scale(1.02) !important;
+  }
+
+  body.design-a.design-refined #main .button:hover:before,
+  body.design-a.design-refined #main .button:focus-visible:before,
+  body.design-a.design-refined #main .audience:focus-visible .button:before {
+    transform: translateX(0);
+  }
+
+  body.design-a.design-refined #main .button:hover .button-arrow > svg:first-child,
+  body.design-a.design-refined #main .button:focus-visible .button-arrow > svg:first-child,
+  body.design-a.design-refined #main .audience:focus-visible .button .button-arrow > svg:first-child {
+    transform: translateX(.25rem) !important;
+  }
+}
+
+body.design-a.design-refined #main .button:active {
+  transform: scale(.985) !important;
+}

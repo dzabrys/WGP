@@ -53,14 +53,13 @@ body.audience-compact .company-polished .company-hero {
 }
 
 body.audience-compact .company-polished .company-intro {
-  align-self: center;
+  align-self: start;
   min-width: 0;
-  padding: .5rem 0;
+  padding: 0;
 }
 
 body.audience-compact .company-polished .company-intro > .company-eyebrow {
-  color: #52617d;
-  margin-bottom: .75rem;
+  display: none;
 }
 
 body.audience-compact .company-polished .company-intro h1 {

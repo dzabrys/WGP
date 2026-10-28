@@ -1,0 +1,182 @@
+/* Shared interaction rhythm for the school and company pages. */
+body.audience-compact #main.company-polished {
+  --audience-ease: cubic-bezier(.22, .61, .36, 1);
+}
+
+body.audience-compact #main.company-polished .games-grid {
+  padding-block: .5rem .875rem;
+  margin-top: -.5rem;
+}
+
+body.audience-compact #main.company-polished .game-card {
+  transition: transform .65s var(--audience-ease), box-shadow .65s var(--audience-ease), border-color .65s ease !important;
+}
+
+body.audience-compact #main.company-polished .game-image {
+  overflow: hidden;
+}
+
+body.audience-compact #main.company-polished .game-image img {
+  transform-origin: center;
+  transition: transform .85s var(--audience-ease) !important;
+}
+
+body.audience-compact #main.company-polished :is(.company-text-link, .custom-link) {
+  position: relative;
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: left calc(100% - .25rem);
+  background-size: 0 .0625rem;
+  background-repeat: no-repeat;
+  transition: background-size .65s var(--audience-ease), color .65s ease !important;
+}
+
+body.audience-compact #main.company-polished .game-action {
+  align-self: flex-start;
+  width: fit-content;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: left bottom;
+  background-size: 0 .0625rem;
+  background-repeat: no-repeat;
+  transition: background-size .65s var(--audience-ease), color .65s ease !important;
+}
+
+body.audience-compact #main.company-polished :is(.company-text-link, .custom-link) .company-icon {
+  transition: transform .65s var(--audience-ease), background-color .65s ease, color .65s ease, box-shadow .65s ease !important;
+}
+
+body.audience-compact #main.company-polished .custom-link .company-icon path {
+  transition: transform .65s var(--audience-ease) !important;
+}
+
+body.audience-compact #main.company-polished .company-faq summary {
+  gap: 1rem;
+  border-radius: .5rem;
+  transition: background-color .55s ease, color .55s ease, padding-inline .55s var(--audience-ease) !important;
+}
+
+/* Replace the text glyph so both opening and closing can animate the same cross. */
+body.audience-compact #main.company-polished .company-faq summary > span[aria-hidden] {
+  position: relative;
+  flex: 0 0 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  font-size: 0;
+  transform: none;
+}
+
+body.audience-compact #main.company-polished .company-faq summary > span[aria-hidden]::before,
+body.audience-compact #main.company-polished .company-faq summary > span[aria-hidden]::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - .0625rem);
+  left: .25rem;
+  width: .75rem;
+  height: .125rem;
+  border-radius: .125rem;
+  background: currentColor;
+  transition: transform .55s var(--audience-ease), opacity .55s ease !important;
+}
+
+body.audience-compact #main.company-polished .company-faq summary > span[aria-hidden]::after {
+  transform: rotate(90deg);
+}
+
+body.audience-compact #main.company-polished .company-faq details[data-expanded="true"] summary > span[aria-hidden]::after {
+  transform: rotate(0);
+  opacity: 0;
+}
+
+body.audience-compact #main.company-polished .audience-faq-content {
+  display: flow-root;
+  overflow: hidden;
+}
+
+body.audience-compact #main.company-polished .audience-faq-content > p {
+  margin: 0;
+  padding: .5rem 2.25rem 1.25rem 0;
+  color: #425b7c;
+  font-size: .9375rem;
+  line-height: 1.65;
+}
+
+body.audience-compact #main.company-polished .audience-faq-content a {
+  text-decoration: underline;
+  text-underline-offset: .2rem;
+}
+
+body.audience-compact #main.company-polished .game-card:focus-within {
+  border-color: #99aed1;
+  box-shadow: 0 .625rem 1rem -.625rem #10247850;
+  transform: translateY(-.25rem) !important;
+}
+
+body.audience-compact #main.company-polished .game-card:focus-within .game-image img {
+  transform: scale(1.035) !important;
+}
+
+body.audience-compact #main.company-polished .game-card:focus-within .game-action {
+  background-size: 100% .0625rem;
+}
+
+body.audience-compact #main.company-polished :is(.company-text-link, .custom-link):focus-visible {
+  background-size: calc(100% - 2.75rem) .0625rem;
+}
+
+body.audience-compact #main.company-polished .company-text-link:focus-visible .company-icon {
+  transform: translateX(.25rem) !important;
+}
+
+body.audience-compact #main.company-polished .custom-link:focus-visible .company-icon {
+  color: #fff;
+  background: var(--navy);
+  box-shadow: 0 .25rem .75rem #10247824;
+}
+
+body.audience-compact #main.company-polished .custom-link:focus-visible .company-icon path {
+  transform: translateX(1.5px);
+}
+
+body.audience-compact #main.company-polished .company-faq summary:focus-visible {
+  background: #eaf1fc;
+  padding-inline: .625rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.audience-compact #main.company-polished .game-card:hover {
+    border-color: #99aed1;
+    box-shadow: 0 .625rem 1rem -.625rem #10247850;
+    transform: translateY(-.25rem) !important;
+  }
+
+  body.audience-compact #main.company-polished .game-card:hover .game-image img {
+    transform: scale(1.035) !important;
+  }
+
+  body.audience-compact #main.company-polished .game-card:hover .game-action {
+    background-size: 100% .0625rem;
+  }
+
+  body.audience-compact #main.company-polished :is(.company-text-link, .custom-link):hover {
+    background-size: calc(100% - 2.75rem) .0625rem;
+  }
+
+  body.audience-compact #main.company-polished .company-text-link:hover .company-icon {
+    transform: translateX(.25rem) !important;
+  }
+
+  body.audience-compact #main.company-polished .custom-link:hover .company-icon {
+    color: #fff;
+    background: var(--navy);
+    box-shadow: 0 .25rem .75rem #10247824;
+  }
+
+  body.audience-compact #main.company-polished .custom-link:hover .company-icon path {
+    transform: translateX(1.5px);
+  }
+
+  body.audience-compact #main.company-polished .company-faq summary:hover {
+    background: #eaf1fc;
+    padding-inline: .625rem;
+  }
+}

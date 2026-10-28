@@ -14,7 +14,9 @@
     const cards = [...grid.querySelectorAll('.game-card:not([hidden])')];
     const firstRow = cards.filter(card => Math.abs(card.offsetTop - cards[0].offsetTop) < 2);
     const rowHeight = Math.max(0,...firstRow.map(card => card.getBoundingClientRect().height));
-    const windowHeight = firstRow.length === cards.length ? 'none' : `${Math.ceil(rowHeight) + 10}px`;
+    const gridStyle = getComputedStyle(grid);
+    const padding = parseFloat(gridStyle.paddingTop) + parseFloat(gridStyle.paddingBottom);
+    const windowHeight = firstRow.length === cards.length ? 'none' : `${Math.ceil(rowHeight + padding)}px`;
     if (grid.style.getPropertyValue('--catalog-window') !== windowHeight) grid.style.setProperty('--catalog-window',windowHeight);
     const max = grid.scrollHeight - grid.clientHeight;
     const overflow = max > 2;

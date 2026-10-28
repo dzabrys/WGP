@@ -42,10 +42,33 @@
   };
 
   const menu = $('.menu-toggle'), nav = $('#navigation');
+  const desktopMenu = matchMedia('(min-width:1001px)');
+  let menuAnimation;
   const setMenu = open => {
+    const wasVisible = nav.classList.contains('open');
+    const opacity = wasVisible ? getComputedStyle(nav).opacity : 0;
+    const transform = wasVisible ? getComputedStyle(nav).transform : 'translateY(-6px)';
+    menuAnimation?.cancel();
+    menuAnimation = null;
     menu.setAttribute('aria-expanded', String(open));
-    nav.classList.toggle('open', open);
-    if(open)openSurface(nav, 180, -4);
+    nav.inert = !desktopMenu.matches && !open;
+    if (desktopMenu.matches || !nav.animate) {
+      nav.classList.toggle('open', open);
+      return;
+    }
+    if (!open && !wasVisible) return;
+    nav.classList.add('open');
+    const animation = nav.animate([
+      {opacity, transform},
+      {opacity: open ? 1 : 0, transform: open ? 'none' : 'translateY(-6px)'}
+    ], {duration: 400, easing: 'cubic-bezier(.22,.61,.36,1)', fill: 'both'});
+    menuAnimation = animation;
+    animation.finished.then(() => {
+      if (menuAnimation !== animation) return;
+      nav.classList.toggle('open', open);
+      menuAnimation = null;
+      animation.cancel();
+    }).catch(() => {});
   };
   menu.addEventListener('click', () => setMenu(menu.getAttribute('aria-expanded')!=='true'));
   document.addEventListener('keydown', event => {
@@ -54,7 +77,7 @@
   document.addEventListener('click', event => {
     if(!event.target.closest('.header') && nav.classList.contains('open'))setMenu(false);
   });
-  matchMedia('(min-width:1001px)').addEventListener('change', event => {if(event.matches)setMenu(false)});
+  desktopMenu.addEventListener('change', event => {if(event.matches)setMenu(false)});
   nav.addEventListener('focusout', event => {
     if(event.relatedTarget && !nav.contains(event.relatedTarget) && event.relatedTarget!==menu)setMenu(false);
   });
@@ -79,8 +102,18 @@
     const carousel=$('.hero-carousel');
     const slides=[...carousel.querySelectorAll('[data-product-slide]')];
     const dots=[...carousel.querySelectorAll('[data-slide]')];
-    let active=0;
+    let active=-1, transitionId=0;
+    const slideMotion=[];
     let hovered=false, focused=false, timer;
+    const settleSlides=()=>{
+      transitionId++;
+      slideMotion.splice(0).forEach(animation=>animation.cancel());
+      slides.forEach((slide,index)=>{
+        slide.hidden=index!==active;
+        slide.classList.toggle('is-active',index===active);
+        slide.setAttribute('aria-hidden',String(index!==active));
+      });
+    };
     const schedule=()=>{
       clearTimeout(timer);
       if(!slides.length || hovered || focused || document.hidden || motionPreference.matches)return;
@@ -88,8 +121,45 @@
     };
     const show = (number, announce=false) => {
       if(!slides.length)return;
-      active=(number+slides.length)%slides.length;
-      slides.forEach((slide,index)=>{slide.hidden=index!==active;slide.classList.toggle('is-active',index===active);});
+      const next=(number+slides.length)%slides.length;
+      if(next===active)return;
+      const previous=slides[active];
+      settleSlides();
+      active=next;
+      const current=slides[active];
+      current.hidden=false;
+      current.classList.add('is-active');
+      current.setAttribute('aria-hidden','false');
+      if(previous && current.animate){
+        // Keep the outgoing artwork underneath until the incoming one is opaque.
+        // Animations are cancelled and settled before another selection starts.
+        previous.hidden=false;
+        previous.classList.remove('is-active');
+        previous.setAttribute('aria-hidden','true');
+        const id=transitionId;
+        const reduced=motionPreference.matches;
+        const duration=720;
+        slideMotion.push(current.animate([{opacity:0},{opacity:1}],{duration,easing:'cubic-bezier(.22,.61,.36,1)'}));
+        slideMotion.push(previous.querySelector('figcaption').animate(
+          [{opacity:1},{opacity:0}],{duration:180,fill:'forwards',easing:'ease-out'}));
+        if(!reduced){
+          slideMotion.push(current.querySelector('picture').animate(
+            [{transform:'scale(1.025)'},{transform:'scale(1)'}],
+            {duration:900,easing:'cubic-bezier(.22,.61,.36,1)'}));
+        }
+        const caption=current.querySelector('figcaption');
+        slideMotion.push(caption.animate(reduced
+          ? [{opacity:0},{opacity:1}]
+          : [{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],
+          {duration:480,delay:140,fill:'backwards',easing:'cubic-bezier(.22,.61,.36,1)'}));
+        const artwork=current.querySelector('img');
+        const imageReady=artwork?.decode?artwork.decode().catch(()=>{}):Promise.resolve();
+        Promise.all([imageReady,...slideMotion.map(animation=>animation.finished.catch(()=>{}))]).then(()=>{
+          if(id===transitionId)settleSlides();
+        });
+      }else{
+        settleSlides();
+      }
       dots.forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.slide)===active)));
       const status=carousel.querySelector('#carousel-status');
       status.setAttribute('aria-live',announce?'polite':'off');
@@ -103,8 +173,8 @@
     carousel.addEventListener('pointerleave',()=>{hovered=false;schedule();});
     carousel.addEventListener('focusin',()=>{focused=true;schedule();});
     carousel.addEventListener('focusout',event=>{focused=carousel.contains(event.relatedTarget);schedule();});
-    document.addEventListener('visibilitychange',schedule);
-    motionPreference.addEventListener?.('change',schedule);
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)settleSlides();schedule();});
+    motionPreference.addEventListener?.('change',()=>{settleSlides();schedule();});
     show(0);schedule();
   }
 
@@ -115,7 +185,7 @@
     imageDialog.addEventListener('close',()=>imageTrigger.focus({preventScroll:true}));
   }
 
-  document.querySelectorAll('.step-details,.product-detail-faq details,.proposal-faq details').forEach(details=>{
+  document.querySelectorAll('.step-details,.product-detail-faq details,.proposal-faq:not([data-animated-faq]) details').forEach(details=>{
     const summary=details.querySelector('summary'), content=details.querySelector('.details-content');
     if(!content || !content.animate)return;
     let desiredOpen=details.open, running;
