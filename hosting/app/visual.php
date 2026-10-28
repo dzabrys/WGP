@@ -12,7 +12,7 @@ function visual_link(mixed $value): string {
 function visual_style(mixed $input): array {
     if(!is_array($input)||count($input)>25)fail('Nieprawidłowy wygląd elementu.');
     $out=[];$numbers=['padding'=>[0,160],'marginTop'=>[0,160],'marginBottom'=>[0,160],'gap'=>[0,100],'fontSize'=>[10,120],'borderRadius'=>[0,100],'maxWidth'=>[100,2400]];
-    $enums=['textAlign'=>['left','center','right'],'display'=>['block','flex','grid'],'flexDirection'=>['row','column'],'alignItems'=>['start','center','end','stretch'],'justifyContent'=>['start','center','end','space-between'],'width'=>['auto','25%','33.333%','50%','66.667%','75%','100%'],'objectFit'=>['cover','contain'],'fontWeight'=>['400','500','600','700','800'],'gridTemplateColumns'=>['1fr','repeat(2, minmax(0, 1fr))','repeat(3, minmax(0, 1fr))','repeat(4, minmax(0, 1fr))']];
+    $enums=['textAlign'=>['left','center','right'],'display'=>['block','flex','grid'],'flexDirection'=>['row','column'],'alignItems'=>['start','center','end','stretch'],'justifyContent'=>['start','center','end','space-between'],'width'=>['auto','25%','33.333%','50%','66.667%','75%','100%'],'objectFit'=>['cover','contain'],'fontWeight'=>['400','500','600','700','800','900'],'gridTemplateColumns'=>['1fr','repeat(2, minmax(0, 1fr))','repeat(3, minmax(0, 1fr))','repeat(4, minmax(0, 1fr))']];
     foreach($input as$key=>$value){
         if(isset($numbers[$key])){[$min,$max]=$numbers[$key];if(!is_int($value)||$value<$min||$value>$max)fail('Sprawdź rozmiar lub odstęp elementu.');}
         elseif(isset($enums[$key])){if(!is_string($value)||!in_array($value,$enums[$key],true))fail('Nieprawidłowe ustawienie układu.');}
@@ -23,8 +23,9 @@ function visual_style(mixed $input): array {
     return $out;
 }
 function visual_change(mixed $change): array {
-    if(!is_array($change)||array_diff(array_keys($change),['text','image','link','style','mobile','hidden']))fail('Nieprawidłowa zmiana strony.');
+    if(!is_array($change)||array_diff(array_keys($change),['text','textFormat','image','link','style','mobile','hidden']))fail('Nieprawidłowa zmiana strony.');
     $out=[];
+    if(isset($change['textFormat'])){if($change['textFormat']!=='lines')fail('Nieprawidłowy format tekstu.');$out['textFormat']='lines';}
     if(isset($change['text']))$out['text']=text_value($change['text'],6000,'tekst na stronie');
     if(isset($change['image']))$out['image']=valid_image($change['image']);
     if(isset($change['link']))$out['link']=visual_link($change['link']);
@@ -36,8 +37,9 @@ function validate_visual(mixed $input,array $files): array {
     if(!is_array($input)||array_diff(array_keys($input),['pages'])||!is_array($input['pages']??[])||count($input['pages']??[])>550)fail('Nieprawidłowy układ stron.');
     $out=['pages'=>[]];
     foreach($input['pages']??[]as$file=>$model){
-        if(!in_array($file,$files,true)||!is_array($model)||array_diff(array_keys($model),['changes','added','order']))fail('Nieprawidłowa strona w edytorze.');
+        if(!in_array($file,$files,true)||!is_array($model)||array_diff(array_keys($model),['changes','added','order','flow']))fail('Nieprawidłowa strona w edytorze.');
         $page=['changes'=>[],'added'=>[],'order'=>[]];
+        if(array_key_exists('flow',$model)){if(!is_array($model['flow'])||!array_is_list($model['flow'])||count($model['flow'])>600)fail('Nieprawidłowy układ bloków.');foreach($model['flow']as$id)if(!visual_id($id))fail('Nieprawidłowy blok układu.');$page['flow']=array_values(array_unique($model['flow']));}
         foreach(['changes','added','order']as$key)if(!is_array($model[$key]??[])||count($model[$key]??[])>600)fail('Na stronie jest zbyt wiele zmian.');
         foreach($model['changes']??[]as$id=>$change){if(!visual_id($id))fail('Nieprawidłowy element strony.');$page['changes'][$id]=visual_change($change);}
         $ids=[];
@@ -62,9 +64,60 @@ function visual_css(array $style): string {
     foreach($style as$key=>$value){$property=strtolower(preg_replace('/[A-Z]/','-$0',$key));$out.=$property.':'.$value.(in_array($key,$numeric,true)?'px':'').'!important;';}
     return $out;
 }
-function visual_container(DOMElement $node): bool {return in_array(strtolower($node->tagName),['main','div','section','article','aside','figure','header','footer','nav','ul','ol','li','a'],true);}
+function visual_media(DOMElement $node): bool {
+    for($p=$node;$p instanceof DOMElement;$p=$p->parentNode){
+        if(preg_match('/(?:^|\s)(?:card-photo|hero-product-stage|hero-product-slide|carousel-toolbar|carousel-dots|school-scene|company-photo|custom-photo|proposal-connector|step-arrow)(?:\s|$)/',$p->getAttribute('class')))return true;
+    }return false;
+}
+function visual_container(DOMElement $node): bool {return !visual_media($node)&&in_array(strtolower($node->tagName),['main','div','section','article','aside','figure','header','footer','nav','ul','ol','li','a'],true);}
+function visual_movable(DOMElement $node,DOMElement $root): bool {
+    if($node===$root||visual_media($node)||$node->getAttribute('aria-hidden')==='true'||preg_match('/(?:^|\s)visually-hidden(?:\s|$)/',$node->getAttribute('class'))||in_array(strtolower($node->tagName),['br','form','table','tbody','tr','td','th'],true))return false;
+    if(strtolower($node->tagName)==='label'&&($node->getElementsByTagName('input')->length||$node->getElementsByTagName('select')->length||$node->getElementsByTagName('textarea')->length))return false;
+    $insideForm=false;for($p=$node->parentNode;$p instanceof DOMElement;$p=$p->parentNode)if(strtolower($p->tagName)==='form'){$insideForm=true;break;}
+    if($insideForm&&(strtolower($node->tagName)==='button'||$node->getElementsByTagName('input')->length||$node->getElementsByTagName('select')->length||$node->getElementsByTagName('textarea')->length))return false;
+    // Inline emphasis, button labels and line breaks travel with their complete text block.
+    for($p=$node->parentNode;$p instanceof DOMElement;$p=$p->parentNode){if(in_array(strtolower($p->tagName),['h1','h2','h3','h4','p','a','button','summary','label','span','strong','em'],true))return false;if(visual_container($p))break;}
+    return true;
+}
+function visual_text(DOMElement $node): bool {
+    if(!in_array(strtolower($node->tagName),['h1','h2','h3','h4','p','span','strong','em','small','a','button','summary','label','li','dt','dd','figcaption'],true))return false;
+    // Replacing a parent text must never delete separately editable descendants or a whole card.
+    foreach($node->getElementsByTagName('*')as$child)if(!in_array(strtolower($child->tagName),['br','span','strong','em','small','b','i'],true))return false;
+    return true;
+}
+function visual_set_text(DOMElement $node,string $value): void {
+    $old=preg_split('//u',$node->textContent,-1,PREG_SPLIT_NO_EMPTY);$text=preg_split('//u',$value,-1,PREG_SPLIT_NO_EMPTY);if($node->textContent===$value)return;
+    $leaves=iterator_to_array((new DOMXPath($node->ownerDocument))->query('.//text()',$node));
+    if(!$leaves){$node->insertBefore($node->ownerDocument->createTextNode($value),$node->firstChild);return;}
+    $prefix=0;$suffix=0;while($prefix<count($old)&&$prefix<count($text)&&$old[$prefix]===$text[$prefix])$prefix++;
+    while($suffix<count($old)-$prefix&&$suffix<count($text)-$prefix&&$old[count($old)-1-$suffix]===$text[count($text)-1-$suffix])$suffix++;
+    $insert=implode('',array_slice($text,$prefix,count($text)-$suffix-$prefix));$end=count($old)-$suffix;$offset=0;$inserted=false;
+    foreach($leaves as$leaf){$chars=preg_split('//u',$leaf->nodeValue,-1,PREG_SPLIT_NO_EMPTY);$start=$offset;$offset+=count($chars);if($offset<$prefix||$start>$end)continue;
+        $before=implode('',array_slice($chars,0,max(0,min(count($chars),$prefix-$start))));$after=implode('',array_slice($chars,max(0,min(count($chars),$end-$start))));
+        $leaf->nodeValue=$before.(!$inserted?$insert:'').$after;$inserted=true;
+    }
+}
+function visual_read_text(DOMNode $node): string {
+    if($node instanceof DOMText)return $node->data;
+    if($node instanceof DOMElement&&strtolower($node->tagName)==='br')return $node->hasAttribute('data-wgp-break-hidden')?'':"\n";
+    $out='';foreach($node->childNodes as$child)$out.=visual_read_text($child);return $out;
+}
+function visual_set_lines(DOMElement $node,string $value): void {
+    $old=preg_split('//u',visual_read_text($node),-1,PREG_SPLIT_NO_EMPTY);$next=preg_split('//u',$value,-1,PREG_SPLIT_NO_EMPTY);if(implode('',$old)===$value)return;
+    $prefix=0;$suffix=0;while($prefix<count($old)&&$prefix<count($next)&&$old[$prefix]===$next[$prefix])$prefix++;
+    while($suffix<count($old)-$prefix&&$suffix<count($next)-$prefix&&$old[count($old)-1-$suffix]===$next[count($next)-1-$suffix])$suffix++;
+    $leaves=[];$walk=function(DOMNode $p)use(&$walk,&$leaves){foreach($p->childNodes as$n)if($n instanceof DOMText)$leaves[]=$n;elseif($n instanceof DOMElement){if(strtolower($n->tagName)==='br'){if(!$n->hasAttribute('data-wgp-break-hidden'))$leaves[]=$n;}else$walk($n);}};$walk($node);
+    $fragment=function(string $text)use($node): DOMDocumentFragment {$f=$node->ownerDocument->createDocumentFragment();foreach(explode("\n",$text)as$i=>$line){if($i)$f->appendChild($node->ownerDocument->createElement('br'));$f->appendChild($node->ownerDocument->createTextNode($line));}return $f;};
+    $end=count($old)-$suffix;$insertion=implode('',array_slice($next,$prefix,count($next)-$suffix-$prefix));$offset=0;$inserted=false;
+    foreach($leaves as$leaf){$br=$leaf instanceof DOMElement;$chars=$br?["\n"]:preg_split('//u',$leaf->data,-1,PREG_SPLIT_NO_EMPTY);$start=$offset;$offset+=count($chars);if($offset<$prefix||$start>$end)continue;
+        $before=implode('',array_slice($chars,0,max(0,min(count($chars),$prefix-$start))));$after=implode('',array_slice($chars,max(0,min(count($chars),$end-$start))));
+        if($br){if(!$inserted){$leaf->parentNode->insertBefore($fragment($insertion),$before!==''?$leaf->nextSibling:$leaf);$inserted=true;}if($prefix<=$start&&$end>$start){$leaf->setAttribute('data-wgp-break-hidden','1');$leaf->setAttribute('style','display:none');}}
+        else{$text=$before.(!$inserted?$insertion:'').$after;$inserted=true;if(str_contains($text,"\n")){$leaf->parentNode->insertBefore($fragment($text),$leaf);$leaf->parentNode->removeChild($leaf);}else$leaf->data=$text;}
+    }
+    if(!$leaves)$node->insertBefore($fragment($value),$node->firstChild);
+}
 function visual_compatible(DOMElement $node,DOMElement $parent): bool {
-    if(!visual_container($parent)||$node===$parent)return false;
+    if(!visual_container($parent)||strtolower($parent->tagName)==='a'||$node===$parent)return false;
     for($p=$parent;$p instanceof DOMElement;$p=$p->parentNode)if($p===$node)return false;
     if(in_array(strtolower($parent->tagName),['ul','ol'],true)&&strtolower($node->tagName)!=='li')return false;
     if((strtolower($node->tagName)==='a'||$node->getElementsByTagName('a')->length)&&($parent->tagName==='a'||(new DOMXPath($parent->ownerDocument))->query('ancestor::a',$parent)->length))return false;
@@ -81,7 +134,7 @@ function visual_nodes(DOMDocument $d): array {
             $path=$node->hasAttribute('id')?'id:'.$node->getAttribute('id'):($node->hasAttribute('data-wgp-key')?preg_replace('~/[^/]+$~','',$path).'/key:'.$node->getAttribute('data-wgp-key'):$path);
             $id='n-'.substr(hash('sha256',$path),0,16);$node->setAttribute('data-wgp-node',$id);$node->setAttribute('data-wgp-root',$rootKey);
             $node->setAttribute('data-wgp-container',visual_container($node)?'1':'0');
-            $node->setAttribute('data-wgp-movable',$node===$root||in_array($tag,['form','table','tbody','tr','td','th'],true)?'0':'1');
+            $node->setAttribute('data-wgp-movable',visual_movable($node,$root)?'1':'0');
             $map[$id]=$node;$index=[];
             foreach(iterator_to_array($node->childNodes)as$child)if($child instanceof DOMElement){$t=strtolower($child->tagName);$index[$t]=($index[$t]??0)+1;$walk($child,$path.'/'.$t.'['.$index[$t].']');}
         };
@@ -91,7 +144,7 @@ function visual_nodes(DOMDocument $d): array {
 }
 function apply_visual(DOMDocument $d,string $file,array $state,bool $canvas=false): void {
     $model=$state['visual']['pages'][$file]??['changes'=>[],'added'=>[],'order'=>[]];
-    if(!$canvas&&!$model['changes']&&!$model['added']&&!$model['order'])return;
+    if(!$canvas&&!$model['changes']&&!$model['added']&&!$model['order']&&empty($model['flow']))return;
     $map=visual_nodes($d);$remaining=$model['added']??[];
     for($pass=0;$remaining&&$pass<30;$pass++){
         $next=[];foreach($remaining as$added){$parent=$map[$added['parent']]??null;if(!$parent){$next[]=$added;continue;}if(!visual_container($parent))continue;
@@ -100,26 +153,43 @@ function apply_visual(DOMDocument $d,string $file,array $state,bool $canvas=fals
             if(!visual_compatible($node,$parent))continue;$map[$added['id']]=$node;$parent->appendChild($node);
         }$remaining=$next;
     }
-    foreach($model['order']??[]as$parentId=>$children){$parent=$map[$parentId]??null;if(!$parent)continue;$parent->setAttribute('data-wgp-arranged','1');foreach($children as$id){$node=$map[$id]??null;if($node&&$node->getAttribute('data-wgp-movable')==='1'&&visual_compatible($node,$parent))$parent->appendChild($node);}}
+    $originalOrders=[];foreach($map as$id=>$node)if(visual_container($node)){$originalOrders[$id]=[];foreach($node->childNodes as$child)if($child instanceof DOMElement&&$child->hasAttribute('data-wgp-node'))$originalOrders[$id][]=$child->getAttribute('data-wgp-node');}
+    foreach($model['order']??[]as$parentId=>$children){
+        $parent=$map[$parentId]??null;if(!$parent)continue;$anchor=null;
+        // Fixed siblings remain in their own container; movable blocks can sit on either side.
+        foreach(array_reverse($children)as$id){$node=$map[$id]??null;if(!$node)continue;
+            if($node->getAttribute('data-wgp-movable')==='1'&&visual_compatible($node,$parent)){if($node->parentNode!==$parent)$node->setAttribute('data-wgp-transferred','1');$parent->insertBefore($node,$anchor);$anchor=$node;}
+            elseif($node->parentNode===$parent)$anchor=$node;
+        }
+    }
+    foreach($originalOrders as$id=>$original){$parent=$map[$id];$actual=[];foreach($parent->childNodes as$child)if($child instanceof DOMElement&&$child->hasAttribute('data-wgp-node'))$actual[]=$child->getAttribute('data-wgp-node');if($actual!==$original)$parent->setAttribute('data-wgp-arranged','1');else$parent->removeAttribute('data-wgp-arranged');}
+    foreach($model['flow']??[]as$id)if(isset($map[$id])&&visual_container($map[$id]))$map[$id]->setAttribute('data-wgp-flow','1');
     $changes=[];foreach($model['added']??[]as$node)$changes[$node['id']]=$node['content'];
     foreach($model['changes']??[]as$id=>$change)$changes[$id]=array_replace_recursive($changes[$id]??[],$change);
-    $css='';
+    $css='';$needsFlow=!empty($model['order'])||!empty($model['flow']);
     foreach($changes as$id=>$change){$node=$map[$id]??null;if(!$node)continue;
         // Text editing never replaces a container's interactive controls or child blocks.
-        if(isset($change['text'])&&$node->getElementsByTagName('form')->length===0&&$node->getElementsByTagName('input')->length===0){$tag=strtolower($node->tagName);if(in_array($tag,['h1','h2','h3','h4','p','span','strong','em','small','a','button','summary','label','li'],true)&&!$node->getElementsByTagName('img')->length)set_text($node,$change['text']);}
+        if(isset($change['text'])&&visual_text($node))(($change['textFormat']??'')==='lines'?visual_set_lines($node,$change['text']):visual_set_text($node,$change['text']));
         if(isset($change['image'])&&strtolower($node->tagName)==='img')set_image($node,$change['image']);
         if(isset($change['link'])&&strtolower($node->tagName)==='a'){$node->setAttribute('href',$change['link']);if(str_starts_with($change['link'],'https://'))$node->setAttribute('rel','noopener');}
-        if(isset($change['hidden'])&&$change['hidden'])$node->setAttribute('data-wgp-hidden','1');
+        if(isset($change['hidden'])&&$change['hidden']){$node->setAttribute('data-wgp-hidden','1');if($node->parentNode instanceof DOMElement&&visual_container($node->parentNode))$node->parentNode->setAttribute('data-wgp-hide-flow','1');$needsFlow=true;}
+        if(isset($change['text']))$node->setAttribute('data-wgp-text-edited','1');
+        if(isset($change['text'])||!empty($change['style'])||!empty($change['mobile'])){$node->setAttribute('data-wgp-edited','1');$needsFlow=true;}
         $selector='[data-wgp-node="'.$id.'"]';
+        if(isset($change['style']['fontSize']))$node->setAttribute('data-wgp-font-custom','1');
+        if(isset($change['mobile']['fontSize']))$node->setAttribute('data-wgp-mobile-font-custom','1');
+        foreach(['width','color']as$property){if(isset($change['style'][$property]))$node->setAttribute('data-wgp-'.$property.'-custom','1');if(isset($change['mobile'][$property]))$node->setAttribute('data-wgp-mobile-'.$property.'-custom','1');}
+        foreach(['style'=>'desktop','mobile'=>'mobile']as$scope=>$device)if(isset($change[$scope]['gridTemplateColumns'])||isset($change[$scope]['flexDirection'])||in_array($change[$scope]['display']??'',['grid','flex'],true)){$node->setAttribute('data-wgp-layout-'.$device,'1');$needsFlow=true;}
         if(!empty($change['style']))$css.=$selector.'{'.visual_css($change['style']).'}';
         if(!empty($change['mobile']))$css.='@media(max-width:760px){'.$selector.'{'.visual_css($change['mobile']).'}}';
     }
-    if($css||$canvas||$changes||!empty($model['order'])){$style=$d->createElement('style');$style->setAttribute('id','wgp-visual-layout');$style->appendChild($d->createTextNode('[data-wgp-hidden="1"]{display:none!important}[data-wgp-arranged="1"]>[data-wgp-node]{grid-area:auto!important;order:initial!important}'.$css));$d->getElementsByTagName('head')->item(0)->appendChild($style);}
+    if($css||$canvas||$changes||$needsFlow){$style=$d->createElement('style');$style->setAttribute('id','wgp-visual-layout');$style->appendChild($d->createTextNode('[data-wgp-hidden="1"]{display:none!important}[data-wgp-arranged="1"]>[data-wgp-node]{min-width:0}[data-wgp-arranged="1"] :is(h1,h2,h3,h4,p){overflow-wrap:anywhere}'.$css));$d->getElementsByTagName('head')->item(0)->appendChild($style);}
     if($canvas){
         foreach(nodes($d,'//script')as$script)$script->parentNode->removeChild($script);
         $body=$d->getElementsByTagName('body')->item(0);$body->setAttribute('data-wgp-canvas',$file);
         $link=$d->createElement('link');$link->setAttribute('rel','stylesheet');$link->setAttribute('href','/panel/canvas.css');$d->getElementsByTagName('head')->item(0)->appendChild($link);
+        $flow=$d->createElement('script');$flow->setAttribute('src','/style-a1/ui/visual-layout.js');$flow->setAttribute('defer','');$body->appendChild($flow);
         $script=$d->createElement('script');$script->setAttribute('src','/panel/canvas.js');$script->setAttribute('defer','');$body->appendChild($script);
         // The browser applies the current in-memory model to a pristine baseline.
-    }
+    }elseif($needsFlow){$flow=$d->createElement('script');$flow->setAttribute('src','style-a1/ui/visual-layout.js?v=1');$flow->setAttribute('defer','');$d->getElementsByTagName('head')->item(0)->appendChild($flow);}
 }
