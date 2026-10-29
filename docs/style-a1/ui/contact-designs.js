@@ -132,10 +132,19 @@
       if (!field) return '';
       return String(field.value || '').trim();
     };
+    let stepAnimation;
     const showStep = (index, focus = true) => {
       if (!panels.length) return;
+      const previousStep = step;
+      stepAnimation?.cancel();
       step = Math.max(0, Math.min(index, panels.length - 1));
       panels.forEach((panel, i) => { panel.hidden = i !== step; });
+      if (step !== previousStep && panels[step].animate) {
+        stepAnimation = panels[step].animate([
+          {opacity: .35, transform: 'translateY(6px)'},
+          {opacity: 1, transform: 'translateY(0)'}
+        ], {duration: 550, easing: 'cubic-bezier(.22,.61,.36,1)'});
+      }
       stepLinks.forEach((button, i) => {
         if (i === step) button.setAttribute('aria-current', 'step');
         else button.removeAttribute('aria-current');

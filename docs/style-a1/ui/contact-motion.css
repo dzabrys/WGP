@@ -1,0 +1,77 @@
+/* Same calm interaction rhythm as the audience and custom-order pages. */
+body.contact-designs {
+  --contact-motion-ease: cubic-bezier(.22,.61,.36,1);
+}
+body.contact-designs :is(.contact-product,.contact-method) {
+  transition: border-color .65s ease, box-shadow .65s ease, background-color .65s ease !important;
+}
+body.contact-designs .contact-product img {
+  transition: transform .85s var(--contact-motion-ease) !important;
+}
+body.contact-designs :is(input,textarea,select,.contact-control-trigger) {
+  transition: border-color .55s ease, box-shadow .55s ease, background-color .55s ease !important;
+}
+body.contact-designs :is(input,textarea):focus-visible {
+  border-color: #829bc9;
+  box-shadow: 0 0 0 .1875rem #10247812;
+}
+body.contact-designs :is(.contact-step-link,.contact-step-link > span,.contact-option,.contact-calendar-day,.contact-mail-provider,.contact-copy-action,.contact-step-back,.contact-review-edit,.contact-return-products,.contact-form-submit) {
+  transition: background-color .65s ease, color .65s ease, border-color .65s ease, box-shadow .65s ease, transform .65s var(--contact-motion-ease) !important;
+}
+body.contact-designs .contact-control-icon svg {
+  transform: rotate(0);
+  transition: transform .55s var(--contact-motion-ease) !important;
+}
+body.contact-designs .contact-control-trigger[aria-expanded="true"] .contact-control-icon svg {
+  transform: rotate(180deg);
+}
+/* Calendar artwork remains upright when its popup is open. */
+body.contact-designs .contact-control-trigger[aria-haspopup="dialog"] .contact-control-icon svg {
+  transform: none;
+}
+body.contact-designs .contact-product:focus-within {
+  border-color: #829bc9;
+  box-shadow: 0 .375rem .875rem -.5rem #10247840;
+}
+body.contact-designs .contact-product:focus-within img {
+  transform: scale(1.035) !important;
+}
+body.contact-designs .contact-product-spec summary {
+  border-radius: .5rem;
+  transition: background-color .55s ease, color .55s ease !important;
+}
+body.contact-designs .contact-product-spec .audience-faq-content {
+  display: flow-root;
+  overflow: hidden;
+}
+body.contact-designs .contact-method svg {
+  transition: transform .65s var(--contact-motion-ease) !important;
+}
+@media (hover:hover) and (pointer:fine) {
+  body.contact-designs .contact-product:hover {
+    border-color: #829bc9;
+    box-shadow: 0 .375rem .875rem -.5rem #10247840;
+  }
+  body.contact-designs .contact-product:hover img {
+    transform: scale(1.035) !important;
+  }
+  body.contact-designs .contact-method:hover {
+    background-color: #f1f6ff;
+    border-color: #a8bcdd;
+  }
+  body.contact-designs .contact-method:hover svg {
+    transform: translateY(-2px) !important;
+  }
+  body.contact-designs :is(.contact-mail-provider,.contact-copy-action,.contact-step-back,.contact-review-edit,.contact-return-products):not(:disabled):hover {
+    background-color: #eaf1fc;
+    color: #102478;
+  }
+  body.contact-designs .contact-form-submit:not(:disabled):hover {
+    background: #102478;
+    color: #fff;
+    transform: translateY(-2px) !important;
+  }
+  body.contact-designs .contact-product-spec summary:hover {
+    background-color: #eaf1fc;
+  }
+}

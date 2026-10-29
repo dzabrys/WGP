@@ -1,6 +1,6 @@
 /* Keep native details semantics; animate their content in either direction. */
 (() => {
-  document.querySelectorAll('body.audience-compact .company-faq details, [data-animated-faq] details').forEach(details => {
+  document.querySelectorAll('body.audience-compact .company-faq details, [data-animated-faq] details, details[data-animated-faq-item]').forEach(details => {
     const summary = details.querySelector('summary');
     if (!summary || !Element.prototype.animate) return;
     let content = details.querySelector(':scope > .details-content');

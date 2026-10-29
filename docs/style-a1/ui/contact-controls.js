@@ -103,14 +103,30 @@
           : rect.top - height - gap;
         panel.style.top = Math.max(edge, top) + 'px';
       };
+      let popupAnimation;
       const close = (focus = false) => {
-        panel.hidden = true; trigger.setAttribute('aria-expanded', 'false');
+        popupAnimation?.cancel();
+        popupAnimation = null;
+        trigger.setAttribute('aria-expanded', 'false');
+        panel.inert = true;
+        if (!panel.hidden && panel.animate) {
+          const animation = panel.animate([{opacity:1},{opacity:0}], {duration:250,fill:'both',easing:'ease-out'});
+          popupAnimation = animation;
+          animation.finished.then(() => {
+            if (popupAnimation !== animation) return;
+            panel.hidden = true; popupAnimation = null; animation.cancel();
+          }).catch(() => {});
+        } else panel.hidden = true;
         if (active?.panel === panel) active = null;
         if (focus) trigger.focus();
       };
       const open = () => {
-        active?.close(); panel.hidden = false; trigger.setAttribute('aria-expanded', 'true');
+        active?.close(); popupAnimation?.cancel(); popupAnimation = null;
+        panel.hidden = false; panel.inert = false; trigger.setAttribute('aria-expanded', 'true');
         active = {panel, wrap, close, place}; place();
+        if (panel.animate) popupAnimation = panel.animate([
+          {opacity:0,transform:'translateY(-4px)'}, {opacity:1,transform:'translateY(0)'}
+        ], {duration:400,easing:'cubic-bezier(.22,.61,.36,1)'});
       };
       const sync = () => {
         trigger.disabled = field.disabled;
@@ -158,7 +174,7 @@
         if (!c.panel.hidden) { highlight(index); c.place(); }
       };
       const open = () => { render(); c.open(); c.panel.focus(); highlight(index); };
-      c.trigger.addEventListener('click', () => c.panel.hidden ? open() : c.close());
+      c.trigger.addEventListener('click', () => c.trigger.getAttribute('aria-expanded') === 'true' ? c.close() : open());
       c.trigger.addEventListener('keydown', event => {
         if (['ArrowDown', 'ArrowUp'].includes(event.key)) { event.preventDefault(); open(); }
       });
@@ -302,7 +318,7 @@
         focused = inBounds(date.value ? parse(date.value) : today());
         shown = focused; choosingMonth = false; render(); c.open(); focusDay();
       };
-      c.trigger.addEventListener('click', () => c.panel.hidden ? open() : c.close());
+      c.trigger.addEventListener('click', () => c.trigger.getAttribute('aria-expanded') === 'true' ? c.close() : open());
       c.trigger.addEventListener('keydown', event => {if (event.key === 'ArrowDown') {event.preventDefault(); open();}});
       c.panel.addEventListener('keydown', event => {
         if (event.key !== 'Tab') return;
