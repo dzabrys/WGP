@@ -163,7 +163,7 @@
       dots.forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.slide)===active)));
       const status=carousel.querySelector('#carousel-status');
       status.setAttribute('aria-live',announce?'polite':'off');
-      status.textContent=`Gra ${active+1} z ${slides.length}: ${slides[active].querySelector('figcaption strong').textContent}.`;
+      status.textContent=`Slajd ${active+1} z ${slides.length}: ${slides[active].dataset.slideLabel||slides[active].querySelector('figcaption strong').textContent}.`;
     };
     const select=number=>{show(number,true);schedule();};
     carousel.querySelector('.carousel-prev').addEventListener('click',()=>select(active-1));

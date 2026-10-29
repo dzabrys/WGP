@@ -34,21 +34,27 @@ function render_carousel(DOMDocument $d,array $state,array $visible): void {
     $templates=nodes($d,'//figure[@data-product-slide]');if(!$templates)return;
     $original=['gra-skarb-piratow','gra-zostan-kierowca','gra-segreguj-smieci'];
     $seed=array_column(json_decode(file_get_contents(__DIR__.'/seed.json'),true)['products'],null,'id');$byId=array_column($visible,null,'id');
-    $featured=array_values(array_filter($state['appearance']['featured']??$original,fn($id)=>isset($byId[$id])));$total=count($featured);
+    $featured=array_values(array_filter($state['appearance']['featured']??$original,fn($slide)=>is_string($slide)?isset($byId[$slide]):is_array($slide)&&($slide['type']??'')==='image'));$total=count($featured);
     while($stage->firstChild)$stage->removeChild($stage->firstChild);$dots='';
-    foreach($featured as$i=>$id){
-        $p=$byId[$id];$originalIndex=array_search($id,$original,true);$optimized=$originalIndex!==false&&$p['image']===($seed[$id]['image']??'');
-        $figure=$templates[$optimized?$originalIndex:0]->cloneNode(true);$figure->setAttribute('data-wgp-key','slide-'.$p['id']);$figure->setAttribute('data-product-slide',(string)$i);$figure->setAttribute('aria-label',($i+1).' z '.$total.': '.$p['name']);
-        $figure->setAttribute('class','hero-product-slide'.($i===0?' is-active':''));if($i===0)$figure->removeAttribute('hidden');else$figure->setAttribute('hidden','');
-        foreach(iterator_to_array($figure->getElementsByTagName('strong'))as$e)set_text($e,$p['name']);
-        foreach(iterator_to_array($figure->getElementsByTagName('img'))as$img){if(!$optimized)set_image($img,$p['image']);$img->setAttribute('alt','Plansza gry: '.$p['name']);$img->setAttribute('loading',$i===0?'eager':'lazy');$img->setAttribute('fetchpriority',$i===0?'high':'low');}
-        $stage->appendChild($figure);$dots.='<button type="button" data-slide="'.$i.'" aria-label="Pokaż grę: '.esc($p['name']).'" aria-pressed="'.($i===0?'true':'false').'"></button>';
+    foreach($featured as$i=>$slide){
+        $imageOnly=is_array($slide);$id=$imageOnly?'image-'.$i:$slide;
+        $p=$imageOnly?['id'=>$id,'name'=>$slide['caption']?:$slide['alt'],'image'=>$slide['image']]:$byId[$id];
+        $originalIndex=array_search($id,$original,true);$optimized=!$imageOnly&&$originalIndex!==false&&$p['image']===($seed[$id]['image']??'');
+        $figure=$templates[$optimized?$originalIndex:0]->cloneNode(true);$figure->setAttribute('data-wgp-key','slide-'.$p['id']);$figure->setAttribute('data-product-slide',(string)$i);$figure->setAttribute('data-slide-label',$p['name']);$figure->setAttribute('aria-label',($i+1).' z '.$total.': '.$p['name']);
+        $figure->setAttribute('class','hero-product-slide'.($imageOnly?' hero-image-slide':'').($i===0?' is-active':''));if($i===0)$figure->removeAttribute('hidden');else$figure->setAttribute('hidden','');
+        foreach(iterator_to_array($figure->getElementsByTagName('strong'))as$e)set_text($e,$imageOnly?$slide['caption']:$p['name']);
+        foreach(iterator_to_array($figure->getElementsByTagName('figcaption'))as$e){if($imageOnly&&$slide['caption']==='')$e->setAttribute('hidden','');else$e->removeAttribute('hidden');}
+        foreach(iterator_to_array($figure->getElementsByTagName('img'))as$img){if(!$optimized)set_image($img,$p['image']);$img->setAttribute('alt',$imageOnly?$slide['alt']:'Plansza gry: '.$p['name']);$img->setAttribute('loading',$i===0?'eager':'lazy');$img->setAttribute('fetchpriority',$i===0?'high':'low');if($imageOnly){$img->removeAttribute('width');$img->removeAttribute('height');}}
+        $stage->appendChild($figure);$dots.='<button type="button" data-slide="'.$i.'" aria-label="Pokaż '.($imageOnly?'zdjęcie: ':'grę: ').esc($p['name']).'" aria-pressed="'.($i===0?'true':'false').'"></button>';
     }
-    if(!$total)replace_children($stage,'<p class="empty">Wybierz gry do karuzeli w panelu lub sprawdź naszą ofertę.</p>');
+    if(!$total)replace_children($stage,'<p class="empty">Dodaj gry lub zdjęcia do karuzeli w panelu lub sprawdź naszą ofertę.</p>');
     if($e=first($d,'//*['.css_class('carousel-dots').']'))replace_children($e,$dots);
-    if($e=first($d,'//*[@id="carousel-status"]'))set_text($e,$total?'Gra 1 z '.$total.': '.$byId[$featured[0]]['name'].'.':'');
+    if($e=first($d,'//*[@id="carousel-status"]'))set_text($e,$total?'Slajd 1 z '.$total.': '.(is_array($featured[0])?($featured[0]['caption']?:$featured[0]['alt']):$byId[$featured[0]]['name']).'.':'');
     if($e=first($d,'//*['.css_class('carousel-toolbar').']')){if($total<2)$e->setAttribute('hidden','');else$e->removeAttribute('hidden');}
-    $style=$d->createElement('style','.carousel-dots{flex-wrap:wrap;max-width:min(60vw,30rem)}.carousel-toolbar{max-width:calc(100% - 1.25rem)}.carousel-toolbar[hidden]{display:none!important}');$d->getElementsByTagName('head')->item(0)->appendChild($style);
+    if($e=first($d,'//*['.css_class('hero-carousel').']'))$e->setAttribute('aria-label','Wybrane gry i zdjęcia');
+    if($e=first($d,'//*['.css_class('carousel-prev').']'))$e->setAttribute('aria-label','Poprzedni slajd');
+    if($e=first($d,'//*['.css_class('carousel-next').']'))$e->setAttribute('aria-label','Następny slajd');
+    $style=$d->createElement('style','.carousel-dots{flex-wrap:wrap;max-width:min(60vw,30rem)}.carousel-toolbar{max-width:calc(100% - 1.25rem)}.carousel-toolbar[hidden]{display:none!important}.hero-image-slide .hero-product-photo{width:100%!important;height:100%!important;object-fit:contain!important;transform:none!important}.hero-image-slide figcaption[hidden]{display:none!important}');$d->getElementsByTagName('head')->item(0)->appendChild($style);
 }
 function render_categories(DOMDocument $d,array $state,array $visible,string $catalog): void {
     $sections=nodes($d,'//section['.css_class('catalog-section').']');if(!$sections)return;

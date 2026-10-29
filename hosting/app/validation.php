@@ -66,9 +66,16 @@ function validate_state(array $s): array {
     if (!is_int($a['radius']??null)||$a['radius']<0||$a['radius']>40||!in_array($a['font']??'',['lato','system'],true)) fail('Sprawdź ustawienia wyglądu.');
     $out['appearance']+=['radius'=>$a['radius'],'font'=>$a['font']];
     $featured=$a['featured']??$seed['appearance']['featured'];
-    if (!is_array($featured)||count($featured)>20||count(array_unique($featured,SORT_REGULAR))!==count($featured)) fail('Wybierz do 20 różnych gier do karuzeli.');
-    foreach($featured as $id)if(!is_string($id)||!isset($ids[$id]))fail('Wybierz istniejącą grę do karuzeli.');
-    $out['appearance']['featured']=array_values($featured);
+    if (!is_array($featured)||!array_is_list($featured)||count($featured)>20) fail('Dodaj do 20 slajdów do karuzeli.');
+    $out['appearance']['featured']=[];$featuredGames=[];
+    foreach($featured as $slide){
+        if(is_string($slide)){
+            if(!isset($ids[$slide])||isset($featuredGames[$slide]))fail('Wybierz różne istniejące gry do karuzeli.');
+            $featuredGames[$slide]=true;$out['appearance']['featured'][]=$slide;
+        }elseif(is_array($slide)&&($slide['type']??'')==='image'){
+            $out['appearance']['featured'][]=['type'=>'image','image'=>valid_image($slide['image']??null),'alt'=>text_value($slide['alt']??'',300,'opis zdjęcia',true),'caption'=>text_value($slide['caption']??'',120,'podpis zdjęcia')];
+        }else fail('Wybierz grę albo zdjęcie z biblioteki do karuzeli.');
+    }
     $c=$s['contact']; $email=text_value($c['email']??null,190,'e-mail',true); if (!filter_var($email,FILTER_VALIDATE_EMAIL)||!preg_match('/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+$/D',$email)) fail('Wpisz poprawny adres e-mail.');
     $out['contact']=['email'=>$email,'phone'=>text_value($c['phone']??'',50,'telefon'),'address'=>text_value($c['address']??'',250,'adres')];
     $visual=$s['visual']??['pages'=>[]];if(is_array($visual)&&is_array($visual['pages']??null))foreach($out['deletedProducts']as$id)unset($visual['pages'][$id.'.html']);
