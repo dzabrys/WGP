@@ -54,7 +54,7 @@ function render_carousel(DOMDocument $d,array $state,array $visible): void {
     if($e=first($d,'//*['.css_class('hero-carousel').']'))$e->setAttribute('aria-label','Wybrane gry i zdjęcia');
     if($e=first($d,'//*['.css_class('carousel-prev').']'))$e->setAttribute('aria-label','Poprzedni slajd');
     if($e=first($d,'//*['.css_class('carousel-next').']'))$e->setAttribute('aria-label','Następny slajd');
-    $style=$d->createElement('style','.carousel-dots{flex-wrap:wrap;max-width:min(60vw,30rem)}.carousel-toolbar{max-width:calc(100% - 1.25rem)}.carousel-toolbar[hidden]{display:none!important}.hero-image-slide .hero-product-photo{width:100%!important;height:100%!important;object-fit:contain!important;transform:none!important}.hero-image-slide figcaption[hidden]{display:none!important}');$d->getElementsByTagName('head')->item(0)->appendChild($style);
+    $style=$d->createElement('style','.carousel-dots{flex-wrap:wrap;max-width:min(60vw,30rem)}.carousel-toolbar{max-width:calc(100% - 1.25rem)}.carousel-toolbar[hidden]{display:none!important}.hero-image-slide .hero-product-photo{width:100%!important;height:100%!important;object-fit:cover!important;transform:none!important}.hero-image-slide figcaption[hidden]{display:none!important}');$d->getElementsByTagName('head')->item(0)->appendChild($style);
 }
 function render_categories(DOMDocument $d,array $state,array $visible,string $catalog): void {
     $sections=nodes($d,'//section['.css_class('catalog-section').']');if(!$sections)return;

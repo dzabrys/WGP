@@ -103,7 +103,7 @@
     const carousel=$('.hero-carousel');
     const slides=[...carousel.querySelectorAll('[data-product-slide]')];
     const dots=[...carousel.querySelectorAll('[data-slide]')];
-    let active=-1, transitionId=0;
+    let active=-1, requested=0, requestId=0, transitionId=0;
     const slideMotion=[];
     let hovered=false, focused=false, timer;
     const settleSlides=()=>{
@@ -118,57 +118,48 @@
     const schedule=()=>{
       clearTimeout(timer);
       if(!slides.length || hovered || focused || document.hidden || motionPreference.matches)return;
-      timer=setTimeout(()=>{show(active+1);schedule();},5000);
+      timer=setTimeout(()=>{show(requested+1);schedule();},5000);
     };
-    const show = (number, announce=false) => {
+    const show = async (number, announce=false) => {
       if(!slides.length)return;
       const next=(number+slides.length)%slides.length;
+      requested=next;
+      const request=++requestId;
       if(next===active)return;
+      const current=slides[next], artwork=current.querySelector('img');
+      if(artwork){
+        artwork.loading='eager';
+        try { if(artwork.decode)await artwork.decode(); }
+        catch { if(active>=0)return; }
+      }
+      if(request!==requestId)return;
       const previous=slides[active];
       settleSlides();
       active=next;
-      const current=slides[active];
       current.hidden=false;
       current.classList.add('is-active');
       current.setAttribute('aria-hidden','false');
-      if(previous && current.animate){
-        // Keep the outgoing artwork underneath until the incoming one is opaque.
-        // Animations are cancelled and settled before another selection starts.
+      if(previous && current.animate && !motionPreference.matches){
         previous.hidden=false;
         previous.classList.remove('is-active');
         previous.setAttribute('aria-hidden','true');
         const id=transitionId;
-        const reduced=motionPreference.matches;
-        const duration=720;
-        slideMotion.push(current.animate([{opacity:0},{opacity:1}],{duration,easing:'cubic-bezier(.22,.61,.36,1)'}));
-        slideMotion.push(previous.querySelector('figcaption').animate(
-          [{opacity:1},{opacity:0}],{duration:180,fill:'forwards',easing:'ease-out'}));
-        if(!reduced){
-          slideMotion.push(current.querySelector('picture').animate(
-            [{transform:'scale(1.025)'},{transform:'scale(1)'}],
-            {duration:900,easing:'cubic-bezier(.22,.61,.36,1)'}));
-        }
-        const caption=current.querySelector('figcaption');
-        slideMotion.push(caption.animate(reduced
-          ? [{opacity:0},{opacity:1}]
-          : [{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],
-          {duration:480,delay:140,fill:'backwards',easing:'cubic-bezier(.22,.61,.36,1)'}));
-        const artwork=current.querySelector('img');
-        const imageReady=artwork?.decode?artwork.decode().catch(()=>{}):Promise.resolve();
-        Promise.all([imageReady,...slideMotion.map(animation=>animation.finished.catch(()=>{}))]).then(()=>{
-          if(id===transitionId)settleSlides();
-        });
-      }else{
-        settleSlides();
-      }
+        // Full-size layers only: resizing and photo aspect ratios cannot expose edges.
+        const animation=current.animate([{opacity:0},{opacity:1}],
+          {duration:550,easing:'cubic-bezier(.22,.61,.36,1)'});
+        slideMotion.push(animation);
+        animation.finished.then(()=>{if(id===transitionId)settleSlides();}).catch(()=>{});
+      }else settleSlides();
       dots.forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.slide)===active)));
       const status=carousel.querySelector('#carousel-status');
       status.setAttribute('aria-live',announce?'polite':'off');
-      status.textContent=`Slajd ${active+1} z ${slides.length}: ${slides[active].dataset.slideLabel||slides[active].querySelector('figcaption strong').textContent}.`;
+      status.textContent=`Slajd ${active+1} z ${slides.length}: ${current.dataset.slideLabel||current.querySelector('figcaption strong')?.textContent||''}.`;
+      const upcoming=slides[(active+1)%slides.length].querySelector('img');
+      if(upcoming)upcoming.loading='eager';
     };
     const select=number=>{show(number,true);schedule();};
-    carousel.querySelector('.carousel-prev').addEventListener('click',()=>select(active-1));
-    carousel.querySelector('.carousel-next').addEventListener('click',()=>select(active+1));
+    carousel.querySelector('.carousel-prev').addEventListener('click',()=>select(requested-1));
+    carousel.querySelector('.carousel-next').addEventListener('click',()=>select(requested+1));
     dots.forEach(button=>button.addEventListener('click',()=>select(Number(button.dataset.slide))));
     carousel.addEventListener('pointerenter',event=>{if(event.pointerType==='mouse'){hovered=true;schedule();}});
     carousel.addEventListener('pointerleave',()=>{hovered=false;schedule();});
@@ -176,6 +167,7 @@
     carousel.addEventListener('focusout',event=>{focused=carousel.contains(event.relatedTarget);schedule();});
     document.addEventListener('visibilitychange',()=>{if(document.hidden)settleSlides();schedule();});
     motionPreference.addEventListener?.('change',()=>{settleSlides();schedule();});
+    window.addEventListener('resize',settleSlides);
     show(0);schedule();
   }
 

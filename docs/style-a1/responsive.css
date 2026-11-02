@@ -1116,3 +1116,25 @@ body.design-refined.page-home .hero-products :is(.carousel-prev, .carousel-next)
     transform: none;
   }
 }
+
+/* All carousel layers use the same bounds, including uploaded photographs. */
+body.design-refined.page-home #main .hero-product-stage,
+body.design-refined.page-home #main .hero-product-slide,
+body.design-refined.page-home #main .hero-product-slide picture {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  transform: none !important;
+}
+body.design-refined.page-home #main .hero-product-slide { background: #102478; }
+body.design-refined.page-home #main .hero-product-photo {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  transform: none !important;
+}
