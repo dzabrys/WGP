@@ -162,3 +162,40 @@ body.design-a.design-refined #main .catalog-card:focus-within .catalog-link > sp
   }
  }
 }
+/* Keep arrow ink in sync with the label as the navy fill passes underneath. */
+body.design-a.design-refined #main .selection-arrow {
+  color: inherit;
+  overflow: visible;
+  transform: none !important;
+}
+body.design-a.design-refined #main .selection-arrow svg {
+  color: inherit;
+  stroke: currentColor;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+/* Every FAQ uses the school-page highlight and the same gentle inset. */
+body.design-a.design-refined #main :is(.product-detail-faq, .catalog-pricing, .contact-product-spec, .proposal-faq) summary {
+  border-radius: .5rem;
+  transition: background-color .55s ease, color .55s ease, padding-inline .55s var(--shared-motion-ease) !important;
+}
+body.design-a.design-refined #main :is(.product-detail-faq, .catalog-pricing, .contact-product-spec) summary::after {
+  transition: transform .55s var(--shared-motion-ease) !important;
+}
+body.design-a.design-refined #main :is(.product-detail-faq, .catalog-pricing, .contact-product-spec)[data-expanded="true"] > summary::after,
+body.design-a.design-refined #main .product-detail-faq details[data-expanded="true"] > summary::after {
+  transform: rotate(225deg);
+}
+body.design-a.design-refined #main :is(.product-detail-faq, .catalog-pricing, .contact-product-spec, .proposal-faq) summary:focus-visible {
+  color: #102478;
+  background: #eaf1fc;
+  padding-inline: .625rem;
+}
+@media (hover: hover) and (pointer: fine) {
+  body.design-a.design-refined #main :is(.product-detail-faq, .catalog-pricing, .contact-product-spec, .proposal-faq) summary:hover {
+    color: #102478;
+    background: #eaf1fc;
+    padding-inline: .625rem;
+  }
+}

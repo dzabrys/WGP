@@ -1,5 +1,5 @@
 /* Slow fill with one continuous arrow movement, including on pointer exit. */
-body.design-a.design-refined #main .button {
+body.design-a.design-refined #main :is(.button, .contact-form-submit:not(:disabled)) {
   isolation: isolate;
   position: relative;
   overflow: hidden;
@@ -11,7 +11,7 @@ body.design-a.design-refined #main .button {
   transition: color .85s cubic-bezier(.4, 0, .2, 1), transform .85s cubic-bezier(.4, 0, .2, 1) !important;
 }
 
-body.design-a.design-refined #main .button:before {
+body.design-a.design-refined #main :is(.button, .contact-form-submit:not(:disabled)):before {
   content: "";
   z-index: -1;
   position: absolute;
@@ -22,12 +22,12 @@ body.design-a.design-refined #main .button:before {
   transition: transform .85s cubic-bezier(.4, 0, .2, 1) !important;
 }
 
-body.design-a.design-refined #main .button .button-label {
+body.design-a.design-refined #main :is(.button, .contact-form-submit:not(:disabled)) .button-label {
   transform: none;
   transition: none !important;
 }
 
-body.design-a.design-refined #main .button .button-arrow {
+body.design-a.design-refined #main :is(.button, .contact-form-submit:not(:disabled)) .button-arrow {
   flex: 0 0 1.375rem;
   width: 1.375rem;
   height: 1.375rem;
@@ -36,7 +36,7 @@ body.design-a.design-refined #main .button .button-arrow {
   color: inherit;
 }
 
-body.design-a.design-refined #main .button .button-arrow > svg {
+body.design-a.design-refined #main :is(.button, .contact-form-submit:not(:disabled)) .button-arrow > svg {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -45,31 +45,41 @@ body.design-a.design-refined #main .button .button-arrow > svg {
   transition: transform .85s cubic-bezier(.4, 0, .2, 1) !important;
 }
 
-body.design-a.design-refined #main .button .button-arrow > svg + svg {
+body.design-a.design-refined #main :is(.button, .contact-form-submit:not(:disabled)) .button-arrow > svg + svg {
   display: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  body.design-a.design-refined #main .button:hover,
-  body.design-a.design-refined #main .button:focus-visible,
+  body.design-a.design-refined #main :is(.button, .contact-form-submit:not(:disabled)):hover,
+  body.design-a.design-refined #main :is(.button, .contact-form-submit:not(:disabled)):focus-visible,
   body.design-a.design-refined #main .audience:focus-visible .button {
     color: #fff;
     transform: scale(1.02) !important;
   }
 
-  body.design-a.design-refined #main .button:hover:before,
-  body.design-a.design-refined #main .button:focus-visible:before,
+  body.design-a.design-refined #main :is(.button, .contact-form-submit:not(:disabled)):hover:before,
+  body.design-a.design-refined #main :is(.button, .contact-form-submit:not(:disabled)):focus-visible:before,
   body.design-a.design-refined #main .audience:focus-visible .button:before {
     transform: translateX(0);
   }
 
-  body.design-a.design-refined #main .button:hover .button-arrow > svg:first-child,
-  body.design-a.design-refined #main .button:focus-visible .button-arrow > svg:first-child,
+  body.design-a.design-refined #main :is(.button, .contact-form-submit:not(:disabled)):hover .button-arrow > svg:first-child,
+  body.design-a.design-refined #main :is(.button, .contact-form-submit:not(:disabled)):focus-visible .button-arrow > svg:first-child,
   body.design-a.design-refined #main .audience:focus-visible .button .button-arrow > svg:first-child {
     transform: translateX(.25rem) !important;
   }
 }
 
-body.design-a.design-refined #main .button:active {
+body.design-a.design-refined #main :is(.button, .contact-form-submit:not(:disabled)):active {
   transform: scale(.985) !important;
+}
+
+body.design-a.design-refined #main .contact-form-submit > svg {
+  color: inherit;
+  flex-shrink: 0;
+  transition: transform .85s cubic-bezier(.4,0,.2,1) !important;
+}
+body.design-a.design-refined #main .contact-form-submit:focus-visible > svg { transform: translateX(.25rem) !important; }
+@media (hover:hover) and (pointer:fine) {
+  body.design-a.design-refined #main .contact-form-submit:not(:disabled):hover > svg { transform: translateX(.25rem) !important; }
 }
