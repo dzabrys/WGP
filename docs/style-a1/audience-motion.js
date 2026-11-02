@@ -1,6 +1,7 @@
 /* Keep native details semantics; animate their content in either direction. */
 (() => {
-  document.querySelectorAll('body.audience-compact .company-faq details, [data-animated-faq] details, details[data-animated-faq-item]').forEach(details => {
+  const preference = matchMedia('(prefers-reduced-motion: reduce)');
+  document.querySelectorAll('body.audience-compact .company-faq details, [data-animated-faq] details, details[data-animated-faq-item], .product-detail-faq details, details.catalog-pricing').forEach(details => {
     const summary = details.querySelector('summary');
     if (!summary || !Element.prototype.animate) return;
     let content = details.querySelector(':scope > .details-content');
@@ -21,6 +22,12 @@
       const opacity = details.open ? getComputedStyle(content).opacity : 0;
       expanded = !expanded;
       running?.cancel();
+      if (preference.matches) {
+        running = null;
+        details.open = expanded;
+        details.dataset.expanded = String(expanded);
+        return;
+      }
       details.open = true;
       details.dataset.expanded = String(expanded);
       const target = expanded ? content.scrollHeight : 0;
@@ -35,6 +42,12 @@
         running = null;
         animation.cancel();
       }).catch(() => {});
+    });
+    preference.addEventListener('change', () => {
+      if (!preference.matches || !running) return;
+      running.cancel();
+      running = null;
+      details.open = expanded;
     });
   });
 })();

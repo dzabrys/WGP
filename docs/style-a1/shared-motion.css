@@ -1,0 +1,164 @@
+/* Continue the school/company rhythm across home, selection and catalog cards. */
+body.design-a.design-refined {
+  --shared-motion-ease: cubic-bezier(.22, .61, .36, 1);
+}
+
+body.design-a.design-refined #main :is(.audience, .selection-card, .catalog-card) {
+  transition: transform .65s var(--shared-motion-ease), box-shadow .65s var(--shared-motion-ease), border-color .65s ease !important;
+}
+
+body.design-a.design-refined #main :is(.selection-media, .catalog-image) {
+  overflow: hidden;
+}
+
+body.design-a.design-refined #main :is(.selection-media, .catalog-image) img {
+  transition: transform .85s var(--shared-motion-ease) !important;
+}
+
+body.design-a.design-refined #main :is(.audience, .selection-card, .catalog-card):focus-within {
+  transform: translateY(-.25rem);
+  box-shadow: 0 .625rem 1rem -.625rem #10247850;
+}
+
+body.design-a.design-refined #main :is(.selection-card, .catalog-card):focus-within img {
+  transform: scale(1.035);
+}
+
+body.design-a.design-refined #main :is(.catalog-topics a, .catalog-back, .legal-back, .text-link) {
+  text-underline-offset: .25rem;
+  transition: color .65s ease, background-color .65s ease, border-color .65s ease !important;
+}
+
+body.design-a.design-refined #main :is(.catalog-topics a, .catalog-back, .legal-back, .text-link):focus-visible {
+  color: #bd5300;
+}
+
+body.design-a.design-refined #main :is(.product-detail-faq, .catalog-pricing) .audience-faq-content {
+  display: flow-root;
+  overflow: hidden;
+}
+
+body.design-a.design-refined #main :is(.product-detail-faq, .catalog-pricing) summary {
+  transition: color .55s ease, background-color .55s ease !important;
+}
+
+body.design-a.design-refined #main :is(.product-detail-faq, .catalog-pricing) summary:focus-visible {
+  color: #bd5300;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.design-a.design-refined #main :is(.audience, .selection-card, .catalog-card):hover {
+    transform: translateY(-.25rem);
+    box-shadow: 0 .625rem 1rem -.625rem #10247850;
+  }
+
+  body.design-a.design-refined #main :is(.selection-card, .catalog-card):hover img {
+    transform: scale(1.035);
+  }
+
+  body.design-a.design-refined #main :is(.catalog-topics a, .catalog-back, .legal-back, .text-link):hover,
+  body.design-a.design-refined #main :is(.product-detail-faq, .catalog-pricing) summary:hover {
+    color: #bd5300;
+  }
+}
+
+/* The offer uses selection-link rather than button; keep the same navy fill. */
+body.design-a.design-refined #main :is(.selection-link, .contact-form-submit) {
+  isolation: isolate;
+  overflow: hidden;
+  background: #ff8818 !important;
+  color: #102478;
+  transform: none !important;
+  box-shadow: none;
+  transition: color .85s cubic-bezier(.4, 0, .2, 1), transform .85s cubic-bezier(.4, 0, .2, 1) !important;
+}
+
+body.design-a.design-refined #main .contact-form-submit { position: relative; }
+
+body.design-a.design-refined #main :is(.selection-link, .contact-form-submit)::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: #102478;
+  transform: translateX(-101%);
+  transition: transform .85s cubic-bezier(.4, 0, .2, 1) !important;
+}
+
+body.design-a.design-refined #main :is(.selection-arrow, .selection-arrow svg, .contact-form-submit svg) {
+  transform: none;
+  transition: transform .85s cubic-bezier(.4, 0, .2, 1) !important;
+}
+
+body.design-a.design-refined #main .selection-card:focus-visible .selection-link,
+body.design-a.design-refined #main .contact-form-submit:not(:disabled):focus-visible {
+  color: #fff;
+  transform: scale(1.02) !important;
+}
+
+body.design-a.design-refined #main .selection-card:focus-visible .selection-link::before,
+body.design-a.design-refined #main .contact-form-submit:not(:disabled):focus-visible::before {
+  transform: translateX(0);
+}
+
+body.design-a.design-refined #main .selection-card:focus-visible .selection-arrow svg,
+body.design-a.design-refined #main .contact-form-submit:not(:disabled):focus-visible svg {
+  transform: translateX(.25rem) !important;
+}
+
+/* Underline only the label, leaving the existing separator above it intact. */
+body.design-a.design-refined #main .catalog-link > span:first-child {
+  background: linear-gradient(currentColor, currentColor) left bottom / 0 .0625rem no-repeat;
+  transition: background-size .65s var(--shared-motion-ease), color .65s ease !important;
+}
+
+body.design-a.design-refined #main .catalog-link > span:last-child {
+  display: inline-block;
+  transition: transform .65s var(--shared-motion-ease) !important;
+}
+
+body.design-a.design-refined #main .catalog-card:focus-within .catalog-link > span:first-child {
+  background-size: 100% .0625rem;
+}
+
+body.design-a.design-refined #main .catalog-card:focus-within .catalog-link > span:last-child {
+  transform: translateX(.25rem);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.design-a.design-refined #main .selection-card:hover .selection-link,
+  body.design-a.design-refined #main .contact-form-submit:not(:disabled):hover {
+    color: #fff;
+    transform: scale(1.02) !important;
+  }
+  body.design-a.design-refined #main .selection-card:hover .selection-link::before,
+  body.design-a.design-refined #main .contact-form-submit:not(:disabled):hover::before {
+    transform: translateX(0);
+  }
+  body.design-a.design-refined #main .selection-card:hover .selection-arrow svg,
+  body.design-a.design-refined #main .contact-form-submit:not(:disabled):hover svg {
+    transform: translateX(.25rem) !important;
+  }
+  body.design-a.design-refined #main .catalog-card:hover .catalog-link > span:first-child {
+    background-size: 100% .0625rem;
+  }
+  body.design-a.design-refined #main .catalog-card:hover .catalog-link > span:last-child {
+    transform: translateX(.25rem);
+  }
+}
+
+/* Layered important rules override unlayered page effects at any specificity. */
+@layer reduced-motion {
+ @media (prefers-reduced-motion: reduce) {
+  html:focus-within { scroll-behavior: auto; }
+  body.design-a.design-refined *,
+  body.design-a.design-refined *::before,
+  body.design-a.design-refined *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation: none !important;
+  }
+ }
+}

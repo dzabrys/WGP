@@ -19,7 +19,7 @@
     const prepared = Array.from(elements, el => ({el, base:getComputedStyle(el).transform}));
     prepared.forEach(({el, base}, index) => animate(el, base, stagger ? Math.min(index * 45, 135) : 0));
   };
-  animateBatch(document.querySelectorAll('.hero-copy,.audience-copy,.subpage-intro,.subpage-aside,.offer-heading,.selection-heading,.product-heading,.proposal-intro'), true);
+  animateBatch(document.querySelectorAll('.hero-copy,.audience-copy,.subpage-intro,.subpage-aside,.offer-heading,.selection-heading,.product-heading,.proposal-intro,.company-intro,.company-hero-offer,.contact-intro,.legal-heading'), true);
   let observer;
   if ('IntersectionObserver' in window) {
     observer = new IntersectionObserver(entries => {
@@ -28,7 +28,7 @@
       animateBatch(visible);
     }, {threshold:.08});
     // Animate card contents so entrance and card hover never fight over transform.
-    document.querySelectorAll('.game-copy,.catalog-copy,.product-copy,.steps>li,.mission-values>article,.brief-list>li,.benefits h2,.home-footer .competencies,.proposal-format-copy,.proposal-section-heading,.proposal-contact').forEach(el => observer.observe(el));
+    document.querySelectorAll('.game-copy,.catalog-copy,.product-copy,.steps>li,.mission-values>article,.brief-list>li,.benefits h2,.home-footer .competencies,.proposal-format-copy,.proposal-section-heading,.proposal-contact,.catalog-section-heading,.company-section-heading,.company-help-card,.contact-form-heading,.legal-section').forEach(el => observer.observe(el));
   }
   pref.addEventListener('change', () => {
     if (!pref.matches) return;

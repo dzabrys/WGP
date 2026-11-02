@@ -1,5 +1,6 @@
 (() => {
   const phone = window.matchMedia('(max-width: 760px)');
+  const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
   const controls = [...document.querySelectorAll('.process-description-toggle')];
   const running = new WeakMap();
   const setExpanded = (button, expanded, animate = false) => {
@@ -10,7 +11,7 @@
     running.delete(button);
     button.setAttribute('aria-expanded', String(expanded));
     button.textContent = expanded ? 'Zwiń opis' : 'Rozwiń opis';
-    if (!animate || !content.animate) {
+    if (!animate || !content.animate || preference.matches) {
       content.hidden = !expanded;
       return;
     }

@@ -2,6 +2,8 @@
   "name": "wgp",
   "private": true,
   "scripts": {
+    "geo": "node tools/geo.cjs",
+    "check:geo": "node tools/check-geo.cjs",
     "start": "node server/serve.cjs",
     "optimize:home": "node tools/optimize-home.cjs",
     "check:home": "node tools/check-home.cjs",

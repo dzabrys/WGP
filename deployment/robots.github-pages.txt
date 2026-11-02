@@ -1,0 +1,5 @@
+# Install at https://dzabrys.github.io/robots.txt via the dzabrys.github.io repository.
+# A robots.txt under /WGP/ does not control crawlers for this host.
+User-agent: *
+Disallow: /WGP/panel/
+Sitemap: https://dzabrys.github.io/WGP/sitemap.xml

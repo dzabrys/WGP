@@ -278,7 +278,7 @@ body.custom-refresh.page-custom .custom-proposal .proposal-contact a:focus-visib
   outline-color: #102478;
 }
 
-@media (width <= 1280px) {
+@media (width <= 1800px) {
   body.custom-refresh.page-custom .custom-proposal .steps {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.5rem;

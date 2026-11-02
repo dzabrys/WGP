@@ -542,3 +542,42 @@ body.contact-designs .contact-product-selection p {
     transition: none !important;
   }
 }
+
+/* Size product rows from the space inside the form, not the device width. */
+body.contact-designs .contact-ready .contact-form {
+  container-type: inline-size;
+}
+
+body.contact-designs .contact-ready .contact-form .contact-product-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  align-items: stretch;
+}
+
+body.contact-designs .contact-ready .contact-form .contact-product {
+  grid-template-columns: clamp(3rem, 15cqw, 5.625rem) minmax(0, 1fr);
+  grid-template-rows: minmax(6.5rem, auto);
+  gap: .75rem;
+  padding: .75rem 2.25rem .75rem .75rem;
+}
+
+body.contact-designs .contact-ready .contact-form .contact-product img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+}
+
+body.contact-designs .contact-ready .contact-form .contact-product strong {
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+@container (width < 22rem) {
+  body.contact-designs .contact-ready .contact-form .contact-product {
+    gap: .625rem;
+    padding: .625rem 2rem .625rem .625rem;
+  }
+  body.contact-designs .contact-ready .contact-form .contact-product-tools {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

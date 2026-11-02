@@ -52,7 +52,7 @@
     menuAnimation = null;
     menu.setAttribute('aria-expanded', String(open));
     nav.inert = !desktopMenu.matches && !open;
-    if (desktopMenu.matches || !nav.animate) {
+    if (desktopMenu.matches || !nav.animate || motionPreference.matches) {
       nav.classList.toggle('open', open);
       return;
     }
@@ -77,7 +77,8 @@
   document.addEventListener('click', event => {
     if(!event.target.closest('.header') && nav.classList.contains('open'))setMenu(false);
   });
-  desktopMenu.addEventListener('change', event => {if(event.matches)setMenu(false)});
+  desktopMenu.addEventListener('change', () => setMenu(false));
+  setMenu(false);
   nav.addEventListener('focusout', event => {
     if(event.relatedTarget && !nav.contains(event.relatedTarget) && event.relatedTarget!==menu)setMenu(false);
   });

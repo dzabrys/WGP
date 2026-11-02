@@ -162,6 +162,8 @@ function render_site(string $file,array $state,bool $preview=false,bool $canvas=
     foreach(nodes($d,'//meta[@property="og:url"]')as$e)$e->setAttribute('content',config()['base_url'].'/'.($file==='index.html'?'':$file));
     if($product)foreach(nodes($d,'//meta[@property="og:image"]')as$e)$e->setAttribute('content',config()['base_url'].'/'.$product['image']);
     apply_visual($d,$file,$state,$canvas);
+    require_once __DIR__.'/geo.php';
+    geo_metadata($d,$file,$state,$product);
     if($preview&&!$canvas){
         foreach(nodes($d,'//a[@href]')as$e){$href=$e->getAttribute('href');if(preg_match('~^[a-z0-9-]+\.html(?:\?[^#]*)?(?:#.*)?$~',$href)){[$base,$hash]=array_pad(explode('#',$href,2),2,'');$e->setAttribute('href',$base.(str_contains($base,'?')?'&':'?').'preview=1'.($hash?'#'.$hash:''));}}
         $banner=$d->createElement('a','Podgląd szkicu · Wróć do panelu');$banner->setAttribute('href','/panel/');$banner->setAttribute('style','position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:99999;background:#14257d;color:white;padding:10px 18px;border-radius:100px;font:14px system-ui;text-decoration:none;box-shadow:0 3px 20px #0003');$d->getElementsByTagName('body')->item(0)->appendChild($banner);

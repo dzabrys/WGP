@@ -1,5 +1,17 @@
 # WGP — Wielkie Gry Planszowe
 
+## GEO / SEO — 02.11.2026
+
+Uruchomienie lokalne: `node server/serve.cjs`, następnie http://127.0.0.1:4175/WGP/index.html.
+Odtworzenie statycznych metadanych: `node tools/geo.cjs`. Walidacja: `node tools/check-geo.cjs`.
+Test integracji CMS: `php tools/check-geo.php` (PHP 8.2+ z DOM i mbstring).
+Generator zmienia wyłącznie sekcję head indeksowalnych stron, mapę witryny i opcjonalny plik llms.txt.
+CMS aktualizuje metadane po renderowaniu, pobierając bieżące nazwy, ceny, widoczność i dane kontaktowe.
+Plik `deployment/robots.github-pages.txt` jest wzorem do osobnego repozytorium domeny głównej;
+plik pod `/WGP/robots.txt` nie steruje robotami domeny. Podgląd lokalny zachowuje ochronę noindex w nagłówku HTTP.
+Zmiany wymagają publikacji na GitHub Pages, aby mogły zostać zaindeksowane. llms.txt jest dodatkiem eksperymentalnym,
+nie warunkiem widoczności ani gwarancją pozycji. Nie dodano fikcyjnych ocen, stanów magazynowych ani terminów dostawy.
+
 Publiczna strona: https://dzabrys.github.io/WGP/
 
 Repozytorium: https://github.com/dzabrys/WGP

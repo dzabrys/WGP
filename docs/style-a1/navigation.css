@@ -75,6 +75,10 @@ body.design-a.design-refined #app > .header .brand img {
 }
 
 body.design-a.design-refined #app > .header nav {
+  /* Reset the absolute dropdown positioning inherited from the base theme. */
+  position: static;
+  inset: auto;
+  width: auto;
   flex: 1 1 0;
   min-width: 0;
   height: 3.5rem;

@@ -14,7 +14,8 @@
   font-weight: 900;
 }
 
-.product-offer > p, .catalog-pricing > p {
+.product-offer > p, .catalog-pricing > p,
+.catalog-pricing > .audience-faq-content > p {
   margin: 0 0 .875rem;
   font-size: .8125rem;
   line-height: 1.6;
@@ -472,11 +473,13 @@
   font-weight: 900;
 }
 
-.catalog-pricing > .offer-table-wrap {
+.catalog-pricing > .offer-table-wrap,
+.catalog-pricing > .audience-faq-content > .offer-table-wrap {
   padding: .375rem 1.375rem 0;
 }
 
-.catalog-pricing > p {
+.catalog-pricing > p,
+.catalog-pricing > .audience-faq-content > p {
   margin: 0;
   padding: .625rem 1.375rem 1.125rem;
 }
@@ -515,7 +518,8 @@
     font-size: 1.0625rem;
   }
 
-  .catalog-pricing > .offer-table-wrap {
+  .catalog-pricing > .offer-table-wrap,
+.catalog-pricing > .audience-faq-content > .offer-table-wrap {
     padding-inline: .5rem;
   }
 }

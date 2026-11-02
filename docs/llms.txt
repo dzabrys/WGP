@@ -1,0 +1,41 @@
+# Wielkie Gry Planszowe
+
+> Gry wielkoformatowe dla szkół, firm i instytucji oraz gry na zamówienie.
+
+Serwis: https://dzabrys.github.io/WGP/
+Język: polski.
+Kontakt: biuro@wielkiegryplanszowe.pl; +48 600 894 644; ul. Lubelska 37D, 10-408 Olsztyn.
+
+## Strony główne
+- [oferta](https://dzabrys.github.io/WGP/oferta.html)
+- [szkoly](https://dzabrys.github.io/WGP/szkoly.html)
+- [firmy](https://dzabrys.github.io/WGP/firmy.html)
+- [gry-na-zamowienie](https://dzabrys.github.io/WGP/gry-na-zamowienie.html)
+- [wielkie-gry-planszowe](https://dzabrys.github.io/WGP/wielkie-gry-planszowe.html)
+- [inne](https://dzabrys.github.io/WGP/inne.html)
+- [kontakt](https://dzabrys.github.io/WGP/kontakt.html)
+
+## Produkty
+- [Skarb piratów](https://dzabrys.github.io/WGP/gra-skarb-piratow.html): Wcielcie się w piratów i dotrzyjcie do skrzyni ze skarbem. Pola specjalne utrudniają drogę do zwycięstwa.
+- [Zostań kierowcą](https://dzabrys.github.io/WGP/gra-zostan-kierowca.html): Poznajcie znaki drogowe i zasady bezpiecznej jazdy. Zadaniem kierowców jest dotarcie do mety.
+- [Segreguj śmieci](https://dzabrys.github.io/WGP/gra-segreguj-smieci.html): W drodze do mety odpowiadajcie na pytania o odpady i sprawdzajcie dobre oraz złe nawyki segregowania.
+- [Farmer](https://dzabrys.github.io/WGP/gra-farmer.html): Odkryjcie życie na wsi. Spotykane na planszy zwierzęta proponują zadania, a gracze ścigają się do mety.
+- [Wyścig](https://dzabrys.github.io/WGP/gra-wyscig.html): Zostańcie kierowcami wyścigowymi. Na torze czekają pola specjalne i niespodzianki, które zmieniają przebieg rywalizacji.
+- [Niebezpieczna Sieć](https://dzabrys.github.io/WGP/gra-niebezpieczna-siec.html): Wydostańcie się z cyfrowej pajęczyny, odpowiadając na pytania o prywatność, podejrzane linki i dezinformację. Portale zmieniają trasę, a gracze sami stają się pionkami.
+- [Chińczyk](https://dzabrys.github.io/WGP/gra-chinczyk.html): Rozgrywka drużynowa na wielkiej planszy: uczestnicy sami pełnią rolę pionków.
+- [Droga strachu](https://dzabrys.github.io/WGP/gra-droga-strachu.html): Ruchowa trasa z zabawnymi zadaniami. Gracze pokonują kolejne pola, starając się dotrzeć do mety.
+- [Żabki](https://dzabrys.github.io/WGP/gra-zabki.html): Przeprawa przez rzekę z kostką z figurami geometrycznymi. Dzieci poznają kolory i kształty podczas ruchowej zabawy.
+- [Mega twist](https://dzabrys.github.io/WGP/gra-mega-twist.html): Układajcie dłonie i stopy na kolorach wskazanych przez zegar. Większa grupa oznacza większe wyzwanie.
+- [Wielkie warcaby](https://dzabrys.github.io/WGP/gra-wielkie-warcaby.html): Warcaby w wielkim formacie, w których gracze zastępują pionki. Planszę można wykorzystać także do partii szachów.
+- [Przygoda w Dżungli](https://dzabrys.github.io/WGP/gra-przygoda-w-dzungli.html): Wyprawa przez dżunglę, w której uczestnicy wcielają się w poszukiwaczy przygód.
+- [Wielkie puzzle](https://dzabrys.github.io/WGP/gra-wielkie-puzzle.html): Twój obraz, wspólne rozwiązanie
+- [Wielkie memory](https://dzabrys.github.io/WGP/gra-wielkie-memory.html): Odkrywaj, zapamiętuj, łącz w pary
+- [Kółko i krzyżyk](https://dzabrys.github.io/WGP/gra-kolko-i-krzyzyk.html): Znana gra w Twojej odsłonie
+- [Tor do gry w kapsle](https://dzabrys.github.io/WGP/gra-tor-do-gry-w-kapsle.html): Mały ruch, wielkie emocje
+- [Gra autorska](https://dzabrys.github.io/WGP/gra-gra-autorska.html): Od Twojego pomysłu do planszy
+
+## Ceny i zamawianie
+Ceny i warianty są podane na stronach produktów. Kwoty brutto są w PLN, za jeden zestaw. Warianty bez ceny wymagają indywidualnej wyceny. Formularz kontaktowy przygotowuje wiadomość, a wysyłkę zatwierdza użytkownik w swojej poczcie. Szczegóły realizacji potwierdza firma.
+
+## Źródła
+- [Mapa witryny](https://dzabrys.github.io/WGP/sitemap.xml)

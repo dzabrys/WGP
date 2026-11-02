@@ -44,6 +44,7 @@ function public_files(array $state): array {
     foreach(array_unique($indexed)as$f)if(isset($files['docs/'.$f]))$xml.='<url><loc>'.esc($url.'/'.($f==='index.html'?'':$f)).'</loc></url>';
     $files['docs/sitemap.xml']=$xml.'</urlset>';
     $files['docs/robots.txt']="User-agent: *\nDisallow: ".$prefix."/panel/\nSitemap: ".$url."/sitemap.xml\n";
+    $files['docs/llms.txt']=geo_llms($state,$url.'/');
     $files['docs/.nojekyll']='';
     return $files;
 }

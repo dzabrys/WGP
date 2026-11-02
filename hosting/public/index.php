@@ -4,6 +4,7 @@ require_once dirname(__DIR__).'/app/bootstrap.php';
 require_once dirname(__DIR__).'/app/validation.php';
 require_once dirname(__DIR__).'/app/api.php';
 require_once dirname(__DIR__).'/app/render.php';
+require_once dirname(__DIR__).'/app/geo.php';
 require_once dirname(__DIR__).'/app/github.php';
 require_once dirname(__DIR__).'/app/transfer.php';
 require_once dirname(__DIR__).'/app/captcha.php';
@@ -37,6 +38,7 @@ try {
     $preview=isset($_GET['preview']) && $_GET['preview']==='1';
     if($preview) { require_user('editor'); header('X-Robots-Tag: noindex, nofollow'); }
     $state=document($preview?'draft':'published')['state'];
+    if ($path==='/llms.txt') { header('Content-Type: text/plain; charset=utf-8');if($_SERVER['REQUEST_METHOD']!=='HEAD')echo geo_llms($state,rtrim($c['base_url'],'/').'/');exit; }
     if ($path==='/cms-catalog.js') { header('Content-Type: application/javascript; charset=utf-8');echo catalog_js($state);exit; }
     if ($path==='/sitemap.xml') {header('Content-Type: application/xml; charset=utf-8');echo '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';foreach(array_merge(['index.html','oferta.html','szkoly.html','firmy.html','gry-na-zamowienie.html','wielkie-gry-planszowe.html','inne.html','kontakt.html'],array_column(array_filter($state['products'],fn($p)=>$p['visible']),'url'))as$f)echo '<url><loc>'.esc($c['base_url'].'/'.($f==='index.html'?'':$f)).'</loc></url>';echo '</urlset>';exit;}
     if ($path==='/robots.txt') { header('Content-Type: text/plain');echo "User-agent: *\nDisallow: /panel/\nDisallow: /*preview=\nSitemap: ".$c['base_url']."/sitemap.xml\n";exit; }

@@ -210,7 +210,7 @@ body.contact-designs #main.contact-ready [data-mail-manual] label {
   gap: .375rem;
 }
 
-@media (width <= 760px) {
+@media (width <= 620px) {
   body.contact-designs #main.contact-ready .contact-form-card {
     grid-template: "direct" "form" / minmax(0, 1fr);
   }
