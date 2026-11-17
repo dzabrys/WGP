@@ -10,9 +10,10 @@ const fs=require('node:fs'),path=require('node:path'),{parseEnv}=require('node:u
  const form=new FormData();
  form.set('metadata',new Blob([JSON.stringify({main_module:'worker.mjs',compatibility_date:'2026-10-22',bindings:[{type:'plain_text',name:'TURNSTILE_SITEKEY',text:env.TURNSTILE_SITEKEY},{type:'secret_text',name:'TURNSTILE_SECRET_KEY',text:env.TURNSTILE_SECRET_KEY},{type:'plain_text',name:'TURNSTILE_HOSTNAME',text:'dzabrys.github.io'},{type:'plain_text',name:'ALLOWED_ORIGIN',text:'https://dzabrys.github.io'}]})],{type:'application/json'}));
  form.set('worker.mjs',new Blob([fs.readFileSync(path.resolve(__dirname,'../backend/worker.mjs'))],{type:'application/javascript+module'}),'worker.mjs');
- await api(prefix+'/workers/scripts/staz2-captcha','PUT',form);
- await api(prefix+'/workers/scripts/staz2-captcha/subdomain','POST',{enabled:true});
- const base='https://staz2-captcha.'+subdomain.subdomain+'.workers.dev/';
+ const workerName='wgp-captcha';
+ await api(prefix+'/workers/scripts/'+workerName,'PUT',form);
+ await api(prefix+'/workers/scripts/'+workerName+'/subdomain','POST',{enabled:true});
+ const base='https://'+workerName+'.'+subdomain.subdomain+'.workers.dev/';
  let ready=false;for(let i=0;i<6;i++){try{const r=await fetch(base+'api/captcha/config',{headers:{Origin:'https://dzabrys.github.io'}});const data=await r.json();if(r.ok&&data.testMode===false&&data.sitekey===env.TURNSTILE_SITEKEY){ready=true;break;}}catch{}await new Promise(resolve=>setTimeout(resolve,3000));}
  if(!ready)throw Error('Worker deployed, but public config endpoint is not ready');
  const contact=path.resolve(__dirname,'../docs/kontakt.html');let html=fs.readFileSync(contact,'utf8');if(!html.includes('name="contact-api-base"'))throw Error('Contact API configuration element missing');html=html.replace(/(<meta name="contact-api-base" content=")[^"]*(">)/,'$1'+base+'$2');fs.writeFileSync(contact,html);

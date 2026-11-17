@@ -28,7 +28,7 @@ function public_files(array $state): array {
         $html=render_site($name,$state,false);if($html===null)continue;
         $html=str_replace([config()['base_url'],str_replace('/','\\/',config()['base_url'])],[$url,str_replace('/','\\/',$url)],$html);
         // GitHub Pages keeps the existing CAPTCHA Worker; PHP handles it after migration.
-        $html=preg_replace('~(<meta name="contact-api-base" content=")[^"]*(")~','$1https://staz2-captcha.dzabrys-staz2.workers.dev/$2',$html);
+        $html=preg_replace('~(<meta name="contact-api-base" content=")[^"]*(")~','$1https://wgp-captcha.urszula-korowicka.workers.dev/$2',$html);
         $html=preg_replace('~((?:href|src|action)=")/(?!/|WGP/)([^"]*)~','$1'.$prefix.'/$2',$html);
         $files['docs/'.$name]=$html;
     }

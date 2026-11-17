@@ -19,7 +19,7 @@ function createServer({env = process.env, verifyFetch = globalThis.fetch, now = 
     res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
     res.setHeader('X-Robots-Tag', 'noindex, nofollow');
     res.setHeader('Cache-Control', 'no-store');
-    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://challenges.cloudflare.com https://staz2-captcha.dzabrys-staz2.workers.dev; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'");
+    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://challenges.cloudflare.com https://wgp-captcha.urszula-korowicka.workers.dev; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'");
     let url;
     try { url = new URL(req.url, 'http://localhost'); } catch { res.writeHead(400).end(); return; }
     const pathname = url.pathname.replace(/^\/(?:WGP|Staz2)(?=\/)/, '');

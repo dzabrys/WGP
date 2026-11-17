@@ -66,7 +66,7 @@ Testy backendu: `node backend/worker.test.mjs`. Limit prób jest lokalny dla ins
 
 
 Strona: https://dzabrys.github.io/WGP/
-Backend CAPTCHA: https://staz2-captcha.dzabrys-staz2.workers.dev/
+Backend CAPTCHA: https://wgp-captcha.urszula-korowicka.workers.dev/
 Kod i sekret zostały wdrożone do Cloudflare; sekret pozostaje poza repozytorium.
 
 ## Optymalizacja strony głównej
